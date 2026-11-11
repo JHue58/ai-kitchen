@@ -111,7 +111,7 @@ func (s *Server) Router() *gin.Engine {
 		c.JSON(200, gin.H{"status": "ok"})
 	})
 	api.GET("/capabilities", func(c *gin.Context) {
-		c.JSON(200, gin.H{"registration": s.registration(), "llm": s.C.LLM.Enabled && s.C.LLM.APIKey != "" && s.C.LLM.Model != "", "vision": s.C.LLM.VisionEnabled, "search": s.C.Search.Enabled && s.C.Search.APIKey != "", "search_default": s.C.Search.DefaultEnabled})
+		c.JSON(200, gin.H{"registration": s.registration(), "llm": s.C.LLM.Enabled && s.C.LLM.APIKey != "" && s.C.LLM.Model != "", "vision": s.C.LLM.VisionEnabled, "search": s.C.Search.Enabled && s.C.Search.APIKey != "", "search_default": s.C.Search.Enabled && s.C.Search.APIKey != ""})
 	})
 	api.POST("/register", s.register)
 	api.POST("/login", s.login)
@@ -141,6 +141,7 @@ func (s *Server) Router() *gin.Engine {
 	})
 	a.POST("/vision", s.vision)
 	a.POST("/recipes/:id/share", s.share)
+	a.POST("/recipes/:id/dishes/:index", s.saveDish)
 	a.GET("/tags", s.tags)
 	a.GET("/admin/users", s.adminUsers)
 	a.DELETE("/admin/users/:id", s.adminDelete)
@@ -298,7 +299,7 @@ func (s *Server) account(c *gin.Context) {
 	s.session(c, u)
 }
 
-var kinds = map[string]bool{"equipment": true, "pantry": true, "prices": true, "preferences": true, "recipes": true, "shopping": true, "history": true, "tags": true}
+var kinds = map[string]bool{"equipment": true, "pantry": true, "prices": true, "preferences": true, "recipes": true, "dishes": true, "shopping": true, "history": true, "tags": true}
 
 func (s *Server) list(c *gin.Context) {
 	kind := c.Param("kind")
@@ -306,7 +307,11 @@ func (s *Server) list(c *gin.Context) {
 		bad(c, 404, "类型不存在")
 		return
 	}
-	c.JSON(200, service.Read[map[string]any](s.DB, uid(c), kind))
+	items := service.Read[map[string]any](s.DB, uid(c), kind)
+	if kind == "recipes" || kind == "dishes" {
+		items = filterCollection(items, c, kind)
+	}
+	c.JSON(200, items)
 }
 func (s *Server) owned(c *gin.Context, kind string) (model.Document, bool) {
 	var d model.Document
@@ -361,6 +366,15 @@ func validateDoc(kind string, b []byte) error {
 		if p.Theme != "light" && p.Theme != "dark" && p.Theme != "system" {
 			return fmt.Errorf("主题无效")
 		}
+	}
+	if kind == "dishes" {
+		var d model.DishRecord
+		if json.Unmarshal(b, &d) != nil {
+			return fmt.Errorf("菜品格式无效")
+		}
+		raw, _ := json.Marshal(model.Recipe{Title: d.Name, Servings: d.Servings, Dishes: []model.Dish{d.Dish}})
+		_, err := calculator.Parse(raw)
+		return err
 	}
 	if kind == "recipes" {
 		_, e := calculator.Parse(b)
@@ -437,6 +451,26 @@ func (s *Server) write(c *gin.Context, update bool) {
 		recipe.Warnings = calculator.Validate(recipe, recipe.Request, p, eq, pantry)
 		b, _ = json.Marshal(recipe)
 	}
+	if kind == "dishes" {
+		var d model.DishRecord
+		json.Unmarshal(b, &d)
+		r := model.Recipe{Title: d.Name, Servings: d.Servings, Dishes: []model.Dish{d.Dish}}
+		calculator.Calculate(&r, service.Read[model.Price](s.DB, uid(c), "prices"), service.Read[model.Pantry](s.DB, uid(c), "pantry"), service.Read[model.Equipment](s.DB, uid(c), "equipment"), service.Prefs(s.DB, uid(c)))
+		d.Dish = r.Dishes[0]
+		if update {
+			old, ok := s.owned(c, kind)
+			if !ok {
+				return
+			}
+			var prev model.DishRecord
+			json.Unmarshal([]byte(old.Data), &prev)
+			d.Sources = prev.Sources
+			d.Request = prev.Request
+		} else {
+			d.Sources = nil
+		}
+		b, _ = json.Marshal(d)
+	}
 	if kind == "preferences" && !update {
 		var prev model.Document
 		if s.DB.Where("user_id = ? AND kind = ?", uid(c), kind).First(&prev).Error == nil {
@@ -489,11 +523,22 @@ func (s *Server) generate(c *gin.Context) {
 		bad(c, 503, "尚未配置 AI 服务，请管理员设置后端 config.yaml")
 		return
 	}
-	var q model.Request
+	q := model.Request{Search: s.C.Search.Enabled && s.C.Search.APIKey != ""}
 	if c.ShouldBindJSON(&q) != nil || q.Servings < 1 || q.Servings > 10 || (q.Mode != "random" && q.Mode != "mixed" && q.Mode != "strict") || q.DishCount < 0 || q.DishCount > 10 || q.Budget != nil && *q.Budget <= 0 || q.Minutes != nil && *q.Minutes <= 0 || len(q.Description) > 4000 {
 		bad(c, 400, "生成条件无效")
 		return
 	}
+	if q.Target != "" && q.Target != "menu" && q.Target != "dish" {
+		bad(c, 400, "生成目标无效")
+		return
+	}
+	if q.Target == "dish" {
+		q.DishCount = 1
+	}
+	if q.Mode == "random" {
+		q.Ingredients = nil
+	}
+	q.Search = q.Search && s.C.Search.Enabled && s.C.Search.APIKey != ""
 	if q.Mode == "strict" && len(q.Ingredients) == 0 {
 		bad(c, 400, "纯限定模式需要指定食材")
 		return

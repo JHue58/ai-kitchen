@@ -55,21 +55,11 @@ func Run(ctx context.Context, db *gorm.DB, c config.Config, query string, job ui
 		return nil, e
 	}
 	sort.SliceStable(out.Results, func(i, j int) bool { return out.Results[i].Score > out.Results[j].Score })
-	fetches := 0
+
 	result := []model.Source{}
 	for _, s := range out.Results {
 		if !SafeURL(s.URL) {
 			continue
-		}
-		if len(s.Content) < 200 && fetches < c.Search.MaxFetchPages {
-			fetches++
-			db.Model(&model.Job{}).Where("id = ?", job).UpdateColumn("fetch_calls", gorm.Expr("fetch_calls + 1"))
-			var fetched struct {
-				Content string `json:"content"`
-			}
-			if ai.Post(ctx, c.Search.BaseURL, "/v1/tools/fetch", c.Search.APIKey, map[string]string{"url": s.URL}, &fetched) == nil {
-				s.Content = fetched.Content
-			}
 		}
 		runes := []rune(s.Content)
 		if len(runes) > 8000 {
@@ -83,4 +73,32 @@ func Run(ctx context.Context, db *gorm.DB, c config.Config, query string, job ui
 	b, _ := json.Marshal(result)
 	db.Clauses(clause.OnConflict{UpdateAll: true}).Create(&model.Cache{Key: key, Data: string(b), ExpiresAt: time.Now().Add(time.Duration(c.Search.CacheTTLMinutes) * time.Minute)})
 	return result, nil
+}
+
+// Fetch is separate from search: the agent decides which discovered page needs reading.
+func Fetch(ctx context.Context, db *gorm.DB, c config.Config, target string, job uint) (string, error) {
+	if !c.Search.Enabled || c.Search.APIKey == "" {
+		return "", fmt.Errorf("联网服务未配置")
+	}
+	if !SafeURL(target) {
+		return "", fmt.Errorf("网页地址不安全")
+	}
+	key := fmt.Sprintf("fetch:%x", sha256.Sum256([]byte(target)))
+	var cached model.Cache
+	if db.First(&cached, "key = ? AND expires_at > ?", key, time.Now()).Error == nil {
+		return cached.Data, nil
+	}
+	db.Model(&model.Job{}).Where("id = ?", job).UpdateColumn("fetch_calls", gorm.Expr("fetch_calls + 1"))
+	var out struct {
+		Content string `json:"content"`
+	}
+	if err := ai.Post(ctx, c.Search.BaseURL, "/v1/tools/fetch", c.Search.APIKey, map[string]string{"url": target}, &out); err != nil {
+		return "", err
+	}
+	runes := []rune(out.Content)
+	if len(runes) > 8000 {
+		out.Content = string(runes[:8000])
+	}
+	db.Clauses(clause.OnConflict{UpdateAll: true}).Create(&model.Cache{Key: key, Data: out.Content, ExpiresAt: time.Now().Add(time.Duration(c.Search.CacheTTLMinutes) * time.Minute)})
+	return out.Content, nil
 }

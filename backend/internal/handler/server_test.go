@@ -6,6 +6,7 @@ import (
 	"ai-kitchen/internal/repository"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
@@ -87,6 +88,46 @@ func TestAuthenticationIsolationAndPersistence(t *testing.T) {
 	var persisted model.Document
 	if db2.First(&persisted, uint(id)).Error != nil || persisted.Data != d.Data {
 		t.Fatal("persistence failed")
+	}
+
+	menu := map[string]any{"title": "测试菜单", "servings": 2, "tags": []string{"家常菜"}, "dishes": []any{map[string]any{"name": "鸡蛋", "ingredients": []any{map[string]any{"name": "鸡蛋", "quantity": 2, "unit": "个"}}, "steps": []any{map[string]any{"description": "充分加热", "duration_minutes": 5}}}}}
+	w, created := request("POST", "/api/v1/documents/recipes", menu, a, at)
+	if w.Code != 200 {
+		t.Fatal(w.Body)
+	}
+	menuID := uint(created["id"].(float64))
+	w, saved := request("POST", fmt.Sprintf("/api/v1/recipes/%d/dishes/0", menuID), nil, a, at)
+	if w.Code != 200 {
+		t.Fatal(w.Body)
+	}
+	dishID := uint(saved["id"].(float64))
+	w, _ = request("POST", fmt.Sprintf("/api/v1/recipes/%d/dishes/0", menuID), nil, b, bt)
+	if w.Code != 404 {
+		t.Fatal("cross-owner extraction allowed")
+	}
+	w, _ = request("GET", "/api/v1/documents/recipes?tag=家常菜&servings=2&min_cost=0", nil, a, at)
+	if w.Code != 200 || !bytes.Contains(w.Body.Bytes(), []byte("测试菜单")) {
+		t.Fatal(w.Body)
+	}
+	w, _ = request("GET", "/api/v1/documents/recipes?servings=3", nil, a, at)
+	if w.Body.String() != "[]" {
+		t.Fatal("servings filter failed", w.Body)
+	}
+	w, _ = request("DELETE", fmt.Sprintf("/api/v1/documents/recipes/%d", menuID), nil, a, at)
+	if w.Code != 200 {
+		t.Fatal(w.Body)
+	}
+	var independent model.Document
+	if db.First(&independent, dishID).Error != nil || independent.Kind != "dishes" {
+		t.Fatal("menu deletion removed dish")
+	}
+	w, _ = request("GET", "/api/v1/documents/dishes?saved=true&q=鸡蛋", nil, a, at)
+	if !bytes.Contains(w.Body.Bytes(), []byte("鸡蛋")) {
+		t.Fatal(w.Body)
+	}
+	w, _ = request("GET", "/api/v1/documents/dishes", nil, b, bt)
+	if w.Body.String() != "[]" {
+		t.Fatal("cross-user collection leaked", w.Body)
 	}
 	w, _ = request("POST", "/api/v1/logout", nil, a, at)
 	if w.Code != 200 {
