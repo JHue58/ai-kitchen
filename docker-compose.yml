@@ -1,0 +1,20 @@
+services:
+  kitchen:
+    build: .
+    ports:
+      - "${PORT:-8080}:8080"
+    environment:
+      KITCHEN_SERVER_HOST: "0.0.0.0"
+      KITCHEN_SERVER_STATIC_DIR: "/app/public"
+      KITCHEN_DATABASE_DSN: "/app/data/kitchen.db"
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+      - kitchen-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/api/v1/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+volumes:
+  kitchen-data:

@@ -1,0 +1,35 @@
+server:
+  host: "127.0.0.1"
+  port: 8080
+  mode: release
+  static_dir: "../frontend/dist"
+database:
+  driver: sqlite
+  dsn: "data/kitchen.db"
+auth:
+  allow_registration: true
+  invite_code: ""
+  session_ttl_hours: 168
+  secure_cookie: false
+llm:
+  enabled: false
+  base_url: "https://api.deepseek.com"
+  api_key: ""
+  model: ""
+  timeout_seconds: 120
+  temperature: 0.7
+  max_tokens: 8000
+  vision_enabled: false
+deepseek_search:
+  enabled: false
+  base_url: "https://api.deepseek.com"
+  api_key: ""
+  default_enabled: false
+  result_count: 5
+  need_content: true
+  max_fetch_pages: 2
+  cache_ttl_minutes: 1440
+  localization: ""
+storage:
+  upload_dir: "data/uploads"
+  max_upload_mb: 10
