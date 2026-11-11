@@ -68,7 +68,21 @@ func Chat(ctx context.Context, c config.Config, system string, content any) ([]b
 			} `json:"message"`
 		} `json:"choices"`
 	}
-	e := Post(ctx, c.LLM.BaseURL, "/chat/completions", c.LLM.APIKey, map[string]any{"model": c.LLM.Model, "temperature": c.LLM.Temperature, "max_tokens": c.LLM.MaxTokens, "response_format": map[string]string{"type": "json_object"}, "messages": []any{map[string]any{"role": "system", "content": system}, map[string]any{"role": "user", "content": content}}}, &out)
+
+	args := map[string]any{
+		"model":           c.LLM.Model,
+		"temperature":     c.LLM.Temperature,
+		"max_tokens":      c.LLM.MaxTokens,
+		"response_format": map[string]string{"type": "json_object"},
+		"messages": []any{map[string]any{"role": "system", "content": system},
+			map[string]any{"role": "user", "content": content}},
+	}
+
+	if c.LLM.MaxTokens <= 0 {
+		delete(args, "max_tokens")
+	}
+
+	e := Post(ctx, c.LLM.BaseURL, "/chat/completions", c.LLM.APIKey, args, &out)
 	if e != nil {
 		return nil, e
 	}

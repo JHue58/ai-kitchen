@@ -39,7 +39,7 @@ func Convert(q float64, from, to string) (float64, bool) {
 func Parse(b []byte) (model.Recipe, error) {
 	var r model.Recipe
 	if e := json.Unmarshal(b, &r); e != nil {
-		return r, fmt.Errorf("模型返回的 JSON 无效")
+		return r, fmt.Errorf("模型返回的 JSON 无效: %w", e)
 	}
 	if r.Title == "" || r.Servings < 1 || r.Servings > 10 || len(r.Dishes) == 0 || len(r.Dishes) > 12 {
 		return r, fmt.Errorf("菜单结构不完整")
