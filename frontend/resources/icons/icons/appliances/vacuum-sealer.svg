@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="真空封口机 / Vacuum Sealer" fill="none">
+  <title>真空封口机 / Vacuum Sealer</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="8" y="21" width="48" height="26" rx="5" fill="currentColor" opacity=".08"/><rect x="8" y="21" width="48" height="26" rx="5" fill="none" /><path d="M12 29 L52 29 M12 39 L52 39" fill="none" /><circle cx="46" cy="15" r="3" fill="none" /><path d="M17 47 L17 53 L47 53 L47 47" fill="none" />
+  </g>
+</svg>

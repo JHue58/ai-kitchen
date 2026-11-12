@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="饮水机 / Water Dispenser" fill="none">
+  <title>饮水机 / Water Dispenser</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="17" y="10" width="30" height="46" rx="5" fill="currentColor" opacity=".08"/><rect x="17" y="10" width="30" height="46" rx="5" fill="none" /><path d="M17 29 L47 29 M42 17 L42 24 M42 36 L42 44" fill="none" /><path d="M24 10 L24 5 L40 5 L40 10" fill="none" /><path d="M22 56 L22 60 M42 56 L42 60" fill="none" />
+  </g>
+</svg>

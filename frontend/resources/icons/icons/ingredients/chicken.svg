@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="鸡肉 / Chicken" fill="none">
+  <title>鸡肉 / Chicken</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 18 Q31 7 44 19 Q51 27 42 39 L52 49 Q48 58 39 52 L31 44 Q16 53 11 38 Q7 27 18 18 Z" fill="currentColor" opacity=".10"/><path d="M18 18 Q31 7 44 19 Q51 27 42 39 L52 49 Q48 58 39 52 L31 44 Q16 53 11 38 Q7 27 18 18 Z" fill="none" /><circle cx="50" cy="51" r="3" fill="none" /><circle cx="55" cy="47" r="3" fill="none" />
+  </g>
+</svg>

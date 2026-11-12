@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="酸奶 / Yogurt" fill="none">
+  <title>酸奶 / Yogurt</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="15" y="18" width="34" height="34" rx="7" fill="currentColor" opacity=".10"/><rect x="15" y="18" width="34" height="34" rx="7" fill="none" /><path d="M19 18 L19 12 L45 12 L45 18 M22 31 Q32 39 42 31" fill="none" />
+  </g>
+</svg>

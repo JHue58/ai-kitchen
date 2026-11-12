@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="大虾 / Prawn" fill="none">
+  <title>大虾 / Prawn</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13 30 Q16 14 32 15 Q48 14 51 30 Q47 43 32 47 Q17 43 13 30 Z" fill="currentColor" opacity=".10"/><path d="M13 30 Q16 14 32 15 Q48 14 51 30 Q47 43 32 47 Q17 43 13 30 Z" fill="none" /><path d="M20 42 Q11 51 18 56 M27 45 Q22 56 29 58 M38 45 Q43 56 36 58 M44 42 Q53 51 46 56" fill="none" /><circle cx="25" cy="29" r="2" fill="none" />
+  </g>
+</svg>

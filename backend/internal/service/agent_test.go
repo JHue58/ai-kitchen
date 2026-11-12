@@ -19,6 +19,8 @@ func TestWebSearchAndVisualValidation(t *testing.T) {
 	visionCalls := 0
 	upstream := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case "/v1/tools/fetch":
+			json.NewEncoder(w).Encode(map[string]string{"content": "菜谱正文，成品图 https://example.com/eggs.jpg"})
 		case "/v1/tools/search":
 			json.NewEncoder(w).Encode(map[string]any{"results": []model.Source{{URL: "https://example.com/recipe", Content: `![鸡蛋](https://example.com/eggs.jpg)`}}})
 		case "/chat/completions":
@@ -89,6 +91,20 @@ func TestWebSearchAndVisualValidation(t *testing.T) {
 	clear = false
 	if err := run("view_image", args); err != nil || len(images) != 0 {
 		t.Fatalf("blurred image accepted: %v %+v", err, images)
+	}
+	// Fetch is independent of search, and returns the original content directly.
+	result, err := registry["fetch_page"].Run(context.Background(), json.RawMessage(`{"url":"https://example.com/not-searched"}`))
+	if err != nil || result != "菜谱正文，成品图 https://example.com/eggs.jpg" {
+		t.Fatalf("fetch rejected new URL or split content: %v %+v", err, result)
+	}
+	if sources[len(sources)-1].URL != "https://example.com/not-searched" {
+		t.Fatal("fetched page missing from sources")
+	}
+	for _, target := range []string{"http://127.0.0.1/private", "file:///etc/passwd"} {
+		args, _ := json.Marshal(map[string]string{"url": target})
+		if _, err := registry["fetch_page"].Run(context.Background(), args); err == nil {
+			t.Fatalf("accepted unsafe URL: %s", target)
+		}
 	}
 	c.LLM.VisionEnabled = false
 	if _, ok := makeTools()["view_image"]; ok {

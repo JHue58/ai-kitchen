@@ -1,0 +1,4507 @@
+{
+  "version": "1.0.0",
+  "total": 259,
+  "categories": {
+    "cookware": "烹饪工具与炊具",
+    "appliances": "厨房电器",
+    "seasonings": "调味品",
+    "ingredients": "食材",
+    "dishes": "菜品与食物"
+  },
+  "items": [
+    {
+      "id": "wok",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "pan",
+      "name": "炒锅",
+      "name_en": "Wok",
+      "filename": "wok.svg",
+      "symbol": "wok",
+      "keywords": [
+        "炒锅",
+        "炒菜锅",
+        "中式炒锅",
+        "铁锅",
+        "Wok",
+        "wok",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "frying-pan",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "pan",
+      "name": "平底煎锅",
+      "name_en": "Frying Pan",
+      "filename": "frying-pan.svg",
+      "symbol": "frying-pan",
+      "keywords": [
+        "平底煎锅",
+        "煎锅",
+        "平底锅",
+        "Frying Pan",
+        "frying pan",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "saucepan",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "pot",
+      "name": "汤锅",
+      "name_en": "Saucepan",
+      "filename": "saucepan.svg",
+      "symbol": "saucepan",
+      "keywords": [
+        "汤锅",
+        "Saucepan",
+        "saucepan",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "stockpot",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "pot",
+      "name": "大汤锅",
+      "name_en": "Stockpot",
+      "filename": "stockpot.svg",
+      "symbol": "stockpot",
+      "keywords": [
+        "大汤锅",
+        "高汤锅",
+        "Stockpot",
+        "stockpot",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "pressure-pot",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "pot",
+      "name": "压力锅",
+      "name_en": "Pressure Pot",
+      "filename": "pressure-pot.svg",
+      "symbol": "pressure-pot",
+      "keywords": [
+        "压力锅",
+        "高压锅",
+        "Pressure Pot",
+        "pressure pot",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "dutch-oven",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "pot",
+      "name": "铸铁锅",
+      "name_en": "Dutch Oven",
+      "filename": "dutch-oven.svg",
+      "symbol": "dutch-oven",
+      "keywords": [
+        "铸铁锅",
+        "Dutch Oven",
+        "dutch oven",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "casserole",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "pot",
+      "name": "砂锅",
+      "name_en": "Casserole",
+      "filename": "casserole.svg",
+      "symbol": "casserole",
+      "keywords": [
+        "砂锅",
+        "Casserole",
+        "casserole",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "steamer",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "pot",
+      "name": "蒸锅",
+      "name_en": "Steamer",
+      "filename": "steamer.svg",
+      "symbol": "steamer",
+      "keywords": [
+        "蒸锅",
+        "蒸锅层",
+        "蒸屉",
+        "Steamer",
+        "steamer",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "bamboo-steamer",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "pot",
+      "name": "竹蒸笼",
+      "name_en": "Bamboo Steamer",
+      "filename": "bamboo-steamer.svg",
+      "symbol": "bamboo-steamer",
+      "keywords": [
+        "竹蒸笼",
+        "Bamboo Steamer",
+        "bamboo steamer",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "grill-pan",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "pan",
+      "name": "煎烤盘",
+      "name_en": "Grill Pan",
+      "filename": "grill-pan.svg",
+      "symbol": "grill-pan",
+      "keywords": [
+        "煎烤盘",
+        "Grill Pan",
+        "grill pan",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "baking-tray",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "tray",
+      "name": "烤盘",
+      "name_en": "Baking Tray",
+      "filename": "baking-tray.svg",
+      "symbol": "baking-tray",
+      "keywords": [
+        "烤盘",
+        "Baking Tray",
+        "baking tray",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "roasting-pan",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "tray",
+      "name": "深烤盘",
+      "name_en": "Roasting Pan",
+      "filename": "roasting-pan.svg",
+      "symbol": "roasting-pan",
+      "keywords": [
+        "深烤盘",
+        "烤肉盘",
+        "Roasting Pan",
+        "roasting pan",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "pot-lid",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "lid",
+      "name": "锅盖",
+      "name_en": "Pot Lid",
+      "filename": "pot-lid.svg",
+      "symbol": "pot-lid",
+      "keywords": [
+        "锅盖",
+        "Pot Lid",
+        "pot lid",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "cutting-board",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "board",
+      "name": "菜板",
+      "name_en": "Cutting Board",
+      "filename": "cutting-board.svg",
+      "symbol": "cutting-board",
+      "keywords": [
+        "菜板",
+        "Cutting Board",
+        "cutting board",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "chef-knife",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "knife",
+      "name": "主厨刀",
+      "name_en": "Chef Knife",
+      "filename": "chef-knife.svg",
+      "symbol": "chef-knife",
+      "keywords": [
+        "主厨刀",
+        "切菜刀",
+        "菜刀",
+        "Chef Knife",
+        "chef knife",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "cleaver",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "knife",
+      "name": "中式菜刀",
+      "name_en": "Cleaver",
+      "filename": "cleaver.svg",
+      "symbol": "cleaver",
+      "keywords": [
+        "中式菜刀",
+        "菜刀",
+        "斩骨刀",
+        "Cleaver",
+        "cleaver",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "paring-knife",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "knife",
+      "name": "水果刀",
+      "name_en": "Paring Knife",
+      "filename": "paring-knife.svg",
+      "symbol": "paring-knife",
+      "keywords": [
+        "水果刀",
+        "Paring Knife",
+        "paring knife",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "bread-knife",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "knife",
+      "name": "面包刀",
+      "name_en": "Bread Knife",
+      "filename": "bread-knife.svg",
+      "symbol": "bread-knife",
+      "keywords": [
+        "面包刀",
+        "Bread Knife",
+        "bread knife",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "peeler",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "削皮器",
+      "name_en": "Peeler",
+      "filename": "peeler.svg",
+      "symbol": "peeler",
+      "keywords": [
+        "削皮器",
+        "Peeler",
+        "peeler",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "grater",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "擦丝器",
+      "name_en": "Grater",
+      "filename": "grater.svg",
+      "symbol": "grater",
+      "keywords": [
+        "擦丝器",
+        "Grater",
+        "grater",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "kitchen-scissors",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "厨房剪刀",
+      "name_en": "Kitchen Scissors",
+      "filename": "kitchen-scissors.svg",
+      "symbol": "kitchen-scissors",
+      "keywords": [
+        "厨房剪刀",
+        "Kitchen Scissors",
+        "kitchen scissors",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "spatula",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "锅铲",
+      "name_en": "Spatula",
+      "filename": "spatula.svg",
+      "symbol": "spatula",
+      "keywords": [
+        "锅铲",
+        "炒菜铲",
+        "Spatula",
+        "spatula",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "wok-spatula",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "炒菜铲",
+      "name_en": "Wok Spatula",
+      "filename": "wok-spatula.svg",
+      "symbol": "wok-spatula",
+      "keywords": [
+        "炒菜铲",
+        "Wok Spatula",
+        "wok spatula",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "ladle",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "汤勺",
+      "name_en": "Ladle",
+      "filename": "ladle.svg",
+      "symbol": "ladle",
+      "keywords": [
+        "汤勺",
+        "大汤勺",
+        "勺子",
+        "Ladle",
+        "ladle",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "slotted-spoon",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "漏勺",
+      "name_en": "Slotted Spoon",
+      "filename": "slotted-spoon.svg",
+      "symbol": "slotted-spoon",
+      "keywords": [
+        "漏勺",
+        "Slotted Spoon",
+        "slotted spoon",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "skimmer",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "笊篱",
+      "name_en": "Skimmer",
+      "filename": "skimmer.svg",
+      "symbol": "skimmer",
+      "keywords": [
+        "笊篱",
+        "Skimmer",
+        "skimmer",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "tongs",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "夹子",
+      "name_en": "Tongs",
+      "filename": "tongs.svg",
+      "symbol": "tongs",
+      "keywords": [
+        "夹子",
+        "食物夹",
+        "厨房夹",
+        "Tongs",
+        "tongs",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "whisk",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "打蛋器",
+      "name_en": "Whisk",
+      "filename": "whisk.svg",
+      "symbol": "whisk",
+      "keywords": [
+        "打蛋器",
+        "Whisk",
+        "whisk",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "rolling-pin",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "board",
+      "name": "擀面杖",
+      "name_en": "Rolling Pin",
+      "filename": "rolling-pin.svg",
+      "symbol": "rolling-pin",
+      "keywords": [
+        "擀面杖",
+        "Rolling Pin",
+        "rolling pin",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "mixing-bowl",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "vessel",
+      "name": "搅拌碗",
+      "name_en": "Mixing Bowl",
+      "filename": "mixing-bowl.svg",
+      "symbol": "mixing-bowl",
+      "keywords": [
+        "搅拌碗",
+        "搅拌盆",
+        "大碗",
+        "Mixing Bowl",
+        "mixing bowl",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "colander",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "strainer",
+      "name": "沥水篮",
+      "name_en": "Colander",
+      "filename": "colander.svg",
+      "symbol": "colander",
+      "keywords": [
+        "沥水篮",
+        "沥水盆",
+        "沥水器",
+        "Colander",
+        "colander",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "sieve",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "strainer",
+      "name": "筛网",
+      "name_en": "Sieve",
+      "filename": "sieve.svg",
+      "symbol": "sieve",
+      "keywords": [
+        "筛网",
+        "Sieve",
+        "sieve",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "measuring-cup",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "measure",
+      "name": "量杯",
+      "name_en": "Measuring Cup",
+      "filename": "measuring-cup.svg",
+      "symbol": "measuring-cup",
+      "keywords": [
+        "量杯",
+        "Measuring Cup",
+        "measuring cup",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "measuring-spoon",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "measure",
+      "name": "量勺",
+      "name_en": "Measuring Spoon",
+      "filename": "measuring-spoon.svg",
+      "symbol": "measuring-spoon",
+      "keywords": [
+        "量勺",
+        "Measuring Spoon",
+        "measuring spoon",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "kitchen-scale",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "scale",
+      "name": "厨房秤",
+      "name_en": "Kitchen Scale",
+      "filename": "kitchen-scale.svg",
+      "symbol": "kitchen-scale",
+      "keywords": [
+        "厨房秤",
+        "Kitchen Scale",
+        "kitchen scale",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "mortar-pestle",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "mortar",
+      "name": "研钵和研杵",
+      "name_en": "Mortar Pestle",
+      "filename": "mortar-pestle.svg",
+      "symbol": "mortar-pestle",
+      "keywords": [
+        "研钵和研杵",
+        "研钵",
+        "研杵",
+        "Mortar Pestle",
+        "mortar pestle",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "chopsticks",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "筷子",
+      "name_en": "Chopsticks",
+      "filename": "chopsticks.svg",
+      "symbol": "chopsticks",
+      "keywords": [
+        "筷子",
+        "Chopsticks",
+        "chopsticks",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "serving-spoon",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "utensil",
+      "name": "分菜勺",
+      "name_en": "Serving Spoon",
+      "filename": "serving-spoon.svg",
+      "symbol": "serving-spoon",
+      "keywords": [
+        "分菜勺",
+        "Serving Spoon",
+        "serving spoon",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "dinner-plate",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "vessel",
+      "name": "餐盘",
+      "name_en": "Dinner Plate",
+      "filename": "dinner-plate.svg",
+      "symbol": "dinner-plate",
+      "keywords": [
+        "餐盘",
+        "Dinner Plate",
+        "dinner plate",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "soup-bowl",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "vessel",
+      "name": "汤碗",
+      "name_en": "Soup Bowl",
+      "filename": "soup-bowl.svg",
+      "symbol": "soup-bowl",
+      "keywords": [
+        "汤碗",
+        "Soup Bowl",
+        "soup bowl",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "mug",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "vessel",
+      "name": "马克杯",
+      "name_en": "Mug",
+      "filename": "mug.svg",
+      "symbol": "mug",
+      "keywords": [
+        "马克杯",
+        "Mug",
+        "mug",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "teapot",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "vessel",
+      "name": "茶壶",
+      "name_en": "Teapot",
+      "filename": "teapot.svg",
+      "symbol": "teapot",
+      "keywords": [
+        "茶壶",
+        "Teapot",
+        "teapot",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "lunchbox",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "vessel",
+      "name": "饭盒",
+      "name_en": "Lunchbox",
+      "filename": "lunchbox.svg",
+      "symbol": "lunchbox",
+      "keywords": [
+        "饭盒",
+        "Lunchbox",
+        "lunchbox",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "food-container",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "vessel",
+      "name": "保鲜盒",
+      "name_en": "Food Container",
+      "filename": "food-container.svg",
+      "symbol": "food-container",
+      "keywords": [
+        "保鲜盒",
+        "Food Container",
+        "food container",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "thermos",
+      "category": "cookware",
+      "category_label": "烹饪工具与炊具",
+      "family": "vessel",
+      "name": "保温杯",
+      "name_en": "Thermos",
+      "filename": "thermos.svg",
+      "symbol": "thermos",
+      "keywords": [
+        "保温杯",
+        "Thermos",
+        "thermos",
+        "厨具",
+        "炊具"
+      ]
+    },
+    {
+      "id": "induction-cooker",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "stove",
+      "name": "电磁炉",
+      "name_en": "Induction Cooker",
+      "filename": "induction-cooker.svg",
+      "symbol": "induction-cooker",
+      "keywords": [
+        "电磁炉",
+        "Induction Cooker",
+        "induction cooker",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "gas-stove",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "stove",
+      "name": "燃气灶",
+      "name_en": "Gas Stove",
+      "filename": "gas-stove.svg",
+      "symbol": "gas-stove",
+      "keywords": [
+        "燃气灶",
+        "Gas Stove",
+        "gas stove",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "electric-pressure-cooker",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "cooker",
+      "name": "电压力锅",
+      "name_en": "Electric Pressure Cooker",
+      "filename": "electric-pressure-cooker.svg",
+      "symbol": "electric-pressure-cooker",
+      "keywords": [
+        "电压力锅",
+        "电高压锅",
+        "Electric Pressure Cooker",
+        "electric pressure cooker",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "rice-cooker",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "cooker",
+      "name": "电饭煲",
+      "name_en": "Rice Cooker",
+      "filename": "rice-cooker.svg",
+      "symbol": "rice-cooker",
+      "keywords": [
+        "电饭煲",
+        "电饭锅",
+        "饭煲",
+        "Rice Cooker",
+        "rice cooker",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "air-fryer",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "box",
+      "name": "空气炸锅",
+      "name_en": "Air Fryer",
+      "filename": "air-fryer.svg",
+      "symbol": "air-fryer",
+      "keywords": [
+        "空气炸锅",
+        "炸锅",
+        "Air Fryer",
+        "air fryer",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "oven",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "box",
+      "name": "烤箱",
+      "name_en": "Oven",
+      "filename": "oven.svg",
+      "symbol": "oven",
+      "keywords": [
+        "烤箱",
+        "Oven",
+        "oven",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "microwave",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "box",
+      "name": "微波炉",
+      "name_en": "Microwave",
+      "filename": "microwave.svg",
+      "symbol": "microwave",
+      "keywords": [
+        "微波炉",
+        "微波加热",
+        "Microwave",
+        "microwave",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "refrigerator",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "tall",
+      "name": "冰箱",
+      "name_en": "Refrigerator",
+      "filename": "refrigerator.svg",
+      "symbol": "refrigerator",
+      "keywords": [
+        "冰箱",
+        "冷藏柜",
+        "Refrigerator",
+        "refrigerator",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "freezer",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "tall",
+      "name": "冷冻柜",
+      "name_en": "Freezer",
+      "filename": "freezer.svg",
+      "symbol": "freezer",
+      "keywords": [
+        "冷冻柜",
+        "Freezer",
+        "freezer",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "range-hood",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "hood",
+      "name": "油烟机",
+      "name_en": "Range Hood",
+      "filename": "range-hood.svg",
+      "symbol": "range-hood",
+      "keywords": [
+        "油烟机",
+        "Range Hood",
+        "range hood",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "dishwasher",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "box",
+      "name": "洗碗机",
+      "name_en": "Dishwasher",
+      "filename": "dishwasher.svg",
+      "symbol": "dishwasher",
+      "keywords": [
+        "洗碗机",
+        "Dishwasher",
+        "dishwasher",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "blender",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "blender",
+      "name": "破壁机",
+      "name_en": "Blender",
+      "filename": "blender.svg",
+      "symbol": "blender",
+      "keywords": [
+        "破壁机",
+        "料理机",
+        "Blender",
+        "blender",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "hand-blender",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "blender",
+      "name": "手持搅拌棒",
+      "name_en": "Hand Blender",
+      "filename": "hand-blender.svg",
+      "symbol": "hand-blender",
+      "keywords": [
+        "手持搅拌棒",
+        "Hand Blender",
+        "hand blender",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "food-processor",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "processor",
+      "name": "食物处理机",
+      "name_en": "Food Processor",
+      "filename": "food-processor.svg",
+      "symbol": "food-processor",
+      "keywords": [
+        "食物处理机",
+        "Food Processor",
+        "food processor",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "stand-mixer",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "mixer",
+      "name": "厨师机",
+      "name_en": "Stand Mixer",
+      "filename": "stand-mixer.svg",
+      "symbol": "stand-mixer",
+      "keywords": [
+        "厨师机",
+        "Stand Mixer",
+        "stand mixer",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "electric-kettle",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "kettle",
+      "name": "电热水壶",
+      "name_en": "Electric Kettle",
+      "filename": "electric-kettle.svg",
+      "symbol": "electric-kettle",
+      "keywords": [
+        "电热水壶",
+        "烧水壶",
+        "电水壶",
+        "Electric Kettle",
+        "electric kettle",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "toaster",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "toaster",
+      "name": "多士炉",
+      "name_en": "Toaster",
+      "filename": "toaster.svg",
+      "symbol": "toaster",
+      "keywords": [
+        "多士炉",
+        "Toaster",
+        "toaster",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "coffee-maker",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "coffee",
+      "name": "咖啡机",
+      "name_en": "Coffee Maker",
+      "filename": "coffee-maker.svg",
+      "symbol": "coffee-maker",
+      "keywords": [
+        "咖啡机",
+        "Coffee Maker",
+        "coffee maker",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "espresso-machine",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "coffee",
+      "name": "意式咖啡机",
+      "name_en": "Espresso Machine",
+      "filename": "espresso-machine.svg",
+      "symbol": "espresso-machine",
+      "keywords": [
+        "意式咖啡机",
+        "Espresso Machine",
+        "espresso machine",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "juicer",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "juicer",
+      "name": "榨汁机",
+      "name_en": "Juicer",
+      "filename": "juicer.svg",
+      "symbol": "juicer",
+      "keywords": [
+        "榨汁机",
+        "Juicer",
+        "juicer",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "slow-cooker",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "cooker",
+      "name": "慢炖锅",
+      "name_en": "Slow Cooker",
+      "filename": "slow-cooker.svg",
+      "symbol": "slow-cooker",
+      "keywords": [
+        "慢炖锅",
+        "Slow Cooker",
+        "slow cooker",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "electric-grill",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "grill",
+      "name": "电烤盘",
+      "name_en": "Electric Grill",
+      "filename": "electric-grill.svg",
+      "symbol": "electric-grill",
+      "keywords": [
+        "电烤盘",
+        "Electric Grill",
+        "electric grill",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "sandwich-maker",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "grill",
+      "name": "三明治机",
+      "name_en": "Sandwich Maker",
+      "filename": "sandwich-maker.svg",
+      "symbol": "sandwich-maker",
+      "keywords": [
+        "三明治机",
+        "Sandwich Maker",
+        "sandwich maker",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "bread-maker",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "box",
+      "name": "面包机",
+      "name_en": "Bread Maker",
+      "filename": "bread-maker.svg",
+      "symbol": "bread-maker",
+      "keywords": [
+        "面包机",
+        "Bread Maker",
+        "bread maker",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "water-dispenser",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "tall",
+      "name": "饮水机",
+      "name_en": "Water Dispenser",
+      "filename": "water-dispenser.svg",
+      "symbol": "water-dispenser",
+      "keywords": [
+        "饮水机",
+        "Water Dispenser",
+        "water dispenser",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "vacuum-sealer",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "box",
+      "name": "真空封口机",
+      "name_en": "Vacuum Sealer",
+      "filename": "vacuum-sealer.svg",
+      "symbol": "vacuum-sealer",
+      "keywords": [
+        "真空封口机",
+        "Vacuum Sealer",
+        "vacuum sealer",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "electric-steamer",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "cooker",
+      "name": "电蒸锅",
+      "name_en": "Electric Steamer",
+      "filename": "electric-steamer.svg",
+      "symbol": "electric-steamer",
+      "keywords": [
+        "电蒸锅",
+        "Electric Steamer",
+        "electric steamer",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "ice-maker",
+      "category": "appliances",
+      "category_label": "厨房电器",
+      "family": "box",
+      "name": "制冰机",
+      "name_en": "Ice Maker",
+      "filename": "ice-maker.svg",
+      "symbol": "ice-maker",
+      "keywords": [
+        "制冰机",
+        "Ice Maker",
+        "ice maker",
+        "厨房电器",
+        "小家电"
+      ]
+    },
+    {
+      "id": "salt",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "shaker",
+      "name": "食盐",
+      "name_en": "Salt",
+      "filename": "salt.svg",
+      "symbol": "salt",
+      "keywords": [
+        "食盐",
+        "Salt",
+        "salt",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "sea-salt",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "shaker",
+      "name": "海盐",
+      "name_en": "Sea Salt",
+      "filename": "sea-salt.svg",
+      "symbol": "sea-salt",
+      "keywords": [
+        "海盐",
+        "Sea Salt",
+        "sea salt",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "sugar",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "shaker",
+      "name": "白砂糖",
+      "name_en": "Sugar",
+      "filename": "sugar.svg",
+      "symbol": "sugar",
+      "keywords": [
+        "白砂糖",
+        "Sugar",
+        "sugar",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "brown-sugar",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "红糖",
+      "name_en": "Brown Sugar",
+      "filename": "brown-sugar.svg",
+      "symbol": "brown-sugar",
+      "keywords": [
+        "红糖",
+        "Brown Sugar",
+        "brown sugar",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "rock-sugar",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "冰糖",
+      "name_en": "Rock Sugar",
+      "filename": "rock-sugar.svg",
+      "symbol": "rock-sugar",
+      "keywords": [
+        "冰糖",
+        "Rock Sugar",
+        "rock sugar",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "light-soy-sauce",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "生抽",
+      "name_en": "Light Soy Sauce",
+      "filename": "light-soy-sauce.svg",
+      "symbol": "light-soy-sauce",
+      "keywords": [
+        "生抽",
+        "生抽酱油",
+        "Light Soy Sauce",
+        "light soy sauce",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "dark-soy-sauce",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "老抽",
+      "name_en": "Dark Soy Sauce",
+      "filename": "dark-soy-sauce.svg",
+      "symbol": "dark-soy-sauce",
+      "keywords": [
+        "老抽",
+        "老抽酱油",
+        "Dark Soy Sauce",
+        "dark soy sauce",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "oyster-sauce",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "蚝油",
+      "name_en": "Oyster Sauce",
+      "filename": "oyster-sauce.svg",
+      "symbol": "oyster-sauce",
+      "keywords": [
+        "蚝油",
+        "Oyster Sauce",
+        "oyster sauce",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "cooking-wine",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "料酒",
+      "name_en": "Cooking Wine",
+      "filename": "cooking-wine.svg",
+      "symbol": "cooking-wine",
+      "keywords": [
+        "料酒",
+        "黄酒",
+        "去腥",
+        "Cooking Wine",
+        "cooking wine",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "rice-vinegar",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "米醋",
+      "name_en": "Rice Vinegar",
+      "filename": "rice-vinegar.svg",
+      "symbol": "rice-vinegar",
+      "keywords": [
+        "米醋",
+        "香醋",
+        "Rice Vinegar",
+        "rice vinegar",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "black-vinegar",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "陈醋",
+      "name_en": "Black Vinegar",
+      "filename": "black-vinegar.svg",
+      "symbol": "black-vinegar",
+      "keywords": [
+        "陈醋",
+        "香醋",
+        "Black Vinegar",
+        "black vinegar",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "white-vinegar",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "白醋",
+      "name_en": "White Vinegar",
+      "filename": "white-vinegar.svg",
+      "symbol": "white-vinegar",
+      "keywords": [
+        "白醋",
+        "White Vinegar",
+        "white vinegar",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "sesame-oil",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "香油",
+      "name_en": "Sesame Oil",
+      "filename": "sesame-oil.svg",
+      "symbol": "sesame-oil",
+      "keywords": [
+        "香油",
+        "Sesame Oil",
+        "sesame oil",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "peanut-oil",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "花生油",
+      "name_en": "Peanut Oil",
+      "filename": "peanut-oil.svg",
+      "symbol": "peanut-oil",
+      "keywords": [
+        "花生油",
+        "Peanut Oil",
+        "peanut oil",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "olive-oil",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "橄榄油",
+      "name_en": "Olive Oil",
+      "filename": "olive-oil.svg",
+      "symbol": "olive-oil",
+      "keywords": [
+        "橄榄油",
+        "Olive Oil",
+        "olive oil",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "chili-oil",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "辣椒油",
+      "name_en": "Chili Oil",
+      "filename": "chili-oil.svg",
+      "symbol": "chili-oil",
+      "keywords": [
+        "辣椒油",
+        "红油",
+        "辣油",
+        "Chili Oil",
+        "chili oil",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "chili-sauce",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "辣椒酱",
+      "name_en": "Chili Sauce",
+      "filename": "chili-sauce.svg",
+      "symbol": "chili-sauce",
+      "keywords": [
+        "辣椒酱",
+        "Chili Sauce",
+        "chili sauce",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "doubanjiang",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "豆瓣酱",
+      "name_en": "Doubanjiang",
+      "filename": "doubanjiang.svg",
+      "symbol": "doubanjiang",
+      "keywords": [
+        "豆瓣酱",
+        "辣豆瓣",
+        "豆瓣",
+        "Doubanjiang",
+        "doubanjiang",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "hoisin-sauce",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "海鲜酱",
+      "name_en": "Hoisin Sauce",
+      "filename": "hoisin-sauce.svg",
+      "symbol": "hoisin-sauce",
+      "keywords": [
+        "海鲜酱",
+        "Hoisin Sauce",
+        "hoisin sauce",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "tomato-ketchup",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "squeeze",
+      "name": "番茄酱",
+      "name_en": "Tomato Ketchup",
+      "filename": "tomato-ketchup.svg",
+      "symbol": "tomato-ketchup",
+      "keywords": [
+        "番茄酱",
+        "番茄沙司",
+        "Tomato Ketchup",
+        "tomato ketchup",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "mayonnaise",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "squeeze",
+      "name": "蛋黄酱",
+      "name_en": "Mayonnaise",
+      "filename": "mayonnaise.svg",
+      "symbol": "mayonnaise",
+      "keywords": [
+        "蛋黄酱",
+        "Mayonnaise",
+        "mayonnaise",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "mustard",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "squeeze",
+      "name": "芥末酱",
+      "name_en": "Mustard",
+      "filename": "mustard.svg",
+      "symbol": "mustard",
+      "keywords": [
+        "芥末酱",
+        "Mustard",
+        "mustard",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "honey",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "蜂蜜",
+      "name_en": "Honey",
+      "filename": "honey.svg",
+      "symbol": "honey",
+      "keywords": [
+        "蜂蜜",
+        "Honey",
+        "honey",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "black-pepper",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "grinder",
+      "name": "黑胡椒",
+      "name_en": "Black Pepper",
+      "filename": "black-pepper.svg",
+      "symbol": "black-pepper",
+      "keywords": [
+        "黑胡椒",
+        "黑胡椒粉",
+        "Black Pepper",
+        "black pepper",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "white-pepper",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "shaker",
+      "name": "白胡椒",
+      "name_en": "White Pepper",
+      "filename": "white-pepper.svg",
+      "symbol": "white-pepper",
+      "keywords": [
+        "白胡椒",
+        "White Pepper",
+        "white pepper",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "chili-flakes",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "辣椒面",
+      "name_en": "Chili Flakes",
+      "filename": "chili-flakes.svg",
+      "symbol": "chili-flakes",
+      "keywords": [
+        "辣椒面",
+        "Chili Flakes",
+        "chili flakes",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "sichuan-pepper",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "花椒",
+      "name_en": "Sichuan Pepper",
+      "filename": "sichuan-pepper.svg",
+      "symbol": "sichuan-pepper",
+      "keywords": [
+        "花椒",
+        "花椒粉",
+        "Sichuan Pepper",
+        "sichuan pepper",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "cumin",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "孜然",
+      "name_en": "Cumin",
+      "filename": "cumin.svg",
+      "symbol": "cumin",
+      "keywords": [
+        "孜然",
+        "孜然粉",
+        "Cumin",
+        "cumin",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "star-anise",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "spice",
+      "name": "八角",
+      "name_en": "Star Anise",
+      "filename": "star-anise.svg",
+      "symbol": "star-anise",
+      "keywords": [
+        "八角",
+        "大料",
+        "Star Anise",
+        "star anise",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "cinnamon",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "spice",
+      "name": "桂皮",
+      "name_en": "Cinnamon",
+      "filename": "cinnamon.svg",
+      "symbol": "cinnamon",
+      "keywords": [
+        "桂皮",
+        "Cinnamon",
+        "cinnamon",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "bay-leaf",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "spice",
+      "name": "香叶",
+      "name_en": "Bay Leaf",
+      "filename": "bay-leaf.svg",
+      "symbol": "bay-leaf",
+      "keywords": [
+        "香叶",
+        "Bay Leaf",
+        "bay leaf",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "cloves",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "spice",
+      "name": "丁香",
+      "name_en": "Cloves",
+      "filename": "cloves.svg",
+      "symbol": "cloves",
+      "keywords": [
+        "丁香",
+        "Cloves",
+        "cloves",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "five-spice",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "shaker",
+      "name": "五香粉",
+      "name_en": "Five Spice",
+      "filename": "five-spice.svg",
+      "symbol": "five-spice",
+      "keywords": [
+        "五香粉",
+        "Five Spice",
+        "five spice",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "curry-powder",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "shaker",
+      "name": "咖喱粉",
+      "name_en": "Curry Powder",
+      "filename": "curry-powder.svg",
+      "symbol": "curry-powder",
+      "keywords": [
+        "咖喱粉",
+        "Curry Powder",
+        "curry powder",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "sesame-seeds",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "芝麻",
+      "name_en": "Sesame Seeds",
+      "filename": "sesame-seeds.svg",
+      "symbol": "sesame-seeds",
+      "keywords": [
+        "芝麻",
+        "Sesame Seeds",
+        "sesame seeds",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "cornstarch",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "shaker",
+      "name": "淀粉",
+      "name_en": "Cornstarch",
+      "filename": "cornstarch.svg",
+      "symbol": "cornstarch",
+      "keywords": [
+        "淀粉",
+        "玉米淀粉",
+        "Cornstarch",
+        "cornstarch",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "msg",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "shaker",
+      "name": "味精",
+      "name_en": "Msg",
+      "filename": "msg.svg",
+      "symbol": "msg",
+      "keywords": [
+        "味精",
+        "鲜味剂",
+        "Msg",
+        "msg",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "chicken-bouillon",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "鸡精",
+      "name_en": "Chicken Bouillon",
+      "filename": "chicken-bouillon.svg",
+      "symbol": "chicken-bouillon",
+      "keywords": [
+        "鸡精",
+        "Chicken Bouillon",
+        "chicken bouillon",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "fish-sauce",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "鱼露",
+      "name_en": "Fish Sauce",
+      "filename": "fish-sauce.svg",
+      "symbol": "fish-sauce",
+      "keywords": [
+        "鱼露",
+        "Fish Sauce",
+        "fish sauce",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "barbecue-sauce",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "squeeze",
+      "name": "烧烤酱",
+      "name_en": "Barbecue Sauce",
+      "filename": "barbecue-sauce.svg",
+      "symbol": "barbecue-sauce",
+      "keywords": [
+        "烧烤酱",
+        "Barbecue Sauce",
+        "barbecue sauce",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "fermented-bean-curd",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "腐乳",
+      "name_en": "Fermented Bean Curd",
+      "filename": "fermented-bean-curd.svg",
+      "symbol": "fermented-bean-curd",
+      "keywords": [
+        "腐乳",
+        "Fermented Bean Curd",
+        "fermented bean curd",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "fermented-black-beans",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "豆豉",
+      "name_en": "Fermented Black Beans",
+      "filename": "fermented-black-beans.svg",
+      "symbol": "fermented-black-beans",
+      "keywords": [
+        "豆豉",
+        "Fermented Black Beans",
+        "fermented black beans",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "garlic-sauce",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "jar",
+      "name": "蒜蓉酱",
+      "name_en": "Garlic Sauce",
+      "filename": "garlic-sauce.svg",
+      "symbol": "garlic-sauce",
+      "keywords": [
+        "蒜蓉酱",
+        "Garlic Sauce",
+        "garlic sauce",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "salad-dressing",
+      "category": "seasonings",
+      "category_label": "调味品",
+      "family": "bottle",
+      "name": "沙拉酱",
+      "name_en": "Salad Dressing",
+      "filename": "salad-dressing.svg",
+      "symbol": "salad-dressing",
+      "keywords": [
+        "沙拉酱",
+        "Salad Dressing",
+        "salad dressing",
+        "调味料",
+        "调味品"
+      ]
+    },
+    {
+      "id": "rice",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "grain",
+      "name": "大米",
+      "name_en": "Rice",
+      "filename": "rice.svg",
+      "symbol": "rice",
+      "keywords": [
+        "大米",
+        "香米",
+        "米",
+        "Rice",
+        "rice",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "brown-rice",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "grain",
+      "name": "糙米",
+      "name_en": "Brown Rice",
+      "filename": "brown-rice.svg",
+      "symbol": "brown-rice",
+      "keywords": [
+        "糙米",
+        "玄米",
+        "Brown Rice",
+        "brown rice",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "glutinous-rice",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "grain",
+      "name": "糯米",
+      "name_en": "Glutinous Rice",
+      "filename": "glutinous-rice.svg",
+      "symbol": "glutinous-rice",
+      "keywords": [
+        "糯米",
+        "Glutinous Rice",
+        "glutinous rice",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "noodles",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "grain",
+      "name": "面条",
+      "name_en": "Noodles",
+      "filename": "noodles.svg",
+      "symbol": "noodles",
+      "keywords": [
+        "面条",
+        "挂面",
+        "鲜面",
+        "Noodles",
+        "noodles",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "flour",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "grain",
+      "name": "面粉",
+      "name_en": "Flour",
+      "filename": "flour.svg",
+      "symbol": "flour",
+      "keywords": [
+        "面粉",
+        "Flour",
+        "flour",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "oats",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "grain",
+      "name": "燕麦",
+      "name_en": "Oats",
+      "filename": "oats.svg",
+      "symbol": "oats",
+      "keywords": [
+        "燕麦",
+        "Oats",
+        "oats",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "pasta",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "grain",
+      "name": "意大利面",
+      "name_en": "Pasta",
+      "filename": "pasta.svg",
+      "symbol": "pasta",
+      "keywords": [
+        "意大利面",
+        "Pasta",
+        "pasta",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "bread",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "grain",
+      "name": "面包",
+      "name_en": "Bread",
+      "filename": "bread.svg",
+      "symbol": "bread",
+      "keywords": [
+        "面包",
+        "Bread",
+        "bread",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "tomato",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "roundveg",
+      "name": "番茄",
+      "name_en": "Tomato",
+      "filename": "tomato.svg",
+      "symbol": "tomato",
+      "keywords": [
+        "番茄",
+        "西红柿",
+        "Tomato",
+        "tomato",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "potato",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "root",
+      "name": "土豆",
+      "name_en": "Potato",
+      "filename": "potato.svg",
+      "symbol": "potato",
+      "keywords": [
+        "土豆",
+        "Potato",
+        "potato",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "sweet-potato",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "root",
+      "name": "红薯",
+      "name_en": "Sweet Potato",
+      "filename": "sweet-potato.svg",
+      "symbol": "sweet-potato",
+      "keywords": [
+        "红薯",
+        "地瓜",
+        "Sweet Potato",
+        "sweet potato",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "carrot",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "root",
+      "name": "胡萝卜",
+      "name_en": "Carrot",
+      "filename": "carrot.svg",
+      "symbol": "carrot",
+      "keywords": [
+        "胡萝卜",
+        "红萝卜",
+        "Carrot",
+        "carrot",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "cucumber",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "longveg",
+      "name": "黄瓜",
+      "name_en": "Cucumber",
+      "filename": "cucumber.svg",
+      "symbol": "cucumber",
+      "keywords": [
+        "黄瓜",
+        "Cucumber",
+        "cucumber",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "eggplant",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "longveg",
+      "name": "茄子",
+      "name_en": "Eggplant",
+      "filename": "eggplant.svg",
+      "symbol": "eggplant",
+      "keywords": [
+        "茄子",
+        "Eggplant",
+        "eggplant",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "zucchini",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "longveg",
+      "name": "西葫芦",
+      "name_en": "Zucchini",
+      "filename": "zucchini.svg",
+      "symbol": "zucchini",
+      "keywords": [
+        "西葫芦",
+        "角瓜",
+        "Zucchini",
+        "zucchini",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "bell-pepper",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "pepper",
+      "name": "甜椒",
+      "name_en": "Bell Pepper",
+      "filename": "bell-pepper.svg",
+      "symbol": "bell-pepper",
+      "keywords": [
+        "甜椒",
+        "Bell Pepper",
+        "bell pepper",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "chili-pepper",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "pepper",
+      "name": "辣椒",
+      "name_en": "Chili Pepper",
+      "filename": "chili-pepper.svg",
+      "symbol": "chili-pepper",
+      "keywords": [
+        "辣椒",
+        "Chili Pepper",
+        "chili pepper",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "cabbage",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "leaf",
+      "name": "包菜",
+      "name_en": "Cabbage",
+      "filename": "cabbage.svg",
+      "symbol": "cabbage",
+      "keywords": [
+        "包菜",
+        "卷心菜",
+        "圆白菜",
+        "Cabbage",
+        "cabbage",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "bok-choy",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "leaf",
+      "name": "小白菜",
+      "name_en": "Bok Choy",
+      "filename": "bok-choy.svg",
+      "symbol": "bok-choy",
+      "keywords": [
+        "小白菜",
+        "青菜",
+        "上海青",
+        "Bok Choy",
+        "bok choy",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "spinach",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "leaf",
+      "name": "菠菜",
+      "name_en": "Spinach",
+      "filename": "spinach.svg",
+      "symbol": "spinach",
+      "keywords": [
+        "菠菜",
+        "Spinach",
+        "spinach",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "lettuce",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "leaf",
+      "name": "生菜",
+      "name_en": "Lettuce",
+      "filename": "lettuce.svg",
+      "symbol": "lettuce",
+      "keywords": [
+        "生菜",
+        "Lettuce",
+        "lettuce",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "broccoli",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "broccoli",
+      "name": "西兰花",
+      "name_en": "Broccoli",
+      "filename": "broccoli.svg",
+      "symbol": "broccoli",
+      "keywords": [
+        "西兰花",
+        "Broccoli",
+        "broccoli",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "cauliflower",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "broccoli",
+      "name": "菜花",
+      "name_en": "Cauliflower",
+      "filename": "cauliflower.svg",
+      "symbol": "cauliflower",
+      "keywords": [
+        "菜花",
+        "花菜",
+        "Cauliflower",
+        "cauliflower",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "celery",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "leaf",
+      "name": "芹菜",
+      "name_en": "Celery",
+      "filename": "celery.svg",
+      "symbol": "celery",
+      "keywords": [
+        "芹菜",
+        "西芹",
+        "Celery",
+        "celery",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "onion",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "bulb",
+      "name": "洋葱",
+      "name_en": "Onion",
+      "filename": "onion.svg",
+      "symbol": "onion",
+      "keywords": [
+        "洋葱",
+        "Onion",
+        "onion",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "red-onion",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "bulb",
+      "name": "紫皮洋葱",
+      "name_en": "Red Onion",
+      "filename": "red-onion.svg",
+      "symbol": "red-onion",
+      "keywords": [
+        "紫皮洋葱",
+        "Red Onion",
+        "red onion",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "garlic",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "bulb",
+      "name": "大蒜",
+      "name_en": "Garlic",
+      "filename": "garlic.svg",
+      "symbol": "garlic",
+      "keywords": [
+        "大蒜",
+        "蒜",
+        "蒜头",
+        "Garlic",
+        "garlic",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "ginger",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "root",
+      "name": "生姜",
+      "name_en": "Ginger",
+      "filename": "ginger.svg",
+      "symbol": "ginger",
+      "keywords": [
+        "生姜",
+        "姜",
+        "Ginger",
+        "ginger",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "scallion",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "leaf",
+      "name": "小葱",
+      "name_en": "Scallion",
+      "filename": "scallion.svg",
+      "symbol": "scallion",
+      "keywords": [
+        "小葱",
+        "香葱",
+        "葱",
+        "Scallion",
+        "scallion",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "leek",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "leaf",
+      "name": "韭菜",
+      "name_en": "Leek",
+      "filename": "leek.svg",
+      "symbol": "leek",
+      "keywords": [
+        "韭菜",
+        "Leek",
+        "leek",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "mushroom",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "mushroom",
+      "name": "口蘑",
+      "name_en": "Mushroom",
+      "filename": "mushroom.svg",
+      "symbol": "mushroom",
+      "keywords": [
+        "口蘑",
+        "Mushroom",
+        "mushroom",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "shiitake",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "mushroom",
+      "name": "香菇",
+      "name_en": "Shiitake",
+      "filename": "shiitake.svg",
+      "symbol": "shiitake",
+      "keywords": [
+        "香菇",
+        "Shiitake",
+        "shiitake",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "enoki",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "mushroom",
+      "name": "金针菇",
+      "name_en": "Enoki",
+      "filename": "enoki.svg",
+      "symbol": "enoki",
+      "keywords": [
+        "金针菇",
+        "Enoki",
+        "enoki",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "oyster-mushroom",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "mushroom",
+      "name": "平菇",
+      "name_en": "Oyster Mushroom",
+      "filename": "oyster-mushroom.svg",
+      "symbol": "oyster-mushroom",
+      "keywords": [
+        "平菇",
+        "Oyster Mushroom",
+        "oyster mushroom",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "corn",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "corn",
+      "name": "玉米",
+      "name_en": "Corn",
+      "filename": "corn.svg",
+      "symbol": "corn",
+      "keywords": [
+        "玉米",
+        "Corn",
+        "corn",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "peas",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "peas",
+      "name": "青豆",
+      "name_en": "Peas",
+      "filename": "peas.svg",
+      "symbol": "peas",
+      "keywords": [
+        "青豆",
+        "Peas",
+        "peas",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "green-beans",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "beans",
+      "name": "四季豆",
+      "name_en": "Green Beans",
+      "filename": "green-beans.svg",
+      "symbol": "green-beans",
+      "keywords": [
+        "四季豆",
+        "Green Beans",
+        "green beans",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "asparagus",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "leaf",
+      "name": "芦笋",
+      "name_en": "Asparagus",
+      "filename": "asparagus.svg",
+      "symbol": "asparagus",
+      "keywords": [
+        "芦笋",
+        "Asparagus",
+        "asparagus",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "radish",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "root",
+      "name": "红萝卜",
+      "name_en": "Radish",
+      "filename": "radish.svg",
+      "symbol": "radish",
+      "keywords": [
+        "红萝卜",
+        "Radish",
+        "radish",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "daikon",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "root",
+      "name": "白萝卜",
+      "name_en": "Daikon",
+      "filename": "daikon.svg",
+      "symbol": "daikon",
+      "keywords": [
+        "白萝卜",
+        "白萝",
+        "Daikon",
+        "daikon",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "lotus-root",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "root",
+      "name": "莲藕",
+      "name_en": "Lotus Root",
+      "filename": "lotus-root.svg",
+      "symbol": "lotus-root",
+      "keywords": [
+        "莲藕",
+        "Lotus Root",
+        "lotus root",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "pumpkin",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "roundveg",
+      "name": "南瓜",
+      "name_en": "Pumpkin",
+      "filename": "pumpkin.svg",
+      "symbol": "pumpkin",
+      "keywords": [
+        "南瓜",
+        "Pumpkin",
+        "pumpkin",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "bitter-melon",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "longveg",
+      "name": "苦瓜",
+      "name_en": "Bitter Melon",
+      "filename": "bitter-melon.svg",
+      "symbol": "bitter-melon",
+      "keywords": [
+        "苦瓜",
+        "Bitter Melon",
+        "bitter melon",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "egg",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "egg",
+      "name": "鸡蛋",
+      "name_en": "Egg",
+      "filename": "egg.svg",
+      "symbol": "egg",
+      "keywords": [
+        "鸡蛋",
+        "Egg",
+        "egg",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "chicken",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "meat",
+      "name": "鸡肉",
+      "name_en": "Chicken",
+      "filename": "chicken.svg",
+      "symbol": "chicken",
+      "keywords": [
+        "鸡肉",
+        "Chicken",
+        "chicken",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "chicken-wing",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "meat",
+      "name": "鸡翅",
+      "name_en": "Chicken Wing",
+      "filename": "chicken-wing.svg",
+      "symbol": "chicken-wing",
+      "keywords": [
+        "鸡翅",
+        "鸡翅中",
+        "Chicken Wing",
+        "chicken wing",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "chicken-breast",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "meat",
+      "name": "鸡胸肉",
+      "name_en": "Chicken Breast",
+      "filename": "chicken-breast.svg",
+      "symbol": "chicken-breast",
+      "keywords": [
+        "鸡胸肉",
+        "鸡胸",
+        "Chicken Breast",
+        "chicken breast",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "pork",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "meat",
+      "name": "猪肉",
+      "name_en": "Pork",
+      "filename": "pork.svg",
+      "symbol": "pork",
+      "keywords": [
+        "猪肉",
+        "Pork",
+        "pork",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "pork-belly",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "meat",
+      "name": "五花肉",
+      "name_en": "Pork Belly",
+      "filename": "pork-belly.svg",
+      "symbol": "pork-belly",
+      "keywords": [
+        "五花肉",
+        "三层肉",
+        "Pork Belly",
+        "pork belly",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "beef",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "meat",
+      "name": "牛肉",
+      "name_en": "Beef",
+      "filename": "beef.svg",
+      "symbol": "beef",
+      "keywords": [
+        "牛肉",
+        "Beef",
+        "beef",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "beef-brisket",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "meat",
+      "name": "牛腩",
+      "name_en": "Beef Brisket",
+      "filename": "beef-brisket.svg",
+      "symbol": "beef-brisket",
+      "keywords": [
+        "牛腩",
+        "牛腩肉",
+        "Beef Brisket",
+        "beef brisket",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "lamb",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "meat",
+      "name": "羊肉",
+      "name_en": "Lamb",
+      "filename": "lamb.svg",
+      "symbol": "lamb",
+      "keywords": [
+        "羊肉",
+        "羊腿肉",
+        "Lamb",
+        "lamb",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "shrimp",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "seafood",
+      "name": "虾仁",
+      "name_en": "Shrimp",
+      "filename": "shrimp.svg",
+      "symbol": "shrimp",
+      "keywords": [
+        "虾仁",
+        "虾",
+        "海虾",
+        "Shrimp",
+        "shrimp",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "prawn",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "seafood",
+      "name": "大虾",
+      "name_en": "Prawn",
+      "filename": "prawn.svg",
+      "symbol": "prawn",
+      "keywords": [
+        "大虾",
+        "Prawn",
+        "prawn",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "fish",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "fish",
+      "name": "鱼肉",
+      "name_en": "Fish",
+      "filename": "fish.svg",
+      "symbol": "fish",
+      "keywords": [
+        "鱼肉",
+        "Fish",
+        "fish",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "salmon",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "fish",
+      "name": "三文鱼",
+      "name_en": "Salmon",
+      "filename": "salmon.svg",
+      "symbol": "salmon",
+      "keywords": [
+        "三文鱼",
+        "Salmon",
+        "salmon",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "tuna",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "fish",
+      "name": "金枪鱼",
+      "name_en": "Tuna",
+      "filename": "tuna.svg",
+      "symbol": "tuna",
+      "keywords": [
+        "金枪鱼",
+        "Tuna",
+        "tuna",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "squid",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "seafood",
+      "name": "鱿鱼",
+      "name_en": "Squid",
+      "filename": "squid.svg",
+      "symbol": "squid",
+      "keywords": [
+        "鱿鱼",
+        "Squid",
+        "squid",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "crab",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "seafood",
+      "name": "蟹",
+      "name_en": "Crab",
+      "filename": "crab.svg",
+      "symbol": "crab",
+      "keywords": [
+        "蟹",
+        "Crab",
+        "crab",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "tofu",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "tofu",
+      "name": "豆腐",
+      "name_en": "Tofu",
+      "filename": "tofu.svg",
+      "symbol": "tofu",
+      "keywords": [
+        "豆腐",
+        "Tofu",
+        "tofu",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "firm-tofu",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "tofu",
+      "name": "老豆腐",
+      "name_en": "Firm Tofu",
+      "filename": "firm-tofu.svg",
+      "symbol": "firm-tofu",
+      "keywords": [
+        "老豆腐",
+        "Firm Tofu",
+        "firm tofu",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "tofu-skin",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "tofu",
+      "name": "豆皮",
+      "name_en": "Tofu Skin",
+      "filename": "tofu-skin.svg",
+      "symbol": "tofu-skin",
+      "keywords": [
+        "豆皮",
+        "油豆皮",
+        "豆腐皮",
+        "Tofu Skin",
+        "tofu skin",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "milk",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "dairy",
+      "name": "牛奶",
+      "name_en": "Milk",
+      "filename": "milk.svg",
+      "symbol": "milk",
+      "keywords": [
+        "牛奶",
+        "Milk",
+        "milk",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "cheese",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "dairy",
+      "name": "奶酪",
+      "name_en": "Cheese",
+      "filename": "cheese.svg",
+      "symbol": "cheese",
+      "keywords": [
+        "奶酪",
+        "Cheese",
+        "cheese",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "butter",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "dairy",
+      "name": "黄油",
+      "name_en": "Butter",
+      "filename": "butter.svg",
+      "symbol": "butter",
+      "keywords": [
+        "黄油",
+        "Butter",
+        "butter",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "yogurt",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "dairy",
+      "name": "酸奶",
+      "name_en": "Yogurt",
+      "filename": "yogurt.svg",
+      "symbol": "yogurt",
+      "keywords": [
+        "酸奶",
+        "无糖酸奶",
+        "Yogurt",
+        "yogurt",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "cream",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "dairy",
+      "name": "奶油",
+      "name_en": "Cream",
+      "filename": "cream.svg",
+      "symbol": "cream",
+      "keywords": [
+        "奶油",
+        "Cream",
+        "cream",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "apple",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "fruit",
+      "name": "苹果",
+      "name_en": "Apple",
+      "filename": "apple.svg",
+      "symbol": "apple",
+      "keywords": [
+        "苹果",
+        "Apple",
+        "apple",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "banana",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "banana",
+      "name": "香蕉",
+      "name_en": "Banana",
+      "filename": "banana.svg",
+      "symbol": "banana",
+      "keywords": [
+        "香蕉",
+        "Banana",
+        "banana",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "orange",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "citrus",
+      "name": "橙子",
+      "name_en": "Orange",
+      "filename": "orange.svg",
+      "symbol": "orange",
+      "keywords": [
+        "橙子",
+        "Orange",
+        "orange",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "lemon",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "citrus",
+      "name": "柠檬",
+      "name_en": "Lemon",
+      "filename": "lemon.svg",
+      "symbol": "lemon",
+      "keywords": [
+        "柠檬",
+        "Lemon",
+        "lemon",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "strawberry",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "berry",
+      "name": "草莓",
+      "name_en": "Strawberry",
+      "filename": "strawberry.svg",
+      "symbol": "strawberry",
+      "keywords": [
+        "草莓",
+        "Strawberry",
+        "strawberry",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "grapes",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "grapes",
+      "name": "葡萄",
+      "name_en": "Grapes",
+      "filename": "grapes.svg",
+      "symbol": "grapes",
+      "keywords": [
+        "葡萄",
+        "Grapes",
+        "grapes",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "pear",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "fruit",
+      "name": "雪梨",
+      "name_en": "Pear",
+      "filename": "pear.svg",
+      "symbol": "pear",
+      "keywords": [
+        "雪梨",
+        "Pear",
+        "pear",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "peach",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "fruit",
+      "name": "桃子",
+      "name_en": "Peach",
+      "filename": "peach.svg",
+      "symbol": "peach",
+      "keywords": [
+        "桃子",
+        "Peach",
+        "peach",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "avocado",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "avocado",
+      "name": "牛油果",
+      "name_en": "Avocado",
+      "filename": "avocado.svg",
+      "symbol": "avocado",
+      "keywords": [
+        "牛油果",
+        "Avocado",
+        "avocado",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "watermelon",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "melon",
+      "name": "西瓜",
+      "name_en": "Watermelon",
+      "filename": "watermelon.svg",
+      "symbol": "watermelon",
+      "keywords": [
+        "西瓜",
+        "Watermelon",
+        "watermelon",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "pineapple",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "tropical",
+      "name": "菠萝",
+      "name_en": "Pineapple",
+      "filename": "pineapple.svg",
+      "symbol": "pineapple",
+      "keywords": [
+        "菠萝",
+        "Pineapple",
+        "pineapple",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "mango",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "tropical",
+      "name": "芒果",
+      "name_en": "Mango",
+      "filename": "mango.svg",
+      "symbol": "mango",
+      "keywords": [
+        "芒果",
+        "Mango",
+        "mango",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "blueberry",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "berry",
+      "name": "蓝莓",
+      "name_en": "Blueberry",
+      "filename": "blueberry.svg",
+      "symbol": "blueberry",
+      "keywords": [
+        "蓝莓",
+        "Blueberry",
+        "blueberry",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "kiwi",
+      "category": "ingredients",
+      "category_label": "食材",
+      "family": "fruit",
+      "name": "奇异果",
+      "name_en": "Kiwi",
+      "filename": "kiwi.svg",
+      "symbol": "kiwi",
+      "keywords": [
+        "奇异果",
+        "Kiwi",
+        "kiwi",
+        "食材",
+        "原料"
+      ]
+    },
+    {
+      "id": "steamed-rice",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "蒸米饭",
+      "name_en": "Steamed Rice",
+      "filename": "steamed-rice.svg",
+      "symbol": "steamed-rice",
+      "keywords": [
+        "蒸米饭",
+        "Steamed Rice",
+        "steamed rice",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "fried-rice",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "炒饭",
+      "name_en": "Fried Rice",
+      "filename": "fried-rice.svg",
+      "symbol": "fried-rice",
+      "keywords": [
+        "炒饭",
+        "Fried Rice",
+        "fried rice",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "egg-fried-rice",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "蛋炒饭",
+      "name_en": "Egg Fried Rice",
+      "filename": "egg-fried-rice.svg",
+      "symbol": "egg-fried-rice",
+      "keywords": [
+        "蛋炒饭",
+        "Egg Fried Rice",
+        "egg fried rice",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "congee",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "白粥",
+      "name_en": "Congee",
+      "filename": "congee.svg",
+      "symbol": "congee",
+      "keywords": [
+        "白粥",
+        "米粥",
+        "Congee",
+        "congee",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "noodle-soup",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "汤面",
+      "name_en": "Noodle Soup",
+      "filename": "noodle-soup.svg",
+      "symbol": "noodle-soup",
+      "keywords": [
+        "汤面",
+        "Noodle Soup",
+        "noodle soup",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "stir-fried-noodles",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "炒面",
+      "name_en": "Stir Fried Noodles",
+      "filename": "stir-fried-noodles.svg",
+      "symbol": "stir-fried-noodles",
+      "keywords": [
+        "炒面",
+        "Stir Fried Noodles",
+        "stir fried noodles",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "ramen",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "拉面",
+      "name_en": "Ramen",
+      "filename": "ramen.svg",
+      "symbol": "ramen",
+      "keywords": [
+        "拉面",
+        "Ramen",
+        "ramen",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "spaghetti",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "pasta",
+      "name": "意大利面",
+      "name_en": "Spaghetti",
+      "filename": "spaghetti.svg",
+      "symbol": "spaghetti",
+      "keywords": [
+        "意大利面",
+        "Spaghetti",
+        "spaghetti",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "dumplings",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "dumpling",
+      "name": "饺子",
+      "name_en": "Dumplings",
+      "filename": "dumplings.svg",
+      "symbol": "dumplings",
+      "keywords": [
+        "饺子",
+        "水饺",
+        "Dumplings",
+        "dumplings",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "wonton",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "dumpling",
+      "name": "馄饨",
+      "name_en": "Wonton",
+      "filename": "wonton.svg",
+      "symbol": "wonton",
+      "keywords": [
+        "馄饨",
+        "Wonton",
+        "wonton",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "baozi",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bun",
+      "name": "包子",
+      "name_en": "Baozi",
+      "filename": "baozi.svg",
+      "symbol": "baozi",
+      "keywords": [
+        "包子",
+        "肉包",
+        "Baozi",
+        "baozi",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "steamed-bun",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bun",
+      "name": "馒头",
+      "name_en": "Steamed Bun",
+      "filename": "steamed-bun.svg",
+      "symbol": "steamed-bun",
+      "keywords": [
+        "馒头",
+        "Steamed Bun",
+        "steamed bun",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "potstickers",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "dumpling",
+      "name": "锅贴",
+      "name_en": "Potstickers",
+      "filename": "potstickers.svg",
+      "symbol": "potstickers",
+      "keywords": [
+        "锅贴",
+        "煎饺",
+        "Potstickers",
+        "potstickers",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "spring-roll",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "roll",
+      "name": "春卷",
+      "name_en": "Spring Roll",
+      "filename": "spring-roll.svg",
+      "symbol": "spring-roll",
+      "keywords": [
+        "春卷",
+        "春饼",
+        "Spring Roll",
+        "spring roll",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "scallion-pancake",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "pancake",
+      "name": "葱油饼",
+      "name_en": "Scallion Pancake",
+      "filename": "scallion-pancake.svg",
+      "symbol": "scallion-pancake",
+      "keywords": [
+        "葱油饼",
+        "Scallion Pancake",
+        "scallion pancake",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "pancakes",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "pancake",
+      "name": "薄饼",
+      "name_en": "Pancakes",
+      "filename": "pancakes.svg",
+      "symbol": "pancakes",
+      "keywords": [
+        "薄饼",
+        "Pancakes",
+        "pancakes",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "omelette",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "egg",
+      "name": "煎蛋饼",
+      "name_en": "Omelette",
+      "filename": "omelette.svg",
+      "symbol": "omelette",
+      "keywords": [
+        "煎蛋饼",
+        "Omelette",
+        "omelette",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "fried-egg",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "egg",
+      "name": "荷包蛋",
+      "name_en": "Fried Egg",
+      "filename": "fried-egg.svg",
+      "symbol": "fried-egg",
+      "keywords": [
+        "荷包蛋",
+        "Fried Egg",
+        "fried egg",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "boiled-egg",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "egg",
+      "name": "水煮蛋",
+      "name_en": "Boiled Egg",
+      "filename": "boiled-egg.svg",
+      "symbol": "boiled-egg",
+      "keywords": [
+        "水煮蛋",
+        "Boiled Egg",
+        "boiled egg",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "scrambled-eggs",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "egg",
+      "name": "炒蛋",
+      "name_en": "Scrambled Eggs",
+      "filename": "scrambled-eggs.svg",
+      "symbol": "scrambled-eggs",
+      "keywords": [
+        "炒蛋",
+        "Scrambled Eggs",
+        "scrambled eggs",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "tomato-egg",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "西红柿炒蛋",
+      "name_en": "Tomato Egg",
+      "filename": "tomato-egg.svg",
+      "symbol": "tomato-egg",
+      "keywords": [
+        "西红柿炒蛋",
+        "Tomato Egg",
+        "tomato egg",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "braised-pork",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "红烧肉",
+      "name_en": "Braised Pork",
+      "filename": "braised-pork.svg",
+      "symbol": "braised-pork",
+      "keywords": [
+        "红烧肉",
+        "红烧五花肉",
+        "Braised Pork",
+        "braised pork",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "sweet-sour-pork",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "糖醋里脊",
+      "name_en": "Sweet Sour Pork",
+      "filename": "sweet-sour-pork.svg",
+      "symbol": "sweet-sour-pork",
+      "keywords": [
+        "糖醋里脊",
+        "Sweet Sour Pork",
+        "sweet sour pork",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "braised-beef",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "红烧牛肉",
+      "name_en": "Braised Beef",
+      "filename": "braised-beef.svg",
+      "symbol": "braised-beef",
+      "keywords": [
+        "红烧牛肉",
+        "Braised Beef",
+        "braised beef",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "beef-noodle-soup",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "红烧牛肉面",
+      "name_en": "Beef Noodle Soup",
+      "filename": "beef-noodle-soup.svg",
+      "symbol": "beef-noodle-soup",
+      "keywords": [
+        "红烧牛肉面",
+        "牛肉面",
+        "Beef Noodle Soup",
+        "beef noodle soup",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "roast-chicken",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "烤鸡",
+      "name_en": "Roast Chicken",
+      "filename": "roast-chicken.svg",
+      "symbol": "roast-chicken",
+      "keywords": [
+        "烤鸡",
+        "Roast Chicken",
+        "roast chicken",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "fried-chicken",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "炸鸡",
+      "name_en": "Fried Chicken",
+      "filename": "fried-chicken.svg",
+      "symbol": "fried-chicken",
+      "keywords": [
+        "炸鸡",
+        "Fried Chicken",
+        "fried chicken",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "grilled-fish",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "烤鱼",
+      "name_en": "Grilled Fish",
+      "filename": "grilled-fish.svg",
+      "symbol": "grilled-fish",
+      "keywords": [
+        "烤鱼",
+        "Grilled Fish",
+        "grilled fish",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "steamed-fish",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "清蒸鱼",
+      "name_en": "Steamed Fish",
+      "filename": "steamed-fish.svg",
+      "symbol": "steamed-fish",
+      "keywords": [
+        "清蒸鱼",
+        "Steamed Fish",
+        "steamed fish",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "fish-and-chips",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "鱼和薯条",
+      "name_en": "Fish And Chips",
+      "filename": "fish-and-chips.svg",
+      "symbol": "fish-and-chips",
+      "keywords": [
+        "鱼和薯条",
+        "Fish And Chips",
+        "fish and chips",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "hotpot",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "hotpot",
+      "name": "火锅",
+      "name_en": "Hotpot",
+      "filename": "hotpot.svg",
+      "symbol": "hotpot",
+      "keywords": [
+        "火锅",
+        "Hotpot",
+        "hotpot",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "tomato-hotpot",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "hotpot",
+      "name": "番茄火锅",
+      "name_en": "Tomato Hotpot",
+      "filename": "tomato-hotpot.svg",
+      "symbol": "tomato-hotpot",
+      "keywords": [
+        "番茄火锅",
+        "Tomato Hotpot",
+        "tomato hotpot",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "salad",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "salad",
+      "name": "蔬菜沙拉",
+      "name_en": "Salad",
+      "filename": "salad.svg",
+      "symbol": "salad",
+      "keywords": [
+        "蔬菜沙拉",
+        "凉拌菜",
+        "Salad",
+        "salad",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "fruit-salad",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "salad",
+      "name": "水果沙拉",
+      "name_en": "Fruit Salad",
+      "filename": "fruit-salad.svg",
+      "symbol": "fruit-salad",
+      "keywords": [
+        "水果沙拉",
+        "Fruit Salad",
+        "fruit salad",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "sandwich",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "sandwich",
+      "name": "三明治",
+      "name_en": "Sandwich",
+      "filename": "sandwich.svg",
+      "symbol": "sandwich",
+      "keywords": [
+        "三明治",
+        "Sandwich",
+        "sandwich",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "burger",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "burger",
+      "name": "汉堡",
+      "name_en": "Burger",
+      "filename": "burger.svg",
+      "symbol": "burger",
+      "keywords": [
+        "汉堡",
+        "Burger",
+        "burger",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "pizza",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "pizza",
+      "name": "披萨",
+      "name_en": "Pizza",
+      "filename": "pizza.svg",
+      "symbol": "pizza",
+      "keywords": [
+        "披萨",
+        "Pizza",
+        "pizza",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "sushi",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "sushi",
+      "name": "寿司",
+      "name_en": "Sushi",
+      "filename": "sushi.svg",
+      "symbol": "sushi",
+      "keywords": [
+        "寿司",
+        "Sushi",
+        "sushi",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "curry-rice",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "咖喱饭",
+      "name_en": "Curry Rice",
+      "filename": "curry-rice.svg",
+      "symbol": "curry-rice",
+      "keywords": [
+        "咖喱饭",
+        "Curry Rice",
+        "curry rice",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "steak",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "牛排",
+      "name_en": "Steak",
+      "filename": "steak.svg",
+      "symbol": "steak",
+      "keywords": [
+        "牛排",
+        "Steak",
+        "steak",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "french-fries",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "fries",
+      "name": "薯条",
+      "name_en": "French Fries",
+      "filename": "french-fries.svg",
+      "symbol": "french-fries",
+      "keywords": [
+        "薯条",
+        "French Fries",
+        "french fries",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "mashed-potato",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "土豆泥",
+      "name_en": "Mashed Potato",
+      "filename": "mashed-potato.svg",
+      "symbol": "mashed-potato",
+      "keywords": [
+        "土豆泥",
+        "Mashed Potato",
+        "mashed potato",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "soup",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "汤",
+      "name_en": "Soup",
+      "filename": "soup.svg",
+      "symbol": "soup",
+      "keywords": [
+        "汤",
+        "Soup",
+        "soup",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "tomato-soup",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "番茄汤",
+      "name_en": "Tomato Soup",
+      "filename": "tomato-soup.svg",
+      "symbol": "tomato-soup",
+      "keywords": [
+        "番茄汤",
+        "Tomato Soup",
+        "tomato soup",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "dumpling-soup",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "饺子汤",
+      "name_en": "Dumpling Soup",
+      "filename": "dumpling-soup.svg",
+      "symbol": "dumpling-soup",
+      "keywords": [
+        "饺子汤",
+        "Dumpling Soup",
+        "dumpling soup",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "grilled-cheese",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "sandwich",
+      "name": "芝士三明治",
+      "name_en": "Grilled Cheese",
+      "filename": "grilled-cheese.svg",
+      "symbol": "grilled-cheese",
+      "keywords": [
+        "芝士三明治",
+        "Grilled Cheese",
+        "grilled cheese",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "toast",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "toast",
+      "name": "吐司",
+      "name_en": "Toast",
+      "filename": "toast.svg",
+      "symbol": "toast",
+      "keywords": [
+        "吐司",
+        "Toast",
+        "toast",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "pasta-dish",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "pasta",
+      "name": "意大利面",
+      "name_en": "Pasta Dish",
+      "filename": "pasta-dish.svg",
+      "symbol": "pasta-dish",
+      "keywords": [
+        "意大利面",
+        "Pasta Dish",
+        "pasta dish",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "carbonara",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "pasta",
+      "name": "培根蛋黄意面",
+      "name_en": "Carbonara",
+      "filename": "carbonara.svg",
+      "symbol": "carbonara",
+      "keywords": [
+        "培根蛋黄意面",
+        "Carbonara",
+        "carbonara",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "lasagna",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "千层面",
+      "name_en": "Lasagna",
+      "filename": "lasagna.svg",
+      "symbol": "lasagna",
+      "keywords": [
+        "千层面",
+        "Lasagna",
+        "lasagna",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "tacos",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "taco",
+      "name": "塔可",
+      "name_en": "Tacos",
+      "filename": "tacos.svg",
+      "symbol": "tacos",
+      "keywords": [
+        "塔可",
+        "Tacos",
+        "tacos",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "burrito",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "wrap",
+      "name": "墨西哥卷",
+      "name_en": "Burrito",
+      "filename": "burrito.svg",
+      "symbol": "burrito",
+      "keywords": [
+        "墨西哥卷",
+        "Burrito",
+        "burrito",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "kebab",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "plate",
+      "name": "烤肉串",
+      "name_en": "Kebab",
+      "filename": "kebab.svg",
+      "symbol": "kebab",
+      "keywords": [
+        "烤肉串",
+        "Kebab",
+        "kebab",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "waffle",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "waffle",
+      "name": "华夫饼",
+      "name_en": "Waffle",
+      "filename": "waffle.svg",
+      "symbol": "waffle",
+      "keywords": [
+        "华夫饼",
+        "Waffle",
+        "waffle",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "cake",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "cake",
+      "name": "蛋糕",
+      "name_en": "Cake",
+      "filename": "cake.svg",
+      "symbol": "cake",
+      "keywords": [
+        "蛋糕",
+        "Cake",
+        "cake",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "cookies",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "cookies",
+      "name": "曲奇",
+      "name_en": "Cookies",
+      "filename": "cookies.svg",
+      "symbol": "cookies",
+      "keywords": [
+        "曲奇",
+        "Cookies",
+        "cookies",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "ice-cream",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "icecream",
+      "name": "冰淇淋",
+      "name_en": "Ice Cream",
+      "filename": "ice-cream.svg",
+      "symbol": "ice-cream",
+      "keywords": [
+        "冰淇淋",
+        "Ice Cream",
+        "ice cream",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "yogurt-bowl",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "bowl",
+      "name": "酸奶碗",
+      "name_en": "Yogurt Bowl",
+      "filename": "yogurt-bowl.svg",
+      "symbol": "yogurt-bowl",
+      "keywords": [
+        "酸奶碗",
+        "Yogurt Bowl",
+        "yogurt bowl",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "smoothie",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "drink",
+      "name": "果昔",
+      "name_en": "Smoothie",
+      "filename": "smoothie.svg",
+      "symbol": "smoothie",
+      "keywords": [
+        "果昔",
+        "Smoothie",
+        "smoothie",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "milk-tea",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "drink",
+      "name": "奶茶",
+      "name_en": "Milk Tea",
+      "filename": "milk-tea.svg",
+      "symbol": "milk-tea",
+      "keywords": [
+        "奶茶",
+        "珍珠奶茶",
+        "Milk Tea",
+        "milk tea",
+        "菜品",
+        "食物"
+      ]
+    },
+    {
+      "id": "coffee",
+      "category": "dishes",
+      "category_label": "菜品与食物",
+      "family": "drink",
+      "name": "咖啡",
+      "name_en": "Coffee",
+      "filename": "coffee.svg",
+      "symbol": "coffee",
+      "keywords": [
+        "咖啡",
+        "Coffee",
+        "coffee",
+        "菜品",
+        "食物"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="鸡蛋 / Egg" fill="none">
+  <title>鸡蛋 / Egg</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 8 Q18 8 13 30 Q8 52 32 55 Q56 52 51 30 Q46 8 32 8 Z" fill="currentColor" opacity=".10"/><path d="M32 8 Q18 8 13 30 Q8 52 32 55 Q56 52 51 30 Q46 8 32 8 Z" fill="none" /><circle cx="32" cy="34" r="8" fill="currentColor" opacity=".12"/><circle cx="32" cy="34" r="8" fill="none" />
+  </g>
+</svg>

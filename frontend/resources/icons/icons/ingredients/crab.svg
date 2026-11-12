@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="蟹 / Crab" fill="none">
+  <title>蟹 / Crab</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="34" r="14" fill="currentColor" opacity=".10"/><circle cx="32" cy="34" r="14" fill="none" /><path d="M18 28 L8 20 L6 27 L16 35 M46 28 L56 20 L58 27 L48 35 M20 44 L12 51 M26 47 L23 56 M44 44 L52 51 M38 47 L41 56" fill="none" /><circle cx="27" cy="30" r="2" fill="none" /><circle cx="37" cy="30" r="2" fill="none" />
+  </g>
+</svg>

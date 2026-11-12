@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="桂皮 / Cinnamon" fill="none">
+  <title>桂皮 / Cinnamon</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 13 Q13 13 13 19 L13 47 Q13 53 19 53 Q25 53 25 47 L25 19 Q25 13 18 13 Z" fill="currentColor" opacity=".10"/><path d="M18 13 Q13 13 13 19 L13 47 Q13 53 19 53 Q25 53 25 47 L25 19 Q25 13 18 13 Z" fill="none" /><path d="M37 9 Q31 9 31 15 L31 45 Q31 51 37 51 Q43 51 43 45 L43 15 Q43 9 37 9 Z" fill="none" /><path d="M18 20 L18 45 M37 16 L37 43" fill="none" />
+  </g>
+</svg>

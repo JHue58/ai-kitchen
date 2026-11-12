@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="冷冻柜 / Freezer" fill="none">
+  <title>冷冻柜 / Freezer</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="10" y="19" width="44" height="35" rx="5" fill="currentColor" opacity=".08"/><rect x="10" y="19" width="44" height="35" rx="5" fill="none" /><path d="M10 30 L54 30 M20 25 L20 27 M44 25 L44 27" fill="none" /><path d="M16 54 L16 58 M48 54 L48 58" fill="none" />
+  </g>
+</svg>

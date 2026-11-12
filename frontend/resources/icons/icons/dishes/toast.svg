@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="吐司 / Toast" fill="none">
+  <title>吐司 / Toast</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 51 L15 25 Q15 9 32 9 Q49 9 49 25 L49 51 Z" fill="currentColor" opacity=".10"/><path d="M15 51 L15 25 Q15 9 32 9 Q49 9 49 25 L49 51 Z" fill="none" /><rect x="21" y="25" width="22" height="19" rx="5" fill="none" /><path d="M21 49 L43 49" fill="none" />
+  </g>
+</svg>

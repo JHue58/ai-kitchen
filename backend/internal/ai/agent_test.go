@@ -57,3 +57,40 @@ func TestProgressDetailsExposeOnlyUsefulActivity(t *testing.T) {
 		t.Fatalf("unsafe tool failure: %s %s", title, detail)
 	}
 }
+
+func TestAgentRequiresToolsAndRepairsJSON(t *testing.T) {
+	requests, executions := 0, 0
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requests++
+		var body struct {
+			ResponseFormat map[string]string `json:"response_format"`
+			Messages       []message         `json:"messages"`
+		}
+		json.NewDecoder(r.Body).Decode(&body)
+		if body.ResponseFormat["type"] != "json_object" {
+			t.Error("missing JSON mode")
+		}
+		m := map[string]any{"content": "{}"}
+		switch requests {
+		case 2:
+			if !strings.Contains(body.Messages[len(body.Messages)-1].Content, "search_web") {
+				t.Error("missing required-tool feedback")
+			}
+			m = map[string]any{"tool_calls": []any{map[string]any{"id": "search", "type": "function", "function": map[string]string{"name": "search_web", "arguments": "{}"}}}}
+		case 3:
+			m["content"] = "```json\n{}\n```"
+		case 4:
+			if !strings.Contains(body.Messages[len(body.Messages)-1].Content, "合法 JSON") {
+				t.Error("missing JSON repair feedback")
+			}
+		}
+		json.NewEncoder(w).Encode(map[string]any{"choices": []any{map[string]any{"message": m}}})
+	}))
+	defer server.Close()
+	var c config.Config
+	c.LLM.Enabled, c.LLM.APIKey, c.LLM.Model, c.LLM.BaseURL = true, "test", "test", server.URL
+	raw, err := Agent(context.Background(), c, "JSON", "input", []Tool{{Name: "search_web", Required: true, Run: func(context.Context, json.RawMessage) (any, error) { executions++; return []any{}, nil }}}, func(string) {})
+	if err != nil || string(raw) != "{}" || requests != 4 || executions != 1 {
+		t.Fatalf("unexpected repair result: %s %v %d %d", raw, err, requests, executions)
+	}
+}

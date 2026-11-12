@@ -176,36 +176,47 @@ type Source struct {
 var DefaultTags = []string{"汤", "下饭菜", "减脂餐", "家常菜", "快手菜", "低脂", "高蛋白", "清淡", "素食", "低碳水", "高纤维", "增肌餐", "少油", "少盐", "少糖", "无辣", "微辣", "重辣", "高饱腹感", "低预算", "儿童友好"}
 
 // Recipe is a complete menu snapshot; the recipes API name is retained for compatibility.
+type TokenUsage struct {
+	Model        string `json:"model"`
+	InputTokens  int64  `json:"input_tokens"`
+	OutputTokens int64  `json:"output_tokens"`
+	TotalTokens  int64  `json:"total_tokens"`
+	Calls        int    `json:"calls"`
+	MissingCalls int    `json:"missing_calls"`
+}
+
 type Recipe struct {
-	Tags          []string  `json:"tags"`
-	Title         string    `json:"title"`
-	Summary       string    `json:"summary"`
-	Servings      int       `json:"servings"`
-	Dishes        []Dish    `json:"dishes"`
-	Elapsed       float64   `json:"total_elapsed_minutes"`
-	Commentary    string    `json:"ai_commentary"`
-	Tips          []string  `json:"tips"`
-	Substitutions []string  `json:"substitutions"`
-	Usage         []Usage   `json:"energy_usage"`
-	Sources       []Source  `json:"sources"`
-	Warnings      []string  `json:"warnings"`
-	Cost          float64   `json:"total_cost"`
-	PurchaseCost  float64   `json:"purchase_cost"`
-	UnknownPrices int       `json:"unknown_prices"`
-	Nutrition     Nutrition `json:"nutrition"`
-	KWh           float64   `json:"theoretical_kwh"`
-	EnergyCost    float64   `json:"theoretical_energy_cost"`
-	Favorite      bool      `json:"favorite"`
-	Saved         bool      `json:"saved"`
-	Rating        int       `json:"rating"`
-	Feedback      string    `json:"feedback"`
-	ParentID      uint      `json:"parent_id"`
-	Request       Request   `json:"request"`
+	TokenUsage    *TokenUsage `json:"token_usage,omitempty"`
+	Tags          []string    `json:"tags"`
+	Title         string      `json:"title"`
+	Summary       string      `json:"summary"`
+	Servings      int         `json:"servings"`
+	Dishes        []Dish      `json:"dishes"`
+	Elapsed       float64     `json:"total_elapsed_minutes"`
+	Commentary    string      `json:"ai_commentary"`
+	Tips          []string    `json:"tips"`
+	Substitutions []string    `json:"substitutions"`
+	Usage         []Usage     `json:"energy_usage"`
+	Sources       []Source    `json:"sources"`
+	Warnings      []string    `json:"warnings"`
+	Cost          float64     `json:"total_cost"`
+	PurchaseCost  float64     `json:"purchase_cost"`
+	UnknownPrices int         `json:"unknown_prices"`
+	Nutrition     Nutrition   `json:"nutrition"`
+	KWh           float64     `json:"theoretical_kwh"`
+	EnergyCost    float64     `json:"theoretical_energy_cost"`
+	Favorite      bool        `json:"favorite"`
+	Saved         bool        `json:"saved"`
+	Rating        int         `json:"rating"`
+	Feedback      string      `json:"feedback"`
+	ParentID      uint        `json:"parent_id"`
+	Request       Request     `json:"request"`
 }
 
 // DishRecord is an independent snapshot; removing its source menu cannot remove it.
 type DishRecord struct {
-	Warnings []string `json:"warnings"`
+	TokenUsage *TokenUsage `json:"token_usage,omitempty"`
+	Warnings   []string    `json:"warnings"`
 	Dish
 	Servings int      `json:"servings"`
 	Saved    bool     `json:"saved"`

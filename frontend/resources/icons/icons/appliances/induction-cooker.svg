@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="电磁炉 / Induction Cooker" fill="none">
+  <title>电磁炉 / Induction Cooker</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="7" y="16" width="50" height="34" rx="7" fill="currentColor" opacity=".08"/><rect x="7" y="16" width="50" height="34" rx="7" fill="none" /><circle cx="32" cy="32" r="13" fill="none" /><circle cx="32" cy="32" r="8" fill="none" /><path d="M16 54 L48 54" fill="none" /><circle cx="48" cy="22" r="2" fill="none" />
+  </g>
+</svg>

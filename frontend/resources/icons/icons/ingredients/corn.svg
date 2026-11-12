@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="玉米 / Corn" fill="none">
+  <title>玉米 / Corn</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 9 Q32 3 42 9 L44 46 Q32 58 20 46 Z" fill="currentColor" opacity=".10"/><path d="M22 9 Q32 3 42 9 L44 46 Q32 58 20 46 Z" fill="none" /><circle cx="26" cy="17" r="1.4" fill="none" /><circle cx="26" cy="25" r="1.4" fill="none" /><circle cx="26" cy="33" r="1.4" fill="none" /><circle cx="26" cy="41" r="1.4" fill="none" /><circle cx="32" cy="17" r="1.4" fill="none" /><circle cx="32" cy="25" r="1.4" fill="none" /><circle cx="32" cy="33" r="1.4" fill="none" /><circle cx="32" cy="41" r="1.4" fill="none" /><circle cx="38" cy="17" r="1.4" fill="none" /><circle cx="38" cy="25" r="1.4" fill="none" /><circle cx="38" cy="33" r="1.4" fill="none" /><circle cx="38" cy="41" r="1.4" fill="none" /><path d="M20 39 Q9 48 14 56 Q25 54 28 47 M44 39 Q55 48 50 56 Q39 54 36 47" fill="none" />
+  </g>
+</svg>

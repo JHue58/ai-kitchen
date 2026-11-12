@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="压力锅 / Pressure Pot" fill="none">
+  <title>压力锅 / Pressure Pot</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="14" y="22" width="36" height="28" rx="8" fill="currentColor" opacity=".10"/><rect x="14" y="22" width="36" height="28" rx="8" fill="none" /><path d="M10 28 L14 28 M50 28 L55 28 M12 20 L52 20 Q49 14 32 14 Q16 14 12 20 Z" fill="none" /><path d="M31 14 L31 8 L36 8" fill="none" /><circle cx="38" cy="8" r="2" fill="currentColor" /><path d="M26 50 L26 54 M38 50 L38 54" fill="none" />
+  </g>
+</svg>

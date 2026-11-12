@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="擀面杖 / Rolling Pin" fill="none">
+  <title>擀面杖 / Rolling Pin</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="14" y="25" width="36" height="14" rx="7" fill="currentColor" opacity=".10"/><rect x="14" y="25" width="36" height="14" rx="7" fill="none" /><path d="M14 32 L5 32 M50 32 L59 32" fill="none" /><path d="M5 28 L5 36 M59 28 L59 36" fill="none" />
+  </g>
+</svg>

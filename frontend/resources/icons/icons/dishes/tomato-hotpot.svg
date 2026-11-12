@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="番茄火锅 / Tomato Hotpot" fill="none">
+  <title>番茄火锅 / Tomato Hotpot</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 26 Q32 35 54 26 L50 48 Q32 57 14 48 Z" fill="currentColor" opacity=".10"/><path d="M10 26 Q32 35 54 26 L50 48 Q32 57 14 48 Z" fill="none" /><path d="M10 26 Q32 17 54 26" fill="none" /><path d="M18 19 Q14 11 20 7 M31 18 Q27 10 33 5 M44 19 Q40 11 46 7" fill="none" /><circle cx="24" cy="28" r="3" fill="none" /><circle cx="39" cy="29" r="3" fill="none" />
+  </g>
+</svg>

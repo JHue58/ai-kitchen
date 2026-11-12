@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="饭盒 / Lunchbox" fill="none">
+  <title>饭盒 / Lunchbox</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="9" y="20" width="46" height="31" rx="6" fill="currentColor" opacity=".10"/><rect x="9" y="20" width="46" height="31" rx="6" fill="none" /><path d="M8 27 L56 27 M22 20 L22 15 L42 15 L42 20" fill="none" /><path d="M24 27 L24 50 M40 27 L40 50" fill="none" />
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="煎烤盘 / Grill Pan" fill="none">
+  <title>煎烤盘 / Grill Pan</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="10" y="17" width="38" height="30" rx="7" fill="currentColor" opacity=".10"/><rect x="10" y="17" width="38" height="30" rx="7" fill="none" /><path d="M48 25 L61 18" fill="none" /><path d="M18 22 L18 42" fill="none" /><path d="M26 22 L26 42" fill="none" /><path d="M34 22 L34 42" fill="none" /><path d="M42 22 L42 42" fill="none" />
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="厨房剪刀 / Kitchen Scissors" fill="none">
+  <title>厨房剪刀 / Kitchen Scissors</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="18" cy="45" r="7" fill="none" /><circle cx="43" cy="45" r="7" fill="none" /><path d="M22 40 L47 12 M39 40 L16 12" fill="none" />
+  </g>
+</svg>

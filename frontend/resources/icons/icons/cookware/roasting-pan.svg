@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="深烤盘 / Roasting Pan" fill="none">
+  <title>深烤盘 / Roasting Pan</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="8" y="17" width="48" height="31" rx="5" fill="currentColor" opacity=".10"/><rect x="8" y="17" width="48" height="31" rx="5" fill="none" /><path d="M8 25 L3 25 L3 39 L8 39 M56 25 L61 25 L61 39 L56 39" fill="none" /><path d="M15 25 L49 25 M15 40 L49 40" fill="none" />
+  </g>
+</svg>

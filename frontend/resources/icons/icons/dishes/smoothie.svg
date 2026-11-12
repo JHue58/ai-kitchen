@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="果昔 / Smoothie" fill="none">
+  <title>果昔 / Smoothie</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="18" y="18" width="28" height="37" rx="6" fill="currentColor" opacity=".10"/><rect x="18" y="18" width="28" height="37" rx="6" fill="none" /><path d="M18 27 L46 27 M23 18 L23 10 L41 10 L41 18" fill="none" /><path d="M33 8 L33 3" fill="none" /><circle cx="27" cy="38" r="2" fill="none" /><circle cx="37" cy="43" r="2" fill="none" />
+  </g>
+</svg>

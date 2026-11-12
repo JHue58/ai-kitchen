@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="夹子 / Tongs" fill="none">
+  <title>夹子 / Tongs</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 9 Q13 30 27 54 M44 9 Q51 30 37 54" fill="none" /><circle cx="32" cy="12" r="3" fill="none" /><path d="M27 54 Q32 60 37 54" fill="none" />
+  </g>
+</svg>

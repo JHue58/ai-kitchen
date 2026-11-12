@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="汤面 / Noodle Soup" fill="none">
+  <title>汤面 / Noodle Soup</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 25 Q32 35 56 25 L51 47 Q32 58 13 47 Z" fill="currentColor" opacity=".10"/><path d="M8 25 Q32 35 56 25 L51 47 Q32 58 13 47 Z" fill="none" /><path d="M8 25 Q32 15 56 25" fill="none" /><path d="M18 24 Q22 15 27 23 M34 23 Q39 14 44 23" fill="none" /><circle cx="32" cy="31" r="3" fill="currentColor" opacity=".15"/>
+  </g>
+</svg>

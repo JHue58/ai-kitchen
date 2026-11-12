@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="春卷 / Spring Roll" fill="none">
+  <title>春卷 / Spring Roll</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="12" y="18" width="40" height="29" rx="8" fill="currentColor" opacity=".10"/><rect x="12" y="18" width="40" height="29" rx="8" fill="none" /><path d="M17 18 L47 47 M24 18 L52 39 M12 29 L31 47" fill="none" />
+  </g>
+</svg>

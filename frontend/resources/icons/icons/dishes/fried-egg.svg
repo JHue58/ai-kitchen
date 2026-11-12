@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="荷包蛋 / Fried Egg" fill="none">
+  <title>荷包蛋 / Fried Egg</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="32" cy="34" rx="21" ry="15" fill="currentColor" opacity=".10"/><ellipse cx="32" cy="34" rx="21" ry="15" fill="none" /><circle cx="32" cy="34" r="8" fill="currentColor" opacity=".14"/><circle cx="32" cy="34" r="8" fill="none" />
+  </g>
+</svg>

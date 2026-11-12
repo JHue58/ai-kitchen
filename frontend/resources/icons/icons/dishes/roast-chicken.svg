@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="烤鸡 / Roast Chicken" fill="none">
+  <title>烤鸡 / Roast Chicken</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="33" r="23" fill="currentColor" opacity=".08"/><circle cx="32" cy="33" r="23" fill="none" /><circle cx="32" cy="33" r="16" fill="none" /><path d="M22 30 Q32 20 42 30 Q40 43 26 42 Z" fill="currentColor" opacity=".10"/><path d="M22 30 Q32 20 42 30 Q40 43 26 42 Z" fill="none" />
+  </g>
+</svg>

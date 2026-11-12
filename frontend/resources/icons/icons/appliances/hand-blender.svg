@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="手持搅拌棒 / Hand Blender" fill="none">
+  <title>手持搅拌棒 / Hand Blender</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="25" y="6" width="14" height="27" rx="6" fill="currentColor" opacity=".10"/><rect x="25" y="6" width="14" height="27" rx="6" fill="none" /><path d="M32 33 L32 52 Q32 58 26 58 M32 43 L38 43" fill="none" /><circle cx="32" cy="13" r="2" fill="none" />
+  </g>
+</svg>

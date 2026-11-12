@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="锅盖 / Pot Lid" fill="none">
+  <title>锅盖 / Pot Lid</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 34 Q31 12 55 34 Z" fill="currentColor" opacity=".10"/><path d="M9 34 Q31 12 55 34 Z" fill="none" /><circle cx="32" cy="17" r="4" fill="currentColor" opacity=".15"/><circle cx="32" cy="17" r="4" fill="none" /><path d="M12 36 L52 36" fill="none" />
+  </g>
+</svg>

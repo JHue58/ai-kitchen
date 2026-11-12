@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="五香粉 / Five Spice" fill="none">
+  <title>五香粉 / Five Spice</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 16 L21 12 Q21 8 26 8 L38 8 Q43 8 43 12 L43 16 L47 22 L47 52 Q32 58 17 52 L17 22 Z" fill="currentColor" opacity=".10"/><path d="M21 16 L21 12 Q21 8 26 8 L38 8 Q43 8 43 12 L43 16 L47 22 L47 52 Q32 58 17 52 L17 22 Z" fill="none" /><path d="M21 16 L43 16 M21 22 L43 22" fill="none" /><circle cx="27" cy="12" r="1" fill="none" /><circle cx="32" cy="12" r="1" fill="none" /><circle cx="37" cy="12" r="1" fill="none" /><path d="M23 37 Q32 31 41 37" fill="none" />
+  </g>
+</svg>

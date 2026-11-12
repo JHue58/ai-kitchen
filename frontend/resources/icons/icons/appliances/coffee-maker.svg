@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="咖啡机 / Coffee Maker" fill="none">
+  <title>咖啡机 / Coffee Maker</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="12" y="8" width="40" height="30" rx="5" fill="currentColor" opacity=".08"/><rect x="12" y="8" width="40" height="30" rx="5" fill="none" /><path d="M20 15 L44 15 M25 38 L25 44 L39 44 L39 38" fill="none" /><path d="M20 44 L44 44 L44 54 L20 54 Z" fill="none" /><path d="M24 48 L40 48" fill="none" />
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="咖啡 / Coffee" fill="none">
+  <title>咖啡 / Coffee</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="15" y="21" width="34" height="31" rx="5" fill="currentColor" opacity=".10"/><rect x="15" y="21" width="34" height="31" rx="5" fill="none" /><path d="M49 28 Q59 26 56 39 Q54 45 49 43" fill="none" /><path d="M23 15 Q19 9 24 5 M32 15 Q28 9 33 5 M40 15 Q36 9 41 5" fill="none" /><path d="M20 29 Q32 35 44 29" fill="none" />
+  </g>
+</svg>

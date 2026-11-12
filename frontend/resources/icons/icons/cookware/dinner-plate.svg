@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="餐盘 / Dinner Plate" fill="none">
+  <title>餐盘 / Dinner Plate</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="32" r="23" fill="currentColor" opacity=".08"/><circle cx="32" cy="32" r="23" fill="none" /><circle cx="32" cy="32" r="15" fill="none" />
+  </g>
+</svg>

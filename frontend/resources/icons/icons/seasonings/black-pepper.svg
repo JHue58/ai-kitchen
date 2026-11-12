@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="黑胡椒 / Black Pepper" fill="none">
+  <title>黑胡椒 / Black Pepper</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 9 L40 9 L44 20 L44 52 Q32 58 20 52 L20 20 Z" fill="currentColor" opacity=".10"/><path d="M24 9 L40 9 L44 20 L44 52 Q32 58 20 52 L20 20 Z" fill="none" /><path d="M24 9 Q32 2 40 9 M25 20 L39 20 M27 30 L37 30" fill="none" /><circle cx="32" cy="42" r="2" fill="none" />
+  </g>
+</svg>

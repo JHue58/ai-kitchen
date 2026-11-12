@@ -25,7 +25,7 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 		case "/v1/tools/fetch":
 			json.NewEncoder(w).Encode(map[string]string{"content": "参考正文"})
 		case "/chat/completions":
-			recipe := `{"title":"鸡蛋晚餐","servings":2,"dishes":[{"name":"鸡蛋","ingredients":[{"name":"鸡蛋","quantity":2,"unit":"个","estimated_edible_weight_g":100,"estimated_price_per_kg":20}],"equipment":[],"steps":[{"title":"制作","description":"充分加热","duration_minutes":10,"start_minute":0}]}],"energy_usage":[]}`
+			recipe := validGeneratedRecipe
 			var request struct {
 				Messages []struct {
 					Role string `json:"role"`
@@ -50,11 +50,11 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 				args = string(b)
 			}
 			if name != "" {
-				json.NewEncoder(w).Encode(map[string]any{"choices": []any{map[string]any{"message": map[string]any{"role": "assistant", "tool_calls": []any{map[string]any{"id": name, "type": "function", "function": map[string]string{"name": name, "arguments": args}}}}}}})
+				json.NewEncoder(w).Encode(map[string]any{"usage": map[string]int{"prompt_tokens": 100, "completion_tokens": 20, "total_tokens": 120}, "choices": []any{map[string]any{"message": map[string]any{"role": "assistant", "tool_calls": []any{map[string]any{"id": name, "type": "function", "function": map[string]string{"name": name, "arguments": args}}}}}}})
 				return
 			}
 
-			json.NewEncoder(w).Encode(map[string]any{"choices": []any{map[string]any{"message": map[string]string{"content": recipe}}}})
+			json.NewEncoder(w).Encode(map[string]any{"usage": map[string]int{"prompt_tokens": 100, "completion_tokens": 20, "total_tokens": 120}, "choices": []any{map[string]any{"message": map[string]string{"content": recipe}}}})
 		default:
 			t.Error("unexpected upstream path")
 		}
@@ -126,6 +126,11 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 	recipes := Read[model.Recipe](db, user.ID, "recipes")
 	if len(recipes) != 1 || recipes[0].Cost != 2 || recipes[0].Nutrition.Calories != 143 {
 		t.Fatalf("bad calculated recipe %+v", recipes)
+	}
+	for _, usage := range []*model.TokenUsage{recipes[0].TokenUsage, dishes[0].TokenUsage} {
+		if usage == nil || usage.Calls != 4 || usage.InputTokens != 400 || usage.OutputTokens != 80 || usage.TotalTokens != 480 || usage.MissingCalls != 0 {
+			t.Fatalf("generation usage not persisted correctly: %+v", usage)
+		}
 	}
 }
 

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="面包机 / Bread Maker" fill="none">
+  <title>面包机 / Bread Maker</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="12" y="8" width="40" height="48" rx="4" fill="currentColor" opacity=".08"/><rect x="12" y="8" width="40" height="48" rx="4" fill="none" /><rect x="18" y="22" width="28" height="25" rx="3" fill="currentColor" opacity=".08"/><rect x="18" y="22" width="28" height="25" rx="3" fill="none" /><circle cx="23" cy="15" r="2" fill="none" /><circle cx="32" cy="15" r="2" fill="none" /><circle cx="41" cy="15" r="2" fill="none" /><path d="M22 33 Q32 26 42 33" fill="none" />
+  </g>
+</svg>

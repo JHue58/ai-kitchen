@@ -40,6 +40,9 @@ func Post(ctx context.Context, base, path, key string, body any, out any) error 
 		}
 		logger.Info("llm.response", "status", res.StatusCode, "bytes", len(data), "duration", time.Since(started))
 		if res.StatusCode == 200 {
+			if path == "/chat/completions" {
+				recordUsage(ctx, data)
+			}
 			if err := json.Unmarshal(data, out); err != nil {
 				logger.Error("llm.decode.failed", "error", err)
 				return fmt.Errorf("上游响应格式无效")

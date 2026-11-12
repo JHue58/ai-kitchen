@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="葡萄 / Grapes" fill="none">
+  <title>葡萄 / Grapes</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 10 Q38 4 46 8 M32 10 L32 16" fill="none" /><circle cx="25" cy="23" r="7" fill="currentColor" opacity=".10"/><circle cx="25" cy="23" r="7" fill="none" /><circle cx="39" cy="23" r="7" fill="currentColor" opacity=".10"/><circle cx="39" cy="23" r="7" fill="none" /><circle cx="18" cy="36" r="7" fill="currentColor" opacity=".10"/><circle cx="18" cy="36" r="7" fill="none" /><circle cx="32" cy="36" r="7" fill="currentColor" opacity=".10"/><circle cx="32" cy="36" r="7" fill="none" /><circle cx="46" cy="36" r="7" fill="currentColor" opacity=".10"/><circle cx="46" cy="36" r="7" fill="none" /><circle cx="25" cy="49" r="7" fill="currentColor" opacity=".10"/><circle cx="25" cy="49" r="7" fill="none" /><circle cx="39" cy="49" r="7" fill="currentColor" opacity=".10"/><circle cx="39" cy="49" r="7" fill="none" />
+  </g>
+</svg>

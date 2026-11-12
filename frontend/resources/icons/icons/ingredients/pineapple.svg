@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="菠萝 / Pineapple" fill="none">
+  <title>菠萝 / Pineapple</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M25 17 L20 7 L29 13 L32 4 L36 13 L45 7 L39 18" fill="none" /><path d="M20 18 Q32 10 44 18 L47 48 Q32 60 17 48 Z" fill="currentColor" opacity=".10"/><path d="M20 18 Q32 10 44 18 L47 48 Q32 60 17 48 Z" fill="none" /><path d="M21 24 l8 8 M21 32 l8 -8" fill="none" /><path d="M31 22 l8 8 M31 30 l8 -8" fill="none" /><path d="M20 38 l8 8 M20 46 l8 -8" fill="none" /><path d="M31 36 l8 8 M31 44 l8 -8" fill="none" />
+  </g>
+</svg>

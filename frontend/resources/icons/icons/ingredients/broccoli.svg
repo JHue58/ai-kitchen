@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="西兰花 / Broccoli" fill="none">
+  <title>西兰花 / Broccoli</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 35 L22 54 L42 54 L40 35 Z" fill="currentColor" opacity=".10"/><path d="M24 35 L22 54 L42 54 L40 35 Z" fill="none" /><circle cx="22" cy="28" r="10" fill="currentColor" opacity=".10"/><circle cx="22" cy="28" r="10" fill="none" /><circle cx="34" cy="20" r="12" fill="currentColor" opacity=".10"/><circle cx="34" cy="20" r="12" fill="none" /><circle cx="45" cy="29" r="9" fill="currentColor" opacity=".10"/><circle cx="45" cy="29" r="9" fill="none" />
+  </g>
+</svg>

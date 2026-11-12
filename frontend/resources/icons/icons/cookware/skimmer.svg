@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="笊篱 / Skimmer" fill="none">
+  <title>笊篱 / Skimmer</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M31 29 L33 56" fill="none" /><circle cx="32" cy="17" r="11" fill="currentColor" opacity=".10"/><circle cx="32" cy="17" r="11" fill="none" /><circle cx="26" cy="13" r="1.5" fill="none" /><circle cx="32" cy="12" r="1.5" fill="none" /><circle cx="38" cy="14" r="1.5" fill="none" /><circle cx="28" cy="20" r="1.5" fill="none" /><circle cx="35" cy="21" r="1.5" fill="none" />
+  </g>
+</svg>

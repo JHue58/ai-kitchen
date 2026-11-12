@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="削皮器 / Peeler" fill="none">
+  <title>削皮器 / Peeler</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 17 L32 55" fill="none" /><rect x="21" y="8" width="22" height="12" rx="4" fill="currentColor" opacity=".10"/><rect x="21" y="8" width="22" height="12" rx="4" fill="none" /><path d="M25 14 L39 14" fill="none" />
+  </g>
+</svg>

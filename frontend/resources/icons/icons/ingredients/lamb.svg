@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="羊肉 / Lamb" fill="none">
+  <title>羊肉 / Lamb</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 24 Q19 10 34 14 L50 22 Q57 34 46 48 Q30 57 16 45 Q7 36 12 24 Z" fill="currentColor" opacity=".10"/><path d="M12 24 Q19 10 34 14 L50 22 Q57 34 46 48 Q30 57 16 45 Q7 36 12 24 Z" fill="none" /><path d="M22 25 Q32 20 43 28 M20 37 Q31 43 43 37" fill="none" /><circle cx="31" cy="32" r="4" fill="none" />
+  </g>
+</svg>

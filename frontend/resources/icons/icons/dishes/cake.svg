@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="蛋糕 / Cake" fill="none">
+  <title>蛋糕 / Cake</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 30 L52 30 L48 52 L16 52 Z" fill="currentColor" opacity=".10"/><path d="M12 30 L52 30 L48 52 L16 52 Z" fill="none" /><path d="M12 30 Q18 19 24 25 Q32 12 39 25 Q47 18 52 30" fill="none" /><circle cx="32" cy="15" r="3" fill="none" />
+  </g>
+</svg>

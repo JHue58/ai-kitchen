@@ -75,7 +75,7 @@ func Run(ctx context.Context, db *gorm.DB, c config.Config, query string, job ui
 	return result, nil
 }
 
-// Fetch is separate from search: the agent decides which discovered page needs reading.
+// Fetch is separate from search: the agent may read any safe public URL.
 func Fetch(ctx context.Context, db *gorm.DB, c config.Config, target string, job uint) (string, error) {
 	if !c.Search.Enabled || c.Search.APIKey == "" {
 		return "", fmt.Errorf("联网服务未配置")

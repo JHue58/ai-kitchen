@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="寿司 / Sushi" fill="none">
+  <title>寿司 / Sushi</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="9" y="20" width="46" height="25" rx="6" fill="currentColor" opacity=".10"/><rect x="9" y="20" width="46" height="25" rx="6" fill="none" /><path d="M9 29 Q32 34 55 29" fill="none" /><rect x="20" y="15" width="24" height="11" rx="4" fill="currentColor" opacity=".10"/><rect x="20" y="15" width="24" height="11" rx="4" fill="none" /><circle cx="32" cy="20" r="4" fill="none" />
+  </g>
+</svg>

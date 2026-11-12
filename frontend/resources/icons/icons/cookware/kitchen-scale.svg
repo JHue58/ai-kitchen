@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="厨房秤 / Kitchen Scale" fill="none">
+  <title>厨房秤 / Kitchen Scale</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="9" y="17" width="46" height="37" rx="7" fill="currentColor" opacity=".10"/><rect x="9" y="17" width="46" height="37" rx="7" fill="none" /><rect x="20" y="23" width="24" height="12" rx="3" fill="none" /><path d="M32 29 L38 26" fill="none" /><circle cx="32" cy="44" r="3" fill="none" />
+  </g>
+</svg>

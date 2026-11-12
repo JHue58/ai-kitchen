@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="汤勺 / Ladle" fill="none">
+  <title>汤勺 / Ladle</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M31 29 L33 56" fill="none" /><ellipse cx="32" cy="18" rx="9" ry="12" fill="currentColor" opacity=".10"/><ellipse cx="32" cy="18" rx="9" ry="12" fill="none" />
+  </g>
+</svg>

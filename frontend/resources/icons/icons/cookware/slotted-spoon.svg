@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="漏勺 / Slotted Spoon" fill="none">
+  <title>漏勺 / Slotted Spoon</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M31 29 L33 56" fill="none" /><ellipse cx="32" cy="17" rx="10" ry="12" fill="currentColor" opacity=".10"/><ellipse cx="32" cy="17" rx="10" ry="12" fill="none" /><path d="M27 12 L27 22" fill="none" /><path d="M32 9 L32 25" fill="none" /><path d="M37 12 L37 22" fill="none" />
+  </g>
+</svg>

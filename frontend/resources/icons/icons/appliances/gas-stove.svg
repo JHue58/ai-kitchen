@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="燃气灶 / Gas Stove" fill="none">
+  <title>燃气灶 / Gas Stove</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="8" y="15" width="48" height="36" rx="5" fill="currentColor" opacity=".08"/><rect x="8" y="15" width="48" height="36" rx="5" fill="none" /><circle cx="23" cy="28" r="9" fill="none" /><circle cx="43" cy="28" r="9" fill="none" /><circle cx="23" cy="28" r="4" fill="none" /><circle cx="43" cy="28" r="4" fill="none" /><circle cx="20" cy="44" r="2" fill="none" /><circle cx="32" cy="44" r="2" fill="none" /><circle cx="44" cy="44" r="2" fill="none" />
+  </g>
+</svg>

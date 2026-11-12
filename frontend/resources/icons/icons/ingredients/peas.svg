@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="青豆 / Peas" fill="none">
+  <title>青豆 / Peas</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 37 Q22 8 49 17 Q59 24 48 43 Q31 58 10 37 Z" fill="currentColor" opacity=".10"/><path d="M10 37 Q22 8 49 17 Q59 24 48 43 Q31 58 10 37 Z" fill="none" /><circle cx="23" cy="29" r="4" fill="none" /><circle cx="33" cy="25" r="4" fill="none" /><circle cx="42" cy="25" r="4" fill="none" />
+  </g>
+</svg>

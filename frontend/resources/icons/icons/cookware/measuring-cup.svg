@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="量杯 / Measuring Cup" fill="none">
+  <title>量杯 / Measuring Cup</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="17" y="10" width="30" height="45" rx="4" fill="currentColor" opacity=".10"/><rect x="17" y="10" width="30" height="45" rx="4" fill="none" /><path d="M17 20 L47 20 M39 27 L47 27 M39 34 L47 34 M39 41 L47 41" fill="none" /><path d="M24 10 L24 6 L40 6 L40 10" fill="none" />
+  </g>
+</svg>

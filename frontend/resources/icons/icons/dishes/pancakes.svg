@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="薄饼 / Pancakes" fill="none">
+  <title>薄饼 / Pancakes</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="32" cy="43" rx="22" ry="9" fill="currentColor" opacity=".10"/><ellipse cx="32" cy="43" rx="22" ry="9" fill="none" /><ellipse cx="32" cy="34" rx="20" ry="9" fill="currentColor" opacity=".10"/><ellipse cx="32" cy="34" rx="20" ry="9" fill="none" /><ellipse cx="32" cy="25" rx="18" ry="8" fill="currentColor" opacity=".10"/><ellipse cx="32" cy="25" rx="18" ry="8" fill="none" /><path d="M32 17 Q39 11 43 17" fill="none" />
+  </g>
+</svg>

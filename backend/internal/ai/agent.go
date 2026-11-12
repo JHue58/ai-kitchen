@@ -13,6 +13,7 @@ import (
 
 type Tool struct {
 	Name        string
+	Required    bool // Must be attempted before accepting a final answer.
 	Description string
 	Parameters  map[string]any
 	Run         func(context.Context, json.RawMessage) (any, error)
@@ -61,19 +62,23 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 		}
 	}
 	calls := 0
-	for round := 0; round < 12; round++ {
+	attempted := map[string]bool{}
+	finalRepairs := 0
+	for round := 0; round < 32; round++ {
 		if err := ctx.Err(); err != nil {
 			return nil, err
 		}
 		logger.Info("agent.round.started", "round", round+1, "messages", len(messages))
 		report("planning", fmt.Sprintf("正在规划 · 第 %d 轮", round+1), "结合厨房条件和已有工具结果，等待模型返回下一步操作")
 		args := map[string]any{"model": c.LLM.Model, "temperature": c.LLM.Temperature, "messages": messages, "tools": specs, "tool_choice": "auto"}
+		args["response_format"] = map[string]string{"type": "json_object"}
 		if c.LLM.MaxTokens > 0 {
 			args["max_tokens"] = c.LLM.MaxTokens
 		}
 		var out struct {
 			Choices []struct {
-				Message message `json:"message"`
+				Message      message `json:"message"`
+				FinishReason string  `json:"finish_reason"`
 			} `json:"choices"`
 		}
 		if err := Post(ctx, c.LLM.BaseURL, "/chat/completions", c.LLM.APIKey, args, &out); err != nil {
@@ -86,13 +91,35 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 		m.Role = "assistant"
 		messages = append(messages, m)
 		if len(m.ToolCalls) == 0 {
+			missing := []string{}
+			for _, t := range available {
+				if t.Required && !attempted[t.Name] {
+					missing = append(missing, t.Name)
+				}
+			}
+			problem := ""
+			if len(missing) > 0 {
+				problem = "请先实际调用必需工具：" + strings.Join(missing, "、")
+			} else if out.Choices[0].FinishReason == "length" {
+				problem = "上次输出被 token 上限截断，请精简文字，保留完整字段，重新输出完整 JSON 对象。"
+			} else if !json.Valid([]byte(m.Content)) || !strings.HasPrefix(strings.TrimSpace(m.Content), "{") {
+				problem = "上次回答不是合法 JSON 对象。请修正语法，仅输出一个完整 JSON 对象，不要代码围栏或解释。"
+			}
+			if problem != "" {
+				if finalRepairs >= 2 {
+					return nil, fmt.Errorf("模型未满足输出要求：%s", problem)
+				}
+				finalRepairs++
+				messages = append(messages, message{Role: "user", Content: problem})
+				continue
+			}
 			return []byte(m.Content), nil
 		}
 		for _, call := range m.ToolCalls {
 			calls++
 			toolStarted := time.Now()
 			logger.Info("agent.tool.started", "tool", call.Function.Name, "tool_call_id", call.ID)
-			if calls > 24 {
+			if calls > 64 {
 				return nil, fmt.Errorf("Agent 工具调用次数达到上限，请简化需求后重试")
 			}
 			var result any
@@ -103,6 +130,7 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 			} else if !json.Valid([]byte(call.Function.Arguments)) {
 				err = fmt.Errorf("工具参数必须是合法 JSON")
 			} else {
+				attempted[call.Function.Name] = true
 				report(call.Function.Name, toolTitle(call.Function.Name), toolDetail(call.Function.Name, call.Function.Arguments))
 				result, err = t.Run(ctx, json.RawMessage(call.Function.Arguments))
 				title, detail := toolResult(call.Function.Name, result, err)

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="三明治机 / Sandwich Maker" fill="none">
+  <title>三明治机 / Sandwich Maker</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="10" y="21" width="44" height="26" rx="7" fill="currentColor" opacity=".10"/><rect x="10" y="21" width="44" height="26" rx="7" fill="none" /><path d="M14 21 L20 11 L44 11 L50 21" fill="none" /><path d="M18 25 L21 42" fill="none" /><path d="M26 25 L29 42" fill="none" /><path d="M34 25 L37 42" fill="none" /><path d="M42 25 L45 42" fill="none" /><path d="M17 48 L14 55 M47 48 L50 55" fill="none" />
+  </g>
+</svg>

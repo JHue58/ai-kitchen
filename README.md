@@ -63,7 +63,7 @@ deepseek_search:
 
 所有配置均支持 `KITCHEN_` 前缀的环境变量覆盖，例如 `KITCHEN_LLM_API_KEY`、`KITCHEN_LLM_BASE_URL`、`KITCHEN_AUTH_ALLOW_REGISTRATION`、`KITCHEN_DEEPSEEK_SEARCH_API_KEY`。环境变量使用 YAML 字段名并转大写。密钥不会传到前端，也不记录到应用日志。`config.yaml` 已被 Git 忽略。
 
-Search / Fetch 协议依据 [Search 官方文档](https://api-docs.deepseek.com/zh-cn/api/search/) 与 [Fetch 官方文档](https://api-docs.deepseek.com/zh-cn/api/fetch/)。Agent 自主规划搜索词并调用 Search，正文不足时按需对搜索结果中的公开 HTTP(S) 链接调用 Fetch，不提供任意 URL 代理接口。缓存持久保存在数据库。任务记录 Search / Fetch 逻辑调用次数（不包含同一次逻辑调用的重试次数）。408、429、5xx 最多重试两次；401 和 402 返回脱敏配置 / 余额提示。联网失败会保留提示并回退模型生成。
+Search / Fetch 协议依据 [Search 官方文档](https://api-docs.deepseek.com/zh-cn/api/search/) 与 [Fetch 官方文档](https://api-docs.deepseek.com/zh-cn/api/fetch/)。Agent 自主规划搜索词并调用 Search，正文不足时可对任意公开 HTTP(S) 链接调用 Fetch（不要求事先搜索），不提供任意 URL 代理接口。Search / Fetch 返回的正文保留图片链接，Agent 自行提取并通过 view_image 验证后写入菜品 image；需要开启 vision_enabled 且模型支持图片，关闭时菜品不附图并说明原因。最终菜单使用 JSON 模式，后端检查必填字段、类型和业务约束，不合规时有限重试修正，仍不合规则任务失败，不保存不完整结果。缓存持久保存在数据库。任务记录 Search / Fetch 逻辑调用次数（不包含同一次逻辑调用的重试次数）。408、429、5xx 最多重试两次；401 和 402 返回脱敏配置 / 余额提示。联网失败会保留提示并回退模型生成。
 
 ## 注册与管理员
 
@@ -159,4 +159,4 @@ npm run build
 
 ## 界面与动效
 
-暖色厨房主题使用本地餐桌图片 `frontend/public/images/kitchen-table.jpg`（AI 生成的装饰主视觉，不代表生成菜品实拍），不依赖外部图片服务。玻璃导航、弹性按钮、页面入场、模态框与生成蒸汽动画由 CSS 实现；遵循系统 `prefers-reduced-motion` 设置。移动端食谱卡片、筛选和菜品步骤使用独立响应式布局。
+暖色厨房主题使用本地餐桌图片 `frontend/resources/gallery/images/kitchen-table.jpg`（AI 生成的装饰主视觉，不代表生成菜品实拍），不依赖外部图片服务。玻璃导航、弹性按钮、页面入场、模态框与生成蒸汽动画由 CSS 实现；遵循系统 `prefers-reduced-motion` 设置。移动端食谱卡片、筛选和菜品步骤使用独立响应式布局。

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="南瓜 / Pumpkin" fill="none">
+  <title>南瓜 / Pumpkin</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 15 Q15 8 12 29 Q8 48 25 53 Q32 57 39 53 Q56 48 52 29 Q49 8 32 15 Z" fill="currentColor" opacity=".10"/><path d="M32 15 Q15 8 12 29 Q8 48 25 53 Q32 57 39 53 Q56 48 52 29 Q49 8 32 15 Z" fill="none" /><path d="M32 15 Q23 29 25 53 M32 15 Q41 29 39 53 M32 15 L32 8" fill="none" />
+  </g>
+</svg>

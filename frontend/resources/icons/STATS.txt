@@ -1,0 +1,6 @@
+Total icons: 259
+烹饪工具与炊具 (cookware): 45
+厨房电器 (appliances): 28
+调味品 (seasonings): 44
+食材 (ingredients): 81
+菜品与食物 (dishes): 61

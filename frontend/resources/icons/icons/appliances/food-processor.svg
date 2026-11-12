@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="食物处理机 / Food Processor" fill="none">
+  <title>食物处理机 / Food Processor</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="16" y="39" width="32" height="14" rx="4" fill="currentColor" opacity=".10"/><rect x="16" y="39" width="32" height="14" rx="4" fill="none" /><path d="M19 39 L21 14 Q32 7 43 14 L45 39 Z" fill="currentColor" opacity=".10"/><path d="M19 39 L21 14 Q32 7 43 14 L45 39 Z" fill="none" /><path d="M25 24 L39 24 M32 14 L32 31" fill="none" /><circle cx="32" cy="46" r="3" fill="none" />
+  </g>
+</svg>

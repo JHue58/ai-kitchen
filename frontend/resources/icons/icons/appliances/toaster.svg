@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="多士炉 / Toaster" fill="none">
+  <title>多士炉 / Toaster</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="11" y="23" width="42" height="28" rx="8" fill="currentColor" opacity=".10"/><rect x="11" y="23" width="42" height="28" rx="8" fill="none" /><path d="M20 23 L20 12 L27 12 L27 23 M37 23 L37 12 L44 12 L44 23" fill="none" /><path d="M20 51 L20 56 M44 51 L44 56" fill="none" /><circle cx="46" cy="35" r="2" fill="none" />
+  </g>
+</svg>

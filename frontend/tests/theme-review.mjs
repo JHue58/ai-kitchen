@@ -35,7 +35,7 @@ try{for(const [width,height] of [[1440,900],[1280,800],[390,844]]){
  if(theme==='dark'){
  await page.goto(base+'/recipes/1');await page.locator('.stat').first().waitFor();assert.equal(new Set(await page.locator('.stat').evaluateAll(els=>els.map(el=>getComputedStyle(el).backgroundColor))).size,4);await capture('dark-recipe');
  await page.goto(base+'/dishes/2');await page.locator('#dish-steps').waitFor();await capture('dark-dish');
- await page.goto(base);await page.getByRole('button',{name:'混合模式',exact:false}).click();await page.getByLabel('食材名称',{exact:true}).fill('番茄');await capture('dark-kitchen');await page.getByRole('button',{name:'生成菜谱',exact:true}).click();await page.locator('.chef-progress.working').waitFor();await page.locator('.chef-progress').screenshot({path:`${out}/dark-ai-${width}.png`});
+ await page.goto(base);await page.getByRole('button',{name:'混合模式',exact:false}).click();await page.getByLabel('食材名称',{exact:true}).fill('番茄');await capture('dark-kitchen');await page.getByRole('button',{name:'生成菜谱',exact:true}).click();await page.waitForURL('**/generating/8');await page.locator('.chef-progress.working').waitFor();await page.waitForTimeout(600);await page.locator('.chef-progress').screenshot({path:`${out}/dark-ai-${width}.png`});
  }
  }
  await page.emulateMedia({colorScheme:'light'});await setTheme('system');await page.emulateMedia({colorScheme:'dark'});await page.waitForFunction(()=>document.documentElement.dataset.theme==='dark');await page.emulateMedia({colorScheme:'light'});await page.waitForFunction(()=>document.documentElement.dataset.theme==='light');

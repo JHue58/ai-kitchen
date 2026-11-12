@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="保温杯 / Thermos" fill="none">
+  <title>保温杯 / Thermos</title>
+  <g stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="19" y="12" width="26" height="43" rx="8" fill="currentColor" opacity=".10"/><rect x="19" y="12" width="26" height="43" rx="8" fill="none" /><rect x="22" y="7" width="20" height="8" rx="3" fill="none" /><path d="M24 24 L40 24 M24 31 L40 31" fill="none" />
+  </g>
+</svg>
