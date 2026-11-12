@@ -1,7 +1,8 @@
 import type {ReactNode} from 'react';
 import {useId,useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {Link} from 'react-router-dom';
-import {BookOpen,Check,ChefHat,Clock,Utensils,Sparkles} from 'lucide-react';
+import {BookOpen,Check,Clock,Utensils,Sparkles} from 'lucide-react';
+import {KitchenLogo} from './kitchen-brand';
 
 const lastSelection=new Map<string,boolean>();
 export function SectionSwitch({kind,single}:{kind:'inspiration'|'collection';single:boolean}){
@@ -19,13 +20,13 @@ type Event={status:string;message:string;detail?:string;at:string};
 type Job={status:string;created_at:string;events?:Event[];search_calls?:number;fetch_calls?:number};
 export function GenerationProgress({job,connecting,error}:{job?:Job;connecting:boolean;error?:string}){
  const [now,setNow]=useState(Date.now());
- const terminal=job?.status==='failed'||job?.status==='completed';
+ const terminal=!!error||job?.status==='failed'||job?.status==='completed';
  useEffect(()=>{if(terminal)return;const id=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(id)},[terminal]);
  const events=job?.events||[];const latest=events.at(-1);
  const end=terminal&&latest?new Date(latest.at).getTime():now;
  const elapsed=job?Math.max(0,Math.floor((end-new Date(job.created_at).getTime())/1000)):0;
- return <section className={'chef-progress '+(terminal?'settled':'working')} aria-label="AI 实时工作记录">
-  <div className="chef-progress-heading"><div className="cooking-orb" aria-hidden="true"><i/><i/><i/><ChefHat size={29}/></div><div><h3>{error?'暂时无法连接任务':job?.status==='failed'?'生成失败':job?.status==='completed'?'生成完成':connecting?'正在连接任务':'AI 正在生成'}</h3><p role="status">{latest?.message||'正在获取服务器任务状态'} · {elapsed} 秒</p></div></div>
+ return <section className={'chef-progress '+(terminal?'settled':'working')} aria-label="AI 实时工作记录" aria-busy={!terminal}>
+  <div className="chef-progress-heading"><div className="cooking-orb" aria-hidden="true"><i/><i/><i/><KitchenLogo size={34}/></div><div><h3>{error?'暂时无法连接任务':job?.status==='failed'?'生成失败':job?.status==='completed'?'生成完成':connecting?'正在连接任务':'AI 正在生成'}</h3><p role="status">{latest?.message||'正在获取服务器任务状态'} · {elapsed} 秒</p></div></div>
   <div className="activity-current" aria-hidden="true"><Sparkles size={16}/>{latest?.detail||'等待 AI 返回下一步行动'}</div>
   <details><summary>AI 行动与工具记录 <span>{events.length} 条</span></summary><ol className="activity-log">{events.map((event,i)=><li key={i} className={i===events.length-1&&!terminal?'current':''}><span className="event-marker">{i===events.length-1&&!terminal?<span className="spinner"/>:event.status==='failed'?'!':<Check size={13}/>}</span><div><strong>{event.message}</strong>{event.detail&&<p>{event.detail}</p>}<time dateTime={event.at}>{new Date(event.at).toLocaleTimeString('zh-CN',{hour12:false})}</time></div></li>)}</ol></details>
   <div className="activity-footer"><span><Clock size={13}/> 刷新后可继续查看</span><span>搜索 {job?.search_calls||0} · 网页 {job?.fetch_calls||0}</span></div>
@@ -34,7 +35,7 @@ export function GenerationProgress({job,connecting,error}:{job?:Job;connecting:b
 
 function CountPicker({initial,min,max,name,unit,label}:{initial:number;min:number;max:number;name:string;unit:string;label:string}) {
  const [value,setValue]=useState(Math.min(max,Math.max(min,Number.isFinite(initial)?initial:min)));
- return <div className="servings-picker"><button type="button" aria-label={'减少'+label} disabled={value<=min} onClick={()=>setValue(value-1)}>−</button><output aria-live="polite">{value===0?'AI 搭配':<>{value} <span>{unit}</span></>}</output><input type="hidden" name={name} value={value}/><button type="button" aria-label={'增加'+label} disabled={value>=max} onClick={()=>setValue(value+1)}>+</button></div>;
+ return <div className="servings-picker"><button type="button" aria-label={'减少'+label} disabled={value<=min} onClick={()=>setValue(value-1)}>−</button><output key={value} className="count-value" aria-live="polite">{value===0?'AI 搭配':<>{value} <span>{unit}</span></>}</output><input type="hidden" name={name} value={value}/><button type="button" aria-label={'增加'+label} disabled={value>=max} onClick={()=>setValue(value+1)}>+</button></div>;
 }
 export function ServingsPicker({initial=2}:{initial:number}) {
  return <CountPicker initial={initial} min={1} max={10} name="servings" unit="人" label="用餐人数"/>;
