@@ -120,10 +120,10 @@ details{interpolate-size:allow-keywords}details::details-content{transition:heig
 @keyframes hearth-light{to{transform:rotate(360deg)}}
 @keyframes hearth-breathe{0%,100%{transform:scale(1);filter:saturate(.8)}50%{transform:scale(1.045);filter:saturate(1.15)}}
 /* Three daily welcome compositions, drawn with porcelain, linen and warm light. */
-.welcome-page{--welcome-glow:#d8b57d;--soup:#b87937;--welcome-ink:var(--text);position:fixed;inset:0;z-index:100;overflow:auto;background:var(--bg);color:var(--text);display:flex;flex-direction:column;padding:32px clamp(24px,6vw,100px);animation:welcome-in .75s var(--ease) both;transition:opacity .42s var(--ease),transform .42s var(--ease)}
+.welcome-page{--welcome-glow:#d8b57d;--soup:#b87937;--welcome-ink:var(--text);position:fixed;inset:0;z-index:100;overflow:auto;background:var(--bg);color:var(--text);display:flex;flex-direction:column;padding:32px clamp(24px,6vw,100px);transition:opacity .42s linear}
 .welcome-page.garden{--welcome-glow:#a7b38a;--soup:#73804c}.welcome-page.lamplight{--welcome-glow:#c39875;--soup:#ac6741}
 .welcome-page:before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 80% 40%,color-mix(in srgb,var(--welcome-glow) 20%,transparent),transparent 58%)}
-.welcome-page.is-leaving{opacity:0;transform:scale(1.025);pointer-events:none}
+.welcome-page.is-leaving{opacity:0;pointer-events:none}
 .welcome-header{display:flex;align-items:center;justify-content:space-between;gap:24px;position:relative;z-index:1}.welcome-brand{display:flex;gap:12px;align-items:center;color:var(--green)}.welcome-brand>span{font-size:20px;font-weight:600;letter-spacing:-.4px}.welcome-brand small{display:block;margin-top:2px;font-size:10px;letter-spacing:2px;font-weight:400;color:var(--muted)}
 .welcome-date{font-size:12px;color:var(--muted);letter-spacing:1px}.welcome-skip{display:flex;align-items:center;gap:8px;color:var(--muted);border:1px solid var(--line);border-radius:24px;padding:9px 14px;font-size:12px;min-height:44px}
 .welcome-layout{position:relative;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:24px;max-width:1280px;width:100%;margin:auto;flex:1;min-height:550px}
@@ -150,3 +150,17 @@ details{interpolate-size:allow-keywords}details::details-content{transition:heig
 .count-value{animation:hearth-arrive .32s var(--ease)}
 @media(max-width:700px){.welcome-layout{flex:0 0 auto}.welcome-art{margin-bottom:48px}.art-caption{bottom:-38px}.welcome-footer{margin-top:auto}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.welcome-page.is-leaving{transform:none}.chef-progress.working:before{transform:none}.steam{opacity:.25}.route-view,.welcome-copy,.welcome-art{opacity:1;transform:none}}
+
+/* Floating actions must escape the clipping used by inline disclosure panels. */
+.more-actions::details-content{overflow:visible;height:auto;transition:none}
+.more-actions[open]>.more-actions-list{animation:none}
+.more-actions-list{z-index:12;max-width:calc(100vw - 36px)}
+.share-result{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.share-result input{flex:1;min-width:0;flex-basis:240px}
+@media(max-width:700px){
+ .recipe-reading>.actions{position:relative}
+ .recipe-reading>.actions .more-actions{position:static}
+ .recipe-reading>.actions .more-actions-list{left:0;right:0;top:calc(100% + 8px);width:auto;max-width:100%}
+ .shared .reading-nav{top:0;margin-top:0}
+ .shared .recipe-reading [id]{scroll-margin-top:80px}
+}

@@ -27,16 +27,16 @@ export function Welcome({onEnter}:{onEnter:()=>void}) {
  const [story]=useState(()=>stories[chooseStory()]);const [leaving,setLeaving]=useState(false);
  const panel=useRef<HTMLElement>(null),timer=useRef<ReturnType<typeof setTimeout>|undefined>(undefined);
  const {salute,Icon}=greeting();const date=new Date();
- const enter=()=>{if(leaving)return;setLeaving(true);timer.current=setTimeout(onEnter,matchMedia('(prefers-reduced-motion: reduce)').matches?0:420)};
+ const enter=()=>{if(leaving)return;setLeaving(true);timer.current=setTimeout(onEnter,matchMedia('(prefers-reduced-motion: reduce)').matches?0:500)};
  const enterRef=useRef(enter);enterRef.current=enter;
  useEffect(()=>{
   const previous=document.activeElement as HTMLElement|null;const overflow=document.body.style.overflow;document.body.style.overflow='hidden';
-  panel.current?.querySelector<HTMLButtonElement>('.welcome-enter')?.focus();
+  panel.current?.querySelector<HTMLButtonElement>('.welcome-enter')?.focus({preventScroll:true});
   const keys=(e:KeyboardEvent)=>{if(e.key==='Escape'){e.preventDefault();enterRef.current()}
    if(e.key==='Tab'){const buttons=panel.current?.querySelectorAll<HTMLButtonElement>('button');if(!buttons?.length)return;const first=buttons[0],last=buttons[buttons.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}};
-  document.addEventListener('keydown',keys);return()=>{clearTimeout(timer.current);document.body.style.overflow=overflow;document.removeEventListener('keydown',keys);previous?.focus()};
+  document.addEventListener('keydown',keys);return()=>{clearTimeout(timer.current);document.body.style.overflow=overflow;document.removeEventListener('keydown',keys);previous?.focus({preventScroll:true})};
  },[]);
- return <section ref={panel} className={'welcome-page '+story.theme+(leaving?' is-leaving':'')} role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+ return <section ref={panel} className={'welcome-page '+story.theme+(leaving?' is-leaving':'')} onTransitionEnd={e=>{if(leaving&&e.target===e.currentTarget&&e.propertyName==='opacity'){clearTimeout(timer.current);onEnter()}}} role="dialog" aria-modal="true" aria-labelledby="welcome-title">
   <header className="welcome-header"><div className="welcome-brand"><KitchenLogo/><span>AI Kitchen<small>好好吃饭 · 好好生活</small></span></div><span className="welcome-date">{date.toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'})}</span><button onClick={enter} className="welcome-skip">进入厨房 <ArrowRight size={15}/></button></header>
   <div className="welcome-layout"><div className="welcome-copy"><span className="welcome-salute"><Icon size={17}/>{salute}</span><h1 id="welcome-title">{story.title}</h1><p>{story.note}</p><div className="welcome-weekday">{weekdays[date.getDay()]}</div><button className="btn primary welcome-enter" onClick={enter}>开启今天的美味 <ArrowRight size={19}/></button><span className="welcome-companion"><Sparkles size={14}/>你的 AI 厨房伙伴，已在这里等你</span></div>
    <div className="welcome-art" aria-hidden="true"><div className="art-orbit"/><div className="art-halo"/><div className="table-shadow"/><div className="ceramic-plate"><div className="soup"><i className="herb herb-one"/><i className="herb herb-two"/><i className="herb herb-three"/><i className="oil oil-one"/><i className="oil oil-two"/></div></div><div className="steam steam-one"/><div className="steam steam-two"/><div className="steam steam-three"/><div className="table-linen"/><span className="art-caption">{story.name}<small>A LITTLE TASTE OF HOME</small></span></div>
