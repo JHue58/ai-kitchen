@@ -54,5 +54,8 @@ func Open(c config.Config) (*gorm.DB, error) {
 	if e == nil {
 		e = db.AutoMigrate(&model.Job{})
 	}
+	if e == nil {
+		e = migrateCollections(db)
+	}
 	return db, e
 }

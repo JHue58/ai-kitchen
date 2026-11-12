@@ -185,6 +185,9 @@ func Calculate(r *model.Recipe, prices []model.Price, pantry []model.Pantry, equ
 }
 func Validate(r model.Recipe, q model.Request, p model.Preferences, eq []model.Equipment, pantry []model.Pantry) []string {
 	w := []string{}
+	if q.DishCount > 0 && len(r.Dishes) != q.DishCount || q.Target == "dish" && len(r.Dishes) != 1 {
+		w = append(w, "菜品数量不符合要求")
+	}
 	if r.Servings != q.Servings {
 		w = append(w, "人数不符合要求")
 	}

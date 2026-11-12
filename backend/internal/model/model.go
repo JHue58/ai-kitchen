@@ -26,11 +26,13 @@ type Document struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 type JobEvent struct {
+	Detail  string    `json:"detail,omitempty"`
 	Status  string    `json:"status"`
 	Message string    `json:"message"`
 	At      time.Time `json:"at"`
 }
 type Job struct {
+	ResultKind  string     `json:"result_kind"`
 	Events      []JobEvent `json:"events" gorm:"serializer:json;type:text"`
 	ID          uint       `json:"id"`
 	UserID      uint       `json:"-" gorm:"index"`
@@ -94,6 +96,7 @@ type Preferences struct {
 	ElectricityPrice float64  `json:"electricity_price"`
 }
 type Request struct {
+	Target       string   `json:"target"`
 	Servings     int      `json:"servings"`
 	Ingredients  []string `json:"ingredients"`
 	Mode         string   `json:"mode"`
@@ -162,6 +165,7 @@ type Source struct {
 
 var DefaultTags = []string{"汤", "下饭菜", "减脂餐", "家常菜", "快手菜", "低脂", "高蛋白", "清淡", "素食", "低碳水", "高纤维", "增肌餐", "少油", "少盐", "少糖", "无辣", "微辣", "重辣", "高饱腹感", "低预算", "儿童友好"}
 
+// Recipe is a complete menu snapshot; the recipes API name is retained for compatibility.
 type Recipe struct {
 	Tags          []string  `json:"tags"`
 	Title         string    `json:"title"`
@@ -187,4 +191,15 @@ type Recipe struct {
 	Feedback      string    `json:"feedback"`
 	ParentID      uint      `json:"parent_id"`
 	Request       Request   `json:"request"`
+}
+
+// DishRecord is an independent snapshot; removing its source menu cannot remove it.
+type DishRecord struct {
+	Warnings []string `json:"warnings"`
+	Dish
+	Servings int      `json:"servings"`
+	Saved    bool     `json:"saved"`
+	Favorite bool     `json:"favorite"`
+	Sources  []Source `json:"sources"`
+	Request  Request  `json:"request"`
 }

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"ai-kitchen/internal/calculator"
 	"ai-kitchen/internal/config"
 	"ai-kitchen/internal/model"
 	"ai-kitchen/internal/repository"
@@ -9,6 +10,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -24,6 +26,34 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 			json.NewEncoder(w).Encode(map[string]string{"content": "参考正文"})
 		case "/chat/completions":
 			recipe := `{"title":"鸡蛋晚餐","servings":2,"dishes":[{"name":"鸡蛋","ingredients":[{"name":"鸡蛋","quantity":2,"unit":"个","estimated_edible_weight_g":100,"estimated_price_per_kg":20}],"equipment":[],"steps":[{"title":"制作","description":"充分加热","duration_minutes":10,"start_minute":0}]}],"energy_usage":[]}`
+			var request struct {
+				Messages []struct {
+					Role string `json:"role"`
+				} `json:"messages"`
+				Tools []any `json:"tools"`
+			}
+			json.NewDecoder(r.Body).Decode(&request)
+			if len(request.Tools) == 0 {
+				t.Error("missing agent tools")
+			}
+			name, args := "", ""
+			if len(request.Messages) == 2 {
+				name = "search_recipes"
+				args = `{"query":"鸡蛋 家常做法"}`
+			} else if len(request.Messages) == 4 {
+				name = "fetch_page"
+				args = `{"url":"https://example.com/recipe"}`
+			}
+			if len(request.Messages) == 6 {
+				name = "check_menu"
+				b, _ := json.Marshal(map[string]string{"recipe": recipe})
+				args = string(b)
+			}
+			if name != "" {
+				json.NewEncoder(w).Encode(map[string]any{"choices": []any{map[string]any{"message": map[string]any{"role": "assistant", "tool_calls": []any{map[string]any{"id": name, "type": "function", "function": map[string]string{"name": name, "arguments": args}}}}}}})
+				return
+			}
+
 			json.NewEncoder(w).Encode(map[string]any{"choices": []any{map[string]any{"message": map[string]string{"content": recipe}}}})
 		default:
 			t.Error("unexpected upstream path")
@@ -55,6 +85,11 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 	request := model.Request{Servings: 2, Mode: "strict", Ingredients: []string{"鸡蛋"}, Search: true}
 	b, _ := json.Marshal(request)
 	for i := 0; i < 2; i++ {
+		if i == 1 {
+			request.Target = "dish"
+			request.DishCount = 1
+			b, _ = json.Marshal(request)
+		}
 		job := model.Job{UserID: user.ID, Status: "pending", Request: string(b)}
 		db.Create(&job)
 		run(context.Background(), db, c, job)
@@ -62,15 +97,34 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 		if len(job.Events) < 6 || job.Events[0].Status != "pending" || job.Events[len(job.Events)-1].Status != "completed" {
 			t.Fatalf("missing persisted progress: %+v", job.Events)
 		}
+		foundQuery, foundHost, foundResult := false, false, false
+		for _, event := range job.Events {
+			if event.Status == "search_recipes" && event.Detail == "鸡蛋 家常做法" {
+				foundQuery = true
+			}
+			if event.Status == "fetch_page" && event.Detail == "example.com" {
+				foundHost = true
+			}
+			if event.Status == "check_menu" && event.Message == "候选方案核算完成" {
+				foundResult = true
+			}
+		}
+		if !foundQuery || !foundHost || !foundResult {
+			t.Fatalf("missing actual tool activity: %+v", job.Events)
+		}
 		if job.Status != "completed" || job.RecipeID == 0 {
 			t.Fatalf("job failed %+v", job)
 		}
 	}
-	if calls["/v1/tools/search"] != 1 || calls["/v1/tools/fetch"] != 1 || calls["/chat/completions"] != 2 {
+	if calls["/v1/tools/search"] != 1 || calls["/v1/tools/fetch"] != 1 || calls["/chat/completions"] != 8 {
 		t.Fatalf("cache not used: %v", calls)
 	}
+	dishes := Read[model.DishRecord](db, user.ID, "dishes")
+	if len(dishes) != 1 || dishes[0].Name != "鸡蛋" || dishes[0].Servings != 2 {
+		t.Fatalf("single dish was not independently persisted: %+v", dishes)
+	}
 	recipes := Read[model.Recipe](db, user.ID, "recipes")
-	if len(recipes) != 2 || recipes[0].Cost != 2 || recipes[0].Nutrition.Calories != 143 {
+	if len(recipes) != 1 || recipes[0].Cost != 2 || recipes[0].Nutrition.Calories != 143 {
 		t.Fatalf("bad calculated recipe %+v", recipes)
 	}
 }
@@ -80,5 +134,21 @@ func TestDishTagsAreIndependent(t *testing.T) {
 	NormalizeDishTags(&r, []string{"汤", "减脂餐", "自定义"})
 	if len(r.Dishes[0].Tags) != 2 || r.Dishes[0].Tags[0] != "汤" || r.Dishes[0].Tags[1] != "减脂餐" || r.Dishes[1].Tags[0] != "自定义" || r.Dishes[2].Tags[0] != "未知" {
 		t.Fatalf("incorrect dish tags: %+v", r.Dishes)
+	}
+}
+
+func TestModePromptsAndSingleDish(t *testing.T) {
+	for _, mode := range []string{"random", "mixed", "strict"} {
+		prompt := SystemPrompt(model.Request{Mode: mode, Target: "dish", DishCount: 1}, true)
+		if !strings.Contains(prompt, "search_recipes") || !strings.Contains(prompt, "恰好包含一道") || !strings.Contains(prompt, map[string]string{"random": "当前为灵感模式", "mixed": "当前为混合模式", "strict": "当前为限制模式"}[mode]) {
+			t.Fatalf("missing rules for %s", mode)
+		}
+	}
+	if strings.Contains(SystemPrompt(model.Request{Mode: "random"}, false), "联网已开启") {
+		t.Fatal("disabled search advertised")
+	}
+	r := model.Recipe{Servings: 2, Dishes: []model.Dish{{}, {}}}
+	if len(calculator.Validate(r, model.Request{Servings: 2, Target: "dish"}, model.Preferences{}, nil, nil)) == 0 {
+		t.Fatal("multiple dishes accepted for single dish")
 	}
 }
