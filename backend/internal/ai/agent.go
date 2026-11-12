@@ -123,8 +123,10 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 // Only expose concise tool activity, never model reasoning or raw tool payloads.
 func toolTitle(name string) string {
 	switch name {
-	case "search_recipes":
-		return "正在搜索真实菜谱"
+	case "search_web":
+		return "正在搜索网页与图片"
+	case "view_image":
+		return "正在检查图片内容与清晰度"
 	case "fetch_page":
 		return "正在阅读参考网页"
 	case "check_menu":
@@ -138,7 +140,7 @@ func toolDetail(name, args string) string {
 	if json.Unmarshal([]byte(args), &values) != nil {
 		return ""
 	}
-	if name == "search_recipes" {
+	if name == "search_web" {
 		query, _ := values["query"].(string)
 		runes := []rune(strings.TrimSpace(query))
 		if len(runes) > 160 {
@@ -146,7 +148,7 @@ func toolDetail(name, args string) string {
 		}
 		return string(runes)
 	}
-	if name == "fetch_page" {
+	if name == "fetch_page" || name == "view_image" {
 		raw, _ := values["url"].(string)
 		u, err := url.Parse(raw)
 		if err == nil {
@@ -170,8 +172,11 @@ func toolResult(name string, result any, err error) (string, string) {
 		}
 		return "候选方案核算完成", "已将费用、营养与约束检查结果交给 AI"
 	}
-	if name == "search_recipes" {
-		return "菜谱搜索完成", "搜索结果已返回，继续分析参考做法"
+	if name == "search_web" {
+		return "网页搜索完成", "网页及图片候选已返回，继续分析"
+	}
+	if name == "view_image" {
+		return "图片识别完成", "菜品匹配度与清晰度判断已交给 AI"
 	}
 	return "参考网页读取完成", "正文已交给 AI，用于完善食材用量与步骤"
 }

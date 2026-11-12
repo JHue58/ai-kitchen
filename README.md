@@ -127,7 +127,7 @@ docker compose start kitchen
 ## Agent 与独立资料库
 
 - 生成模型需要支持 Chat Completions 的 `tools` / `tool_calls`。Agent 保留多轮对话和工具结果，每次规划最多 12 轮、24 次工具调用，最终校验失败最多重试一次规划，每个任务最多搜索 4 次，网页读取上限由 `max_fetch_pages` 控制。
-- 工具包括 `search_recipes`（搜索菜谱）、`fetch_page`（读取已发现网页）和 `check_menu`（费用、营养、食材、设备及时间约束检查）。联网配置可用时默认开启，用户可关闭；旧 `default_enabled` 配置保留兼容，但不再决定默认状态。
+- 工具包括 `search_web`（统一搜索网页、菜谱和图片候选）、`view_image`（使用已配置的视觉模型检查图片内容、菜品匹配度和清晰度）、`fetch_page`（读取已发现网页）和 `check_menu`（费用、营养、食材、设备及时间约束检查）。联网配置可用时默认开启，用户可关闭；旧 `default_enabled` 配置保留兼容，但不再决定默认状态。
 - 灵感、混合、限制模式写入 system prompt。灵感模式隐藏指定食材及照片识别输入，并忽略此前指定的食材；混合模式优先使用指定食材；限制模式仅允许指定食材及库存调料。最终约束仍未满足的结果不会保存为成功任务。
 - “灵感厨房”统一提供“一桌菜单 / 一道好菜”切换，“我的食谱”统一提供“我的菜单 / 我的菜品”切换。原 `/inspire-dish`、`/recipes`、`/dishes` 及详情链接继续有效。菜单详情可将任意一道菜独立保存；两者的保存、收藏、删除互不影响。
 - `/documents/recipes` 保留旧菜单接口名称，独立菜品使用 `/documents/dishes`。两者均支持 `q`、重复 `tag`（全部匹配）、`servings`、`min_cost`、`max_cost`、`saved=true`、`favorite=true` 筛选。`POST /recipes/:id/dishes/:index` 从本人菜单保存菜品快照（index 从 0 开始）。

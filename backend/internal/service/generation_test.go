@@ -38,7 +38,7 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 			}
 			name, args := "", ""
 			if len(request.Messages) == 2 {
-				name = "search_recipes"
+				name = "search_web"
 				args = `{"query":"鸡蛋 家常做法"}`
 			} else if len(request.Messages) == 4 {
 				name = "fetch_page"
@@ -99,7 +99,7 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 		}
 		foundQuery, foundHost, foundResult := false, false, false
 		for _, event := range job.Events {
-			if event.Status == "search_recipes" && event.Detail == "鸡蛋 家常做法" {
+			if event.Status == "search_web" && event.Detail == "鸡蛋 家常做法" {
 				foundQuery = true
 			}
 			if event.Status == "fetch_page" && event.Detail == "example.com" {
@@ -140,7 +140,7 @@ func TestDishTagsAreIndependent(t *testing.T) {
 func TestModePromptsAndSingleDish(t *testing.T) {
 	for _, mode := range []string{"random", "mixed", "strict"} {
 		prompt := SystemPrompt(model.Request{Mode: mode, Target: "dish", DishCount: 1}, true)
-		if !strings.Contains(prompt, "search_recipes") || !strings.Contains(prompt, "恰好包含一道") || !strings.Contains(prompt, map[string]string{"random": "当前为灵感模式", "mixed": "当前为混合模式", "strict": "当前为限制模式"}[mode]) {
+		if !strings.Contains(prompt, "search_web") || !strings.Contains(prompt, "恰好包含一道") || !strings.Contains(prompt, map[string]string{"random": "当前为灵感模式", "mixed": "当前为混合模式", "strict": "当前为限制模式"}[mode]) {
 			t.Fatalf("missing rules for %s", mode)
 		}
 	}

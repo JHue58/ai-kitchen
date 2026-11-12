@@ -33,7 +33,7 @@ func SystemPrompt(q model.Request, online bool) string {
 		s += fmt.Sprintf("\n菜品数量必须为 %d 道。", q.DishCount)
 	}
 	if online {
-		s += "\n联网已开启：每道菜调用 search_dish_image 搜索近似成品照片（可使用英文菜名提高匹配率），仅选择工具返回且与菜品相关的 image 对象写入 dish.image，不得编造图片地址。没有合适图片时省略 image，图片搜索失败不得阻止菜谱生成。请主动用 search_recipes 查找真实菜谱再设计方案，由你根据模式、口味和食材规划搜索词；遇到做法、用量、设备适用性不清楚时针对性搜索。摘要不足时调用 fetch_page 阅读搜索结果正文。不要凭记忆编造来源；联网失败可以继续但需说明。"
+		s += "\n联网已开启：用 search_web 查找所需信息，包括真实菜谱、做法与菜品示意图；摘要不足时用 fetch_page 读取正文。选择示意图前，必须用 view_image 查看候选图片，确认与菜品匹配且清晰后，将工具返回的 image 写入 dish.image。不得编造图片地址或来源；无合适图片、视觉工具不可用或验证失败时省略 image，不影响菜谱生成。联网失败可以继续但需说明。"
 	} else {
 		s += "\n联网不可用或用户已关闭，请依据已有资料规划，不得声称已搜索网页。"
 	}
@@ -61,31 +61,43 @@ func agentTools(db *gorm.DB, c config.Config, j model.Job, q model.Request, p mo
 	if !q.Search || !c.Search.Enabled || c.Search.APIKey == "" {
 		return tools
 	}
-	imageCalls := 0
-	tools = append(tools, ai.Tool{Name: "search_dish_image", Description: "在 Wikimedia Commons 搜索菜品成品参考图，返回带来源、作者与许可的清晰图片。根据标题选择与菜品相近的结果；不匹配则不选。query 可为英文菜名。", Parameters: schema("query"), Run: func(ctx context.Context, args json.RawMessage) (any, error) {
-		var a struct {
-			Query string `json:"query"`
+	candidates := map[string]model.DishImage{}
+	remember := func(found []model.DishImage) {
+		for _, image := range found {
+			candidates[image.URL] = image
 		}
-		if err := json.Unmarshal(args, &a); err != nil {
-			return nil, err
-		}
-		imageCalls++
-		if imageCalls > 12 {
-			return nil, fmt.Errorf("已达到图片搜索上限")
-		}
-		found, err := search.Images(ctx, a.Query)
-		if err != nil {
-			return nil, err
-		}
-		if len(images) > 0 {
-			for _, image := range found {
-				images[0][image.URL] = image
+	}
+	if c.LLM.VisionEnabled && c.LLM.Enabled && c.LLM.APIKey != "" && c.LLM.Model != "" {
+		tools = append(tools, ai.Tool{Name: "view_image", Description: "调用已配置的视觉模型查看搜索发现的图片，识别内容并判断是否匹配预期菜品、是否清晰。url 为候选图片地址，dish 为预期菜品及外观说明。", Parameters: map[string]any{"type": "object", "properties": map[string]any{"url": map[string]string{"type": "string"}, "dish": map[string]string{"type": "string"}}, "required": []string{"url", "dish"}, "additionalProperties": false}, Run: func(ctx context.Context, args json.RawMessage) (any, error) {
+			var a struct {
+				URL  string `json:"url"`
+				Dish string `json:"dish"`
 			}
-		}
-		return found, nil
-	}})
+			if err := json.Unmarshal(args, &a); err != nil {
+				return nil, err
+			}
+			candidate, ok := candidates[a.URL]
+			if !ok {
+				return nil, fmt.Errorf("只能查看搜索或网页中发现的候选图片")
+			}
+			if strings.TrimSpace(a.Dish) == "" {
+				return nil, fmt.Errorf("请提供预期菜品说明")
+			}
+			if len(images) > 0 {
+				delete(images[0], a.URL)
+			}
+			result, err := ai.ViewImage(ctx, c, a.URL, a.Dish)
+			if err != nil {
+				return nil, err
+			}
+			if result.Matches && result.Clear && len(images) > 0 && images[0] != nil {
+				images[0][a.URL] = candidate
+			}
+			return map[string]any{"assessment": result, "image": candidate}, nil
+		}})
+	}
 	searches, fetches := 0, 0
-	tools = append(tools, ai.Tool{Name: "search_recipes", Description: "按自行规划的关键词搜索真实菜谱，返回来源、摘要和可能的正文。可多次针对信息缺口搜索。", Parameters: schema("query"), Run: func(ctx context.Context, args json.RawMessage) (any, error) {
+	tools = append(tools, ai.Tool{Name: "search_web", Description: "在网上搜索所需信息，包括菜谱、做法和菜品示意图，返回来源、摘要、正文及 images 候选。查找图片时在 query 中描述图片需求；摘要不足可用 fetch_page。", Parameters: schema("query"), Run: func(ctx context.Context, args json.RawMessage) (any, error) {
 		var a struct {
 			Query string `json:"query"`
 		}
@@ -96,8 +108,8 @@ func agentTools(db *gorm.DB, c config.Config, j model.Job, q model.Request, p mo
 			return nil, fmt.Errorf("搜索词不能为空")
 		}
 		searches++
-		if searches > 4 {
-			return nil, fmt.Errorf("本任务最多搜索四次")
+		if searches > 12 {
+			return nil, fmt.Errorf("本任务最多搜索十二次")
 		}
 		found, err := search.Run(ctx, db, c, a.Query, j.ID)
 		if err != nil {
@@ -114,6 +126,10 @@ func agentTools(db *gorm.DB, c config.Config, j model.Job, q model.Request, p mo
 			if !exists {
 				*sources = append(*sources, s)
 			}
+		}
+		for i := range found {
+			found[i].Images = search.DiscoverImages(found[i])
+			remember(found[i].Images)
 		}
 		return found, nil
 	}}, ai.Tool{Name: "fetch_page", Description: "读取搜索结果中的网页正文，仅允许已搜索到的 URL。摘要不足以确定做法时使用。", Parameters: schema("url"), Run: func(ctx context.Context, args json.RawMessage) (any, error) {
@@ -133,7 +149,13 @@ func agentTools(db *gorm.DB, c config.Config, j model.Job, q model.Request, p mo
 				if err != nil {
 					*warnings = append(*warnings, "参考网页读取失败："+err.Error())
 				}
-				return content, err
+				if err != nil {
+					return nil, err
+				}
+				page := model.Source{URL: s.URL, Title: s.Title, Content: content}
+				found := search.DiscoverImages(page)
+				remember(found)
+				return map[string]any{"content": content, "images": found}, nil
 			}
 		}
 		return nil, fmt.Errorf("只能读取已搜索到的网页")

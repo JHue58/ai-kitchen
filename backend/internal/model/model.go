@@ -161,15 +161,16 @@ type Dish struct {
 	Nutrition   Nutrition    `json:"nutrition"`
 }
 type Source struct {
-	Title     string  `json:"title"`
-	URL       string  `json:"url"`
-	Snippet   string  `json:"snippet"`
-	Summary   string  `json:"summary"`
-	Content   string  `json:"content,omitempty"`
-	SiteName  *string `json:"site_name"`
-	Date      *string `json:"date"`
-	Score     float64 `json:"rerank_score"`
-	Authority int     `json:"authority"`
+	Images    []DishImage `json:"images,omitempty"`
+	Title     string      `json:"title"`
+	URL       string      `json:"url"`
+	Snippet   string      `json:"snippet"`
+	Summary   string      `json:"summary"`
+	Content   string      `json:"content,omitempty"`
+	SiteName  *string     `json:"site_name"`
+	Date      *string     `json:"date"`
+	Score     float64     `json:"rerank_score"`
+	Authority int         `json:"authority"`
 }
 
 var DefaultTags = []string{"汤", "下饭菜", "减脂餐", "家常菜", "快手菜", "低脂", "高蛋白", "清淡", "素食", "低碳水", "高纤维", "增肌餐", "少油", "少盐", "少糖", "无辣", "微辣", "重辣", "高饱腹感", "低预算", "儿童友好"}

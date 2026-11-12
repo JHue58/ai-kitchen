@@ -52,7 +52,7 @@ func TestProgressDetailsExposeOnlyUsefulActivity(t *testing.T) {
 	if title != "候选方案需要调整" || !strings.Contains(detail, "2 项") {
 		t.Fatalf("missing constraint result: %s %s", title, detail)
 	}
-	title, detail = toolResult("search_recipes", nil, fmt.Errorf("secret provider response"))
+	title, detail = toolResult("search_web", nil, fmt.Errorf("secret provider response"))
 	if title != "工具未完成，已交回 AI 处理" || strings.Contains(detail, "secret") {
 		t.Fatalf("unsafe tool failure: %s %s", title, detail)
 	}
