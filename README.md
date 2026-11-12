@@ -49,6 +49,8 @@ llm:
   temperature: 0.7
   max_tokens: 8000
   vision_enabled: false
+images:
+  timeout_seconds: 60
 deepseek_search:
   enabled: true
   base_url: "https://api.deepseek.com"
@@ -63,7 +65,7 @@ deepseek_search:
 
 所有配置均支持 `KITCHEN_` 前缀的环境变量覆盖，例如 `KITCHEN_LLM_API_KEY`、`KITCHEN_LLM_BASE_URL`、`KITCHEN_AUTH_ALLOW_REGISTRATION`、`KITCHEN_DEEPSEEK_SEARCH_API_KEY`。环境变量使用 YAML 字段名并转大写。密钥不会传到前端，也不记录到应用日志。`config.yaml` 已被 Git 忽略。
 
-Search / Fetch 协议依据 [Search 官方文档](https://api-docs.deepseek.com/zh-cn/api/search/) 与 [Fetch 官方文档](https://api-docs.deepseek.com/zh-cn/api/fetch/)。Agent 自主规划搜索词并调用 Search，正文不足时可对任意公开 HTTP(S) 链接调用 Fetch（不要求事先搜索），不提供任意 URL 代理接口。Search / Fetch 返回的正文保留图片链接，Agent 自行提取并通过 view_image 验证后写入菜品 image；需要开启 vision_enabled 且模型支持图片，关闭时菜品不附图并说明原因。最终菜单使用 JSON 模式，后端检查必填字段、类型和业务约束，不合规时有限重试修正，仍不合规则任务失败，不保存不完整结果。缓存持久保存在数据库。任务记录 Search / Fetch 逻辑调用次数（不包含同一次逻辑调用的重试次数）。408、429、5xx 最多重试两次；401 和 402 返回脱敏配置 / 余额提示。联网失败会保留提示并回退模型生成。
+Search / Fetch 协议依据 [Search 官方文档](https://api-docs.deepseek.com/zh-cn/api/search/) 与 [Fetch 官方文档](https://api-docs.deepseek.com/zh-cn/api/fetch/)。Agent 自主规划搜索词并调用 Search，正文不足时可对任意公开 HTTP(S) 链接调用 Fetch（不要求事先搜索），不提供任意 URL 代理接口。菜谱生成阶段只查询做法，image 填 null；完整菜单保存并标记完成后立即交付。联网开启且视觉模型可用时，独立后台任务按已确定的菜品搜索成品图，由配图 Agent 提取候选并通过 view_image 核验，逐张补写。配图总超时由 images.timeout_seconds 独立配置，默认 60 秒（环境变量 KITCHEN_IMAGES_TIMEOUT_SECONDS），不占用菜谱生成时限；失败或超时保留菜单与已获得的图片，页面自动刷新补图，其他菜品使用默认示意图。服务重启会结束未完成的配图，不影响已交付菜单。最终菜单使用 JSON 模式，后端检查必填字段、类型和业务约束，不合规时有限重试修正，仍不合规则任务失败，不保存不完整结果。缓存持久保存在数据库。任务记录 Search / Fetch 逻辑调用次数（不包含同一次逻辑调用的重试次数）。408、429、5xx 最多重试两次；401 和 402 返回脱敏配置 / 余额提示。联网失败会保留提示并回退模型生成。
 
 ## 注册与管理员
 
@@ -127,8 +129,9 @@ docker compose start kitchen
 ## Agent 与独立资料库
 
 - 生成模型需要支持 Chat Completions 的 `tools` / `tool_calls`。Agent 保留多轮对话和工具结果，每次规划最多 12 轮、24 次工具调用，最终校验失败最多重试一次规划，每个任务最多搜索 4 次，网页读取上限由 `max_fetch_pages` 控制。
-- 工具包括 `search_web`（统一搜索网页、菜谱和图片候选）、`view_image`（使用已配置的视觉模型检查图片内容、菜品匹配度和清晰度）、`fetch_page`（读取已发现网页）和 `check_menu`（费用、营养、食材、设备及时间约束检查）。联网配置可用时默认开启，用户可关闭；旧 `default_enabled` 配置保留兼容，但不再决定默认状态。
+- 工具包括 `search_web`（统一搜索网页、菜谱和图片候选）、`view_image`（仅在菜单交付后的后台配图阶段提供，检查菜品匹配度和清晰度）、`fetch_page`（读取已发现网页）和 `check_menu`（费用、营养、食材、设备及时间约束检查）。联网配置可用时默认开启，用户可关闭；旧 `default_enabled` 配置保留兼容，但不再决定默认状态。
 - 灵感、混合、限制模式写入 system prompt。灵感模式隐藏指定食材及照片识别输入，并忽略此前指定的食材；混合模式优先使用指定食材；限制模式仅允许指定食材及库存调料。最终约束仍未满足的结果不会保存为成功任务。
+- 个人设置可保存仅对当前账号生效的全局提示词；管理员设置可保存对所有用户生效的系统全局提示词。两者均支持最多 10000 字和清空，在任务开始执行时读取，自动带入菜单、单菜、工具调用及自动修正的 prompt。优先级为内置安全与输出约束 > 系统全局提示词 > 个人全局提示词。设置保存在数据库，无需修改配置文件或重启服务；已执行中的任务沿用开始时的设置。
 - “灵感厨房”统一提供“一桌菜单 / 一道好菜”切换，“我的食谱”统一提供“我的菜单 / 我的菜品”切换。原 `/inspire-dish`、`/recipes`、`/dishes` 及详情链接继续有效。菜单详情可将任意一道菜独立保存；两者的保存、收藏、删除互不影响。
 - `/documents/recipes` 保留旧菜单接口名称，独立菜品使用 `/documents/dishes`。两者均支持 `q`、重复 `tag`（全部匹配）、`servings`、`min_cost`、`max_cost`、`saved=true`、`favorite=true` 筛选。`POST /recipes/:id/dishes/:index` 从本人菜单保存菜品快照（index 从 0 开始）。
 - `POST /generate` 新增 `target: "menu" | "dish"`（省略为菜单）；`search` 省略时按联网配置自动开启。任务的 `result_kind` 指明结果资料库，`recipe_id` 保留为兼容的结果 ID。

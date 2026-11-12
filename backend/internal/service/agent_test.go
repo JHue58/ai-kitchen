@@ -28,7 +28,7 @@ func TestWebSearchAndVisualValidation(t *testing.T) {
 			var body map[string]any
 			json.NewDecoder(r.Body).Decode(&body)
 			raw, _ := json.Marshal(body["messages"])
-			if body["model"] != "configured-vision" || !strings.Contains(string(raw), "image_url") || !strings.Contains(string(raw), "https://example.com/eggs.jpg") {
+			if body["model"] != "configured-vision" || !strings.Contains(string(raw), "image_url") || !strings.Contains(string(raw), "https://example.com/") {
 				t.Errorf("missing configured multimodal request: %s", raw)
 			}
 			result, _ := json.Marshal(ai.ImageAssessment{Description: "炒鸡蛋", Matches: true, Clear: clear, Reason: "可辨认菜品主体"})
@@ -75,9 +75,10 @@ func TestWebSearchAndVisualValidation(t *testing.T) {
 		_, err := registry[name].Run(context.Background(), json.RawMessage(args))
 		return err
 	}
-	if err := run("view_image", `{"url":"https://example.com/unknown.jpg","dish":"鸡蛋"}`); err == nil || visionCalls != 0 {
-		t.Fatal("accepted undiscovered image")
+	if err := run("view_image", `{"url":"https://example.com/unknown.jpg","dish":"鸡蛋"}`); err != nil || visionCalls != 1 || images["https://example.com/unknown.jpg"].URL == "" {
+		t.Fatalf("undiscovered public image should be visually checked: %v", err)
 	}
+	delete(images, "https://example.com/unknown.jpg")
 	if err := run("search_web", `{"query":"鸡蛋成品图片"}`); err != nil {
 		t.Fatal(err)
 	}
@@ -104,6 +105,9 @@ func TestWebSearchAndVisualValidation(t *testing.T) {
 		args, _ := json.Marshal(map[string]string{"url": target})
 		if _, err := registry["fetch_page"].Run(context.Background(), args); err == nil {
 			t.Fatalf("accepted unsafe URL: %s", target)
+		}
+		if _, err := registry["view_image"].Run(context.Background(), args); err == nil {
+			t.Fatalf("accepted unsafe image URL: %s", target)
 		}
 	}
 	c.LLM.VisionEnabled = false

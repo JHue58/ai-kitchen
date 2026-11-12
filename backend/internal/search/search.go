@@ -31,14 +31,11 @@ func SafeURL(s string) bool {
 	}
 	return true
 }
-func Run(ctx context.Context, db *gorm.DB, c config.Config, query string, job uint) ([]model.Source, error) {
+func Run(ctx context.Context, db *gorm.DB, c config.Config, query string, oriQuestion string, job uint) ([]model.Source, error) {
 	if !c.Search.Enabled || c.Search.APIKey == "" {
 		return nil, fmt.Errorf("联网服务未配置，已回退纯模型生成")
 	}
-	chars := []rune(query)
-	if len(chars) > 128 {
-		query = string(chars[:128])
-	}
+
 	key := fmt.Sprintf("%x", sha256.Sum256([]byte(fmt.Sprintf("%s|%+v|%s", query, c.Search.ResultCount, c.Search.Localization))))
 	var cached model.Cache
 	if db.First(&cached, "key = ? AND expires_at > ?", key, time.Now()).Error == nil {
@@ -51,7 +48,7 @@ func Run(ctx context.Context, db *gorm.DB, c config.Config, query string, job ui
 		Results []model.Source `json:"results"`
 	}
 	db.Model(&model.Job{}).Where("id = ?", job).UpdateColumn("search_calls", gorm.Expr("search_calls + 1"))
-	if e := ai.Post(ctx, c.Search.BaseURL, "/v1/tools/search", c.Search.APIKey, map[string]any{"query": query, "ori_question": query, "count": c.Search.ResultCount, "need_content": c.Search.NeedContent, "localization": c.Search.Localization}, &out); e != nil {
+	if e := ai.Post(ctx, c.Search.BaseURL, "/v1/tools/search", c.Search.APIKey, map[string]any{"query": query, "ori_question": oriQuestion, "count": c.Search.ResultCount, "need_content": c.Search.NeedContent, "localization": c.Search.Localization}, &out); e != nil {
 		return nil, e
 	}
 	sort.SliceStable(out.Results, func(i, j int) bool { return out.Results[i].Score > out.Results[j].Score })

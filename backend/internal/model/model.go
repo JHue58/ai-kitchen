@@ -86,6 +86,7 @@ type Price struct {
 	Nutrition *Nutrition `json:"nutrition_per_100g"`
 }
 type Preferences struct {
+	GlobalPrompt     string   `json:"global_prompt"`
 	Allergies        []string `json:"allergies"`
 	Avoid            []string `json:"avoid"`
 	Dislikes         []string `json:"dislikes"`
@@ -186,6 +187,7 @@ type TokenUsage struct {
 }
 
 type Recipe struct {
+	ImageStatus   string      `json:"image_status,omitempty"`
 	TokenUsage    *TokenUsage `json:"token_usage,omitempty"`
 	Tags          []string    `json:"tags"`
 	Title         string      `json:"title"`
@@ -215,8 +217,9 @@ type Recipe struct {
 
 // DishRecord is an independent snapshot; removing its source menu cannot remove it.
 type DishRecord struct {
-	TokenUsage *TokenUsage `json:"token_usage,omitempty"`
-	Warnings   []string    `json:"warnings"`
+	ImageStatus string      `json:"image_status,omitempty"`
+	TokenUsage  *TokenUsage `json:"token_usage,omitempty"`
+	Warnings    []string    `json:"warnings"`
 	Dish
 	Servings int      `json:"servings"`
 	Saved    bool     `json:"saved"`

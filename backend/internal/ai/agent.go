@@ -48,6 +48,23 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 		return nil, fmt.Errorf("尚未配置 AI 服务")
 	}
 	messages := []message{{Role: "system", Content: system}, {Role: "user", Content: input}}
+	available = append(append([]Tool{}, available...), Tool{
+		Name: "report_progress", Description: "向用户展示简短的行动摘要：当前要做什么、已知结果及下一步。不要输出内部推理、敏感信息或原始响应。",
+		Parameters: map[string]any{"type": "object", "properties": map[string]any{"summary": map[string]any{"type": "string", "maxLength": 600}}, "required": []string{"summary"}, "additionalProperties": false},
+		Run: func(_ context.Context, args json.RawMessage) (any, error) {
+			var value struct {
+				Summary string `json:"summary"`
+			}
+			if err := json.Unmarshal(args, &value); err != nil {
+				return nil, err
+			}
+			value.Summary = strings.TrimSpace(value.Summary)
+			if value.Summary == "" || len([]rune(value.Summary)) > 600 {
+				return nil, fmt.Errorf("行动摘要应为 1 至 600 字")
+			}
+			return value.Summary, nil
+		},
+	})
 	specs := []any{}
 	registry := map[string]Tool{}
 	for _, t := range available {
@@ -70,7 +87,7 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 		}
 		logger.Info("agent.round.started", "round", round+1, "messages", len(messages))
 		report("planning", fmt.Sprintf("正在规划 · 第 %d 轮", round+1), "结合厨房条件和已有工具结果，等待模型返回下一步操作")
-		args := map[string]any{"model": c.LLM.Model, "temperature": c.LLM.Temperature, "messages": messages, "tools": specs, "tool_choice": "auto"}
+		args := map[string]any{"model": c.LLM.Model, "messages": messages, "tools": specs, "tool_choice": "auto"}
 		args["response_format"] = map[string]string{"type": "json_object"}
 		if c.LLM.MaxTokens > 0 {
 			args["max_tokens"] = c.LLM.MaxTokens
@@ -116,6 +133,9 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 			return []byte(m.Content), nil
 		}
 		for _, call := range m.ToolCalls {
+			if err := ctx.Err(); err != nil {
+				return nil, err
+			}
 			calls++
 			toolStarted := time.Now()
 			logger.Info("agent.tool.started", "tool", call.Function.Name, "tool_call_id", call.ID)
@@ -131,28 +151,33 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 				err = fmt.Errorf("工具参数必须是合法 JSON")
 			} else {
 				attempted[call.Function.Name] = true
-				report(call.Function.Name, toolTitle(call.Function.Name), toolDetail(call.Function.Name, call.Function.Arguments))
+				if call.Function.Name != "report_progress" {
+					report(call.Function.Name, toolTitle(call.Function.Name), toolDetail(call.Function.Name, call.Function.Arguments))
+				}
 				result, err = t.Run(ctx, json.RawMessage(call.Function.Arguments))
-				title, detail := toolResult(call.Function.Name, result, err)
-				report(call.Function.Name, title, detail)
 			}
+			b, marshalErr := json.Marshal(result)
+			if err == nil && marshalErr != nil {
+				err = fmt.Errorf("工具结果序列化失败：%w", marshalErr)
+			}
+			title, detail := toolResult(call.Function.Name, result, err)
+			report(call.Function.Name, title, detail)
 			if err != nil {
 				logger.Error("agent.tool.failed", "tool", call.Function.Name, "tool_call_id", call.ID, "error", err)
-				result = map[string]string{"error": err.Error()}
+				b, _ = json.Marshal(map[string]string{"error": err.Error()})
 			}
 			logger.Info("agent.tool.finished", "tool", call.Function.Name, "duration", time.Since(toolStarted))
-			b, _ := json.Marshal(result)
 			messages = append(messages, message{Role: "tool", ToolCallID: call.ID, Content: string(b)})
 		}
 	}
 	return nil, fmt.Errorf("Agent 规划轮次达到上限，请简化需求后重试")
 }
 
-// Only expose concise tool activity, never model reasoning or raw tool payloads.
+// Expose public action summaries and tool activity, never internal reasoning.
 func toolTitle(name string) string {
 	switch name {
 	case "search_web":
-		return "正在搜索网页与图片"
+		return "正在搜索网页资料"
 	case "view_image":
 		return "正在检查图片内容与清晰度"
 	case "fetch_page":
@@ -192,6 +217,10 @@ func toolResult(name string, result any, err error) (string, string) {
 	if err != nil {
 		return "工具未完成，已交回 AI 处理", "AI 将根据工具失败结果调整方案"
 	}
+	if name == "report_progress" {
+		summary, _ := result.(string)
+		return "AI 行动摘要", summary
+	}
 	if name == "check_menu" {
 		if data, ok := result.(map[string]any); ok {
 			if violations, ok := data["violations"].([]string); ok && len(violations) > 0 {
@@ -201,7 +230,7 @@ func toolResult(name string, result any, err error) (string, string) {
 		return "候选方案核算完成", "已将费用、营养与约束检查结果交给 AI"
 	}
 	if name == "search_web" {
-		return "网页搜索完成", "网页及图片候选已返回，继续分析"
+		return "网页搜索完成", "网页资料已返回，继续分析"
 	}
 	if name == "view_image" {
 		return "图片识别完成", "菜品匹配度与清晰度判断已交给 AI"

@@ -146,6 +146,8 @@ func (s *Server) Router() *gin.Engine {
 	a.GET("/admin/users", s.adminUsers)
 	a.DELETE("/admin/users/:id", s.adminDelete)
 	a.PUT("/admin/registration", s.adminRegistration)
+	a.GET("/admin/global-prompt", s.adminGlobalPrompt)
+	a.PUT("/admin/global-prompt", s.adminGlobalPrompt)
 	r.NoRoute(func(c *gin.Context) {
 		if strings.HasPrefix(c.Request.URL.Path, "/api/") {
 			bad(c, 404, "接口不存在")
@@ -366,6 +368,9 @@ func validateDoc(kind string, b []byte) error {
 		if p.Theme != "light" && p.Theme != "dark" && p.Theme != "system" {
 			return fmt.Errorf("主题无效")
 		}
+		if len([]rune(p.GlobalPrompt)) > service.MaxGlobalPromptLength {
+			return fmt.Errorf("全局提示词最多 10000 字")
+		}
 	}
 	if kind == "dishes" {
 		var d model.DishRecord
@@ -423,6 +428,7 @@ func (s *Server) write(c *gin.Context, update bool) {
 		recipe, _ := calculator.Parse(b)
 		recipe.Sources = nil
 		recipe.Warnings = nil
+		recipe.ImageStatus = ""
 		if update {
 			old, ok := s.owned(c, kind)
 			if !ok {
@@ -432,6 +438,13 @@ func (s *Server) write(c *gin.Context, update bool) {
 			json.Unmarshal([]byte(old.Data), &prev)
 			recipe.Sources = prev.Sources
 			recipe.Request = prev.Request
+			recipe.ImageStatus = prev.ImageStatus
+			recipe.TokenUsage = prev.TokenUsage
+			for i := range recipe.Dishes {
+				if i < len(prev.Dishes) && recipe.Dishes[i].Image == nil && recipe.Dishes[i].Name == prev.Dishes[i].Name && recipe.Dishes[i].Description == prev.Dishes[i].Description {
+					recipe.Dishes[i].Image = prev.Dishes[i].Image
+				}
+			}
 		}
 		eq := service.Read[model.Equipment](s.DB, uid(c), "equipment")
 		if len(recipe.Request.EquipmentIDs) > 0 {
@@ -454,6 +467,7 @@ func (s *Server) write(c *gin.Context, update bool) {
 	if kind == "dishes" {
 		var d model.DishRecord
 		json.Unmarshal(b, &d)
+		d.ImageStatus = ""
 		r := model.Recipe{Title: d.Name, Servings: d.Servings, Dishes: []model.Dish{d.Dish}}
 		calculator.Calculate(&r, service.Read[model.Price](s.DB, uid(c), "prices"), service.Read[model.Pantry](s.DB, uid(c), "pantry"), service.Read[model.Equipment](s.DB, uid(c), "equipment"), service.Prefs(s.DB, uid(c)))
 		d.Dish = r.Dishes[0]
@@ -466,6 +480,11 @@ func (s *Server) write(c *gin.Context, update bool) {
 			json.Unmarshal([]byte(old.Data), &prev)
 			d.Sources = prev.Sources
 			d.Request = prev.Request
+			d.ImageStatus = prev.ImageStatus
+			d.TokenUsage = prev.TokenUsage
+			if d.Image == nil && d.Name == prev.Name && d.Description == prev.Description {
+				d.Image = prev.Image
+			}
 		} else {
 			d.Sources = nil
 		}

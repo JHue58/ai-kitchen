@@ -31,10 +31,12 @@ type Config struct {
 		BaseURL        string `yaml:"base_url"`
 		APIKey         string `yaml:"api_key"`
 		Model          string
-		TimeoutSeconds int `yaml:"timeout_seconds"`
-		Temperature    float64
+		TimeoutSeconds int  `yaml:"timeout_seconds"`
 		MaxTokens      int  `yaml:"max_tokens"`
 		VisionEnabled  bool `yaml:"vision_enabled"`
+	}
+	Images struct {
+		TimeoutSeconds int `yaml:"timeout_seconds"`
 	}
 	Search struct {
 		Enabled         bool
@@ -64,8 +66,9 @@ func Load(path string) (Config, error) {
 	c.Auth.SessionTTLHours = 168
 	c.LLM.BaseURL = "https://api.deepseek.com"
 	c.LLM.TimeoutSeconds = 120
+	c.Images.TimeoutSeconds = 60
 	c.LLM.MaxTokens = 8000
-	c.LLM.Temperature = .7
+
 	c.Search.BaseURL = "https://api.deepseek.com"
 	c.Search.ResultCount = 5
 	c.Search.MaxFetchPages = 2
@@ -83,7 +86,7 @@ func Load(path string) (Config, error) {
 	if e = env(reflect.ValueOf(&c).Elem(), "KITCHEN"); e != nil {
 		return c, e
 	}
-	if c.Server.Port < 1 || c.Server.Port > 65535 || c.Auth.SessionTTLHours < 1 || c.LLM.TimeoutSeconds < 1 || c.Storage.MaxUploadMB < 1 || c.Storage.MaxUploadMB > 30 || c.Search.ResultCount < 1 || c.Search.ResultCount > 50 || c.Search.MaxFetchPages < 0 || c.Search.MaxFetchPages > 10 {
+	if c.Server.Port < 1 || c.Server.Port > 65535 || c.Auth.SessionTTLHours < 1 || c.LLM.TimeoutSeconds < 1 || c.Images.TimeoutSeconds < 1 || c.Storage.MaxUploadMB < 1 || c.Storage.MaxUploadMB > 30 || c.Search.ResultCount < 1 || c.Search.ResultCount > 50 || c.Search.MaxFetchPages < 0 || c.Search.MaxFetchPages > 64 {
 		return c, fmt.Errorf("配置数值超出范围")
 	}
 	return c, nil

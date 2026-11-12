@@ -117,3 +117,7 @@ html[data-theme=dark] {
 .recipe-cover>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
 .recipe-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,30,20,.65),rgba(20,30,20,.28));z-index:-1}
 .recipe-cover>small,.recipe-cover>span{color:#fff}
+
+/* Compact generator and stable transitions between inspiration modes. */
+html{scrollbar-gutter:stable}.shell .account{margin-top:auto}.inspiration-heading{min-height:0;padding:20px 24px;margin:24px 0 16px}.inspiration-heading .hero-photo{height:110px;transform:none}.inspiration-heading h1{font-size:28px}.photo-upload{margin-top:16px}.photo-upload>summary{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--green);padding:8px 0}.photo-upload .upload{margin-top:8px}.servings-picker output{min-width:76px}.activity-log li>div{min-width:0;flex:1}.activity-log strong{display:block;overflow-wrap:anywhere}.activity-log p{white-space:pre-wrap;overflow-wrap:anywhere}.activity-log time{display:block;margin-top:4px;color:var(--muted)}.activity-log{max-height:420px;overflow:auto;overscroll-behavior:contain}.chef-progress details{margin-top:16px}
+@media(max-width:700px){.inspiration-heading{display:block}.inspiration-heading .hero-photo{display:none}}

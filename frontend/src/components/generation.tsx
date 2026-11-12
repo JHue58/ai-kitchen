@@ -6,9 +6,12 @@ import {GenerationProgress} from './kitchen-experience';
 import {Button} from './ui/button';
 
 const submissions=new Map<string,{request:any;promise:Promise<any>}>();
-export function beginGeneration(request:any){
+export function beginGeneration(request:any,storageKey?:string){
  const key='new-'+crypto.randomUUID();
- const promise=api('/generate','POST',request);
+ const promise=api('/generate','POST',request).then(result=>{
+  if(storageKey)try{localStorage.removeItem(storageKey)}catch{}
+  return result;
+ });
  // Keep the rejection handled even if the user leaves before the route mounts.
  void promise.catch(()=>{});submissions.set(key,{request,promise});return key;
 }
@@ -35,8 +38,8 @@ export function GenerationPage({render}:{render:(recipe:Doc,single:boolean)=>Rea
   const cleanDish=(d:any)=>({...d,ingredients:Array.isArray(d.ingredients)?d.ingredients.filter(Boolean):[],steps:Array.isArray(d.steps)?d.steps.filter(Boolean):[]});
   const clean={...cleanDish(found),...(kind==='recipes'?{dishes:found.dishes.filter(Boolean).map(cleanDish)}:{})};
   client.invalidateQueries({queryKey:['docs',kind]});return clean;
- },enabled:job.data?.status==='completed',retry:false});
- const error=start.error?.message||job.error?.message||result.error?.message||(job.data?.status==='failed'?(job.data.error||'生成未完成，请调整偏好后重试。'):'')||(id.startsWith('new-')&&!submission?'提交记录已过期，请返回表单；已提交的任务会自动恢复。':'');
+ },enabled:job.data?.status==='completed',retry:false,refetchInterval:q=>q.state.data?.image_status==='pending'?2000:false});
+ const error=start.error?.message||job.error?.message||(!result.data?result.error?.message:'')||(job.data?.status==='failed'?(job.data.error||'生成未完成，请调整偏好后重试。'):'')||(id.startsWith('new-')&&!submission?'提交记录已过期，请返回表单；已提交的任务会自动恢复。':'');
  const ready=!!result.data;const [revealed,setRevealed]=useState(0);
  useEffect(()=>{setRevealed(0);if(!ready)return;const media=matchMedia('(prefers-reduced-motion: reduce)');if(media.matches){setRevealed(7);return}
   const timers=labels.map((_,i)=>setTimeout(()=>setRevealed(previous=>Math.max(previous,i+1)),100+i*380));const reduce=()=>{if(media.matches){timers.forEach(clearTimeout);setRevealed(7)}};media.addEventListener('change',reduce);return()=>{timers.forEach(clearTimeout);media.removeEventListener('change',reduce)};
@@ -44,8 +47,9 @@ export function GenerationPage({render}:{render:(recipe:Doc,single:boolean)=>Rea
  const states:State[]=labels.map((_,i)=>i<revealed?'completed':error?'error':ready&&i===revealed||!ready&&i===0?'loading':'pending');
  const placeholder={id:0,dishes:[{name:'',ingredients:[],steps:[]}],ingredients:[],steps:[]};
  return <div className={'generation-page '+(!ready?'awaiting-result':'has-result')}>
- <div className="generation-heading"><div><span className="eyebrow">A LITTLE INSPIRATION, TAKING SHAPE</span><h1>{error?'灵感暂时停了一下':revealed===7?'你的美味，准备好了':ready?'美味，逐一呈现':'正在构思你的下一餐'}</h1><p role="status">{error?'已保留当前任务，可重试读取或返回调整。':ready?(revealed===7?'所有板块已呈现，可以开始准备了。':'AI 已返回完整结果，正在依次呈现各个板块。'):'AI 正在生成完整菜谱，下方为内容占位，并非生成进度。'}</p></div>{ready&&revealed<7&&<Button variant="secondary" onClick={()=>setRevealed(7)}>立即查看全部</Button>}</div>
- {error?<div className="notice" role="alert">{error}<div className="actions"><Button variant="secondary" onClick={()=>{if(result.isError)void result.refetch();else if(!id.startsWith('new-'))void job.refetch();else nav(single?'/inspire-dish':'/')}}>重试 / 恢复</Button><Link to={single?'/inspire-dish':'/'}>返回调整偏好 →</Link></div></div>:!ready&&<GenerationProgress job={job.data} connecting={!job.data}/>}
+ <div className="generation-heading"><div><h1>{error?'生成未完成':ready?'菜谱已生成':'正在生成菜谱'}</h1></div>{ready&&revealed<7&&<Button variant="secondary" onClick={()=>setRevealed(7)}>立即查看全部</Button>}</div>
+ {error&&<div className="notice" role="alert">{error}<div className="actions"><Button variant="secondary" onClick={()=>{if(result.isError)void result.refetch();else if(!id.startsWith('new-'))void job.refetch();else nav(single?'/inspire-dish':'/')}}>重试 / 恢复</Button><Link to={single?'/inspire-dish':'/'}>返回调整偏好 →</Link></div></div>}
+ {(job.data||!error)&&<GenerationProgress job={job.data} connecting={!job.data} error={job.error?.message}/>}
  <RevealContext.Provider value={{states,single}}>{render(result.data||placeholder,single)}</RevealContext.Provider>
  {revealed===7&&<Link className="btn secondary" to={'/'+kind+'/'+result.data.id}>打开已保存的{single?'菜品':'菜单'} →</Link>}
  </div>

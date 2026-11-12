@@ -27,7 +27,7 @@ func Post(ctx context.Context, base, path, key string, body any, out any) error 
 		}
 		req.Header.Set("Authorization", "Bearer "+key)
 		req.Header.Set("Content-Type", "application/json")
-		res, e := (&http.Client{Timeout: 150 * time.Second}).Do(req)
+		res, e := (&http.Client{}).Do(req)
 		if e != nil {
 			logger.Error("llm.connection.failed", "error", e)
 			return fmt.Errorf("上游连接失败或超时")
@@ -83,7 +83,6 @@ func Chat(ctx context.Context, c config.Config, system string, content any) ([]b
 
 	args := map[string]any{
 		"model":           c.LLM.Model,
-		"temperature":     c.LLM.Temperature,
 		"max_tokens":      c.LLM.MaxTokens,
 		"response_format": map[string]string{"type": "json_object"},
 		"messages": []any{map[string]any{"role": "system", "content": system},
