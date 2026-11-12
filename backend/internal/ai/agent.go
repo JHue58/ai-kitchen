@@ -5,8 +5,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"net/url"
 	"strings"
+	"time"
 )
 
 type Tool struct {
@@ -31,7 +33,16 @@ type message struct {
 }
 
 // Agent preserves tool-call/result history and bounds both rounds and executions.
-func Agent(ctx context.Context, c config.Config, system, input string, available []Tool, progress func(string), observers ...func(string, string, string)) ([]byte, error) {
+func Agent(ctx context.Context, c config.Config, system, input string, available []Tool, progress func(string), observers ...func(string, string, string)) (output []byte, runErr error) {
+	started := time.Now()
+	logger := Logger(ctx)
+	logger.Info("agent.started", "model", c.LLM.Model)
+	defer func() {
+		if runErr != nil {
+			logger.Error("agent.failed", "error", runErr)
+		}
+		logger.Info("agent.finished", "duration", time.Since(started))
+	}()
 	if !c.LLM.Enabled || c.LLM.APIKey == "" || c.LLM.Model == "" {
 		return nil, fmt.Errorf("尚未配置 AI 服务")
 	}
@@ -54,6 +65,7 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 		if err := ctx.Err(); err != nil {
 			return nil, err
 		}
+		logger.Info("agent.round.started", "round", round+1, "messages", len(messages))
 		report("planning", fmt.Sprintf("正在规划 · 第 %d 轮", round+1), "结合厨房条件和已有工具结果，等待模型返回下一步操作")
 		args := map[string]any{"model": c.LLM.Model, "temperature": c.LLM.Temperature, "messages": messages, "tools": specs, "tool_choice": "auto"}
 		if c.LLM.MaxTokens > 0 {
@@ -78,6 +90,8 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 		}
 		for _, call := range m.ToolCalls {
 			calls++
+			toolStarted := time.Now()
+			logger.Info("agent.tool.started", "tool", call.Function.Name, "tool_call_id", call.ID)
 			if calls > 24 {
 				return nil, fmt.Errorf("Agent 工具调用次数达到上限，请简化需求后重试")
 			}
@@ -95,8 +109,10 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 				report(call.Function.Name, title, detail)
 			}
 			if err != nil {
+				logger.Error("agent.tool.failed", "tool", call.Function.Name, "tool_call_id", call.ID, "error", err)
 				result = map[string]string{"error": err.Error()}
 			}
+			logger.Info("agent.tool.finished", "tool", call.Function.Name, "duration", time.Since(toolStarted))
 			b, _ := json.Marshal(result)
 			messages = append(messages, message{Role: "tool", ToolCallID: call.ID, Content: string(b)})
 		}
@@ -158,4 +174,16 @@ func toolResult(name string, result any, err error) (string, string) {
 		return "菜谱搜索完成", "搜索结果已返回，继续分析参考做法"
 	}
 	return "参考网页读取完成", "正文已交给 AI，用于完善食材用量与步骤"
+}
+
+type loggerKey struct{}
+
+func WithLogger(ctx context.Context, logger *slog.Logger) context.Context {
+	return context.WithValue(ctx, loggerKey{}, logger)
+}
+func Logger(ctx context.Context) *slog.Logger {
+	if l, ok := ctx.Value(loggerKey{}).(*slog.Logger); ok {
+		return l
+	}
+	return slog.Default()
 }

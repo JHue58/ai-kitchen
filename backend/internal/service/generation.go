@@ -10,6 +10,8 @@ import (
 	"fmt"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+	"log/slog"
+	"runtime/debug"
 	"strings"
 	"time"
 )
@@ -103,21 +105,38 @@ func Worker(ctx context.Context, db *gorm.DB, c config.Config) {
 func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 	ctx, cancel := context.WithTimeout(parent, time.Duration(c.LLM.TimeoutSeconds*3+120)*time.Second)
 	defer cancel()
+	logger := slog.Default().With("job_id", j.ID)
+	ctx = ai.WithLogger(ctx, logger)
+	started := time.Now()
+	logger.Info("job.started")
+	defer func() { logger.Info("job.finished", "duration", time.Since(started)) }()
 	events := []model.JobEvent{{Status: "pending", Message: "任务已提交，等待处理", At: j.CreatedAt}}
 	stage := func(s string) {
-		messages := map[string]string{"analyzing": "正在读取人数、食材、库存、炊具和饮食偏好", "searching": "Agent 正在联网搜索", "search_recipes": "Agent 正在搜索真实菜谱", "fetch_page": "Agent 正在读取参考网页", "check_menu": "Agent 正在检查候选菜单的费用和约束", "planning": "Agent 正在规划菜品与下一步工具调用", "repairing": "正在让 AI 修正菜谱格式或不满足的约束", "validating": "正在校验食材、设备与时间线，计算费用和营养", "saving": "正在保存菜谱与参考来源", "completed": "菜谱已生成并保存", "failed": "生成失败，请查看错误信息"}
+		logger.Info("job.stage", "stage", s)
+		messages := map[string]string{"analyzing": "正在读取人数、食材、库存、炊具和饮食偏好", "searching": "Agent 正在联网搜索", "search_recipes": "Agent 正在搜索真实菜谱", "search_dish_image": "Agent 正在寻找菜品参考图", "fetch_page": "Agent 正在读取参考网页", "check_menu": "Agent 正在检查候选菜单的费用和约束", "planning": "Agent 正在规划菜品与下一步工具调用", "repairing": "正在让 AI 修正菜谱格式或不满足的约束", "validating": "正在校验食材、设备与时间线，计算费用和营养", "saving": "正在保存菜谱与参考来源", "completed": "菜谱已生成并保存", "failed": "生成失败，请查看错误信息"}
 		events = append(events, model.JobEvent{Status: s, Message: messages[s], At: time.Now()})
-		db.Model(&model.Job{}).Where("id = ?", j.ID).Updates(&model.Job{Status: s, Events: events})
+		if err := db.Model(&model.Job{}).Where("id = ?", j.ID).Updates(&model.Job{Status: s, Events: events}).Error; err != nil {
+			logger.Error("job.stage.persist_failed", "error", err)
+		}
 	}
 	report := func(status, message, detail string) {
 		events = append(events, model.JobEvent{Status: status, Message: message, Detail: detail, At: time.Now()})
-		db.Model(&model.Job{}).Where("id = ?", j.ID).Updates(&model.Job{Status: status, Events: events})
+		if err := db.Model(&model.Job{}).Where("id = ?", j.ID).Updates(&model.Job{Status: status, Events: events}).Error; err != nil {
+			logger.Error("job.event.persist_failed", "error", err)
+		}
 	}
 	stage("analyzing")
 	fail := func(e error) {
+		logger.Error("job.failed", "error", e)
 		stage("failed")
 		db.Model(&model.Job{}).Where("id = ?", j.ID).Updates(map[string]any{"status": "failed", "error": e.Error()})
 	}
+	defer func() {
+		if v := recover(); v != nil {
+			logger.Error("job.panic", "panic", v, "stack", string(debug.Stack()))
+			fail(fmt.Errorf("任务执行异常"))
+		}
+	}()
 	var q model.Request
 	if json.Unmarshal([]byte(j.Request), &q) != nil {
 		fail(fmt.Errorf("任务请求无效"))
@@ -156,7 +175,8 @@ func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 		}
 	}
 	input := map[string]any{"available_tags": availableTags, "request": q, "preferences": p, "equipment": eq, "pantry": pantry, "prices": prices, "untrusted_web_references": sources, "past_feedback": notes}
-	tools := agentTools(db, c, j, q, p, eq, pantry, prices, &sources, &warnings)
+	images := map[string]model.DishImage{}
+	tools := agentTools(db, c, j, q, p, eq, pantry, prices, &sources, &warnings, images)
 	var recipe model.Recipe
 	for attempt := 0; attempt < 2; attempt++ {
 		if attempt > 0 {
@@ -164,12 +184,15 @@ func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 		}
 		input["untrusted_web_references"] = sources
 		b, _ := json.Marshal(input)
-		raw, e := ai.Agent(ctx, c, SystemPrompt(q, q.Search && c.Search.Enabled && c.Search.APIKey != ""), string(b), tools, stage, report)
+		raw, e := ai.Agent(ai.WithLogger(ctx, logger.With("generation_attempt", attempt+1)), c, SystemPrompt(q, q.Search && c.Search.Enabled && c.Search.APIKey != ""), string(b), tools, stage, report)
 		if e != nil {
 			fail(e)
 			return
 		}
 		recipe, e = calculator.Parse(raw)
+		if e != nil {
+			logger.Warn("job.parse.failed", "error", e, "attempt", attempt+1)
+		}
 		if e != nil {
 			if attempt == 0 {
 				input["repair_error"] = e.Error()
@@ -182,6 +205,7 @@ func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 		NormalizeDishTags(&recipe, availableTags)
 		calculator.Calculate(&recipe, prices, pantry, eq, p)
 		violations := calculator.Validate(recipe, q, p, eq, pantry)
+		logger.Info("job.validation", "violations", violations)
 		if len(violations) > 0 && attempt == 0 {
 			input["previous_recipe"] = recipe
 			input["repair_constraints"] = violations
@@ -196,6 +220,15 @@ func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 	}
 	if q.Search && len(sources) == 0 {
 		recipe.Warnings = append(recipe.Warnings, "本次未获得联网参考菜谱，结果基于模型已有知识")
+	}
+	for i := range recipe.Dishes {
+		if image := recipe.Dishes[i].Image; image != nil {
+			if verified, ok := images[image.URL]; ok {
+				recipe.Dishes[i].Image = &verified
+			} else {
+				recipe.Dishes[i].Image = nil
+			}
+		}
 	}
 	recipe.Sources = sources
 	for i := range recipe.Sources {
@@ -225,6 +258,7 @@ func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 		return tx.Model(&model.Job{}).Where("id = ?", j.ID).Updates(map[string]any{"status": "completed", "recipe_id": d.ID, "result_kind": kind}).Error
 	})
 	if e != nil {
+		logger.Error("job.save.failed", "error", e)
 		fail(fmt.Errorf("保存菜单失败"))
 	} else {
 		stage("completed")

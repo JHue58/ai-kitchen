@@ -139,7 +139,16 @@ type Usage struct {
 	KWh            *float64 `json:"theoretical_kwh"`
 	EstimatedKWh   *float64 `json:"estimated_kwh"`
 }
+type DishImage struct {
+	URL       string `json:"url"`
+	SourceURL string `json:"source_url"`
+	Title     string `json:"title"`
+	Credit    string `json:"credit"`
+	License   string `json:"license"`
+}
+
 type Dish struct {
+	Image       *DishImage   `json:"image,omitempty"`
 	Tags        []string     `json:"tags"`
 	Name        string       `json:"name"`
 	Description string       `json:"description"`

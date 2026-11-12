@@ -33,14 +33,14 @@ func SystemPrompt(q model.Request, online bool) string {
 		s += fmt.Sprintf("\n菜品数量必须为 %d 道。", q.DishCount)
 	}
 	if online {
-		s += "\n联网已开启：请主动用 search_recipes 查找真实菜谱再设计方案，由你根据模式、口味和食材规划搜索词；遇到做法、用量、设备适用性不清楚时针对性搜索。摘要不足时调用 fetch_page 阅读搜索结果正文。不要凭记忆编造来源；联网失败可以继续但需说明。"
+		s += "\n联网已开启：每道菜调用 search_dish_image 搜索近似成品照片（可使用英文菜名提高匹配率），仅选择工具返回且与菜品相关的 image 对象写入 dish.image，不得编造图片地址。没有合适图片时省略 image，图片搜索失败不得阻止菜谱生成。请主动用 search_recipes 查找真实菜谱再设计方案，由你根据模式、口味和食材规划搜索词；遇到做法、用量、设备适用性不清楚时针对性搜索。摘要不足时调用 fetch_page 阅读搜索结果正文。不要凭记忆编造来源；联网失败可以继续但需说明。"
 	} else {
 		s += "\n联网不可用或用户已关闭，请依据已有资料规划，不得声称已搜索网页。"
 	}
 	return s
 }
 
-func agentTools(db *gorm.DB, c config.Config, j model.Job, q model.Request, p model.Preferences, eq []model.Equipment, pantry []model.Pantry, prices []model.Price, sources *[]model.Source, warnings *[]string) []ai.Tool {
+func agentTools(db *gorm.DB, c config.Config, j model.Job, q model.Request, p model.Preferences, eq []model.Equipment, pantry []model.Pantry, prices []model.Price, sources *[]model.Source, warnings *[]string, images ...map[string]model.DishImage) []ai.Tool {
 	schema := func(key string) map[string]any {
 		return map[string]any{"type": "object", "properties": map[string]any{key: map[string]string{"type": "string"}}, "required": []string{key}, "additionalProperties": false}
 	}
@@ -61,6 +61,29 @@ func agentTools(db *gorm.DB, c config.Config, j model.Job, q model.Request, p mo
 	if !q.Search || !c.Search.Enabled || c.Search.APIKey == "" {
 		return tools
 	}
+	imageCalls := 0
+	tools = append(tools, ai.Tool{Name: "search_dish_image", Description: "在 Wikimedia Commons 搜索菜品成品参考图，返回带来源、作者与许可的清晰图片。根据标题选择与菜品相近的结果；不匹配则不选。query 可为英文菜名。", Parameters: schema("query"), Run: func(ctx context.Context, args json.RawMessage) (any, error) {
+		var a struct {
+			Query string `json:"query"`
+		}
+		if err := json.Unmarshal(args, &a); err != nil {
+			return nil, err
+		}
+		imageCalls++
+		if imageCalls > 12 {
+			return nil, fmt.Errorf("已达到图片搜索上限")
+		}
+		found, err := search.Images(ctx, a.Query)
+		if err != nil {
+			return nil, err
+		}
+		if len(images) > 0 {
+			for _, image := range found {
+				images[0][image.URL] = image
+			}
+		}
+		return found, nil
+	}})
 	searches, fetches := 0, 0
 	tools = append(tools, ai.Tool{Name: "search_recipes", Description: "按自行规划的关键词搜索真实菜谱，返回来源、摘要和可能的正文。可多次针对信息缺口搜索。", Parameters: schema("query"), Run: func(ctx context.Context, args json.RawMessage) (any, error) {
 		var a struct {
