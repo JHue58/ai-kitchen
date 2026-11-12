@@ -2,7 +2,7 @@
   "name": "AI Kitchen Food Gallery",
   "version": 1,
   "imageFormat": "webp",
-  "imageCount": 17,
+  "imageCount": 21,
   "style": "warm natural-light Chinese home-cooking food photography; wood table, beige linen, cream ceramic tableware",
   "tagNote": "suggestedTags are provisional suggestions, not verified built-in tags from the repository; map them to the actual tag dictionary before using as exact filters.",
   "categories": [
@@ -18,7 +18,7 @@
         "下饭菜"
       ],
       "description": "以红烧排骨、牛肉炒菜、土豆炖肉等为主的家常荤菜餐桌场景。",
-      "count": 4
+      "count": 5
     },
     {
       "id": "vegetables-eggs-tofu",
@@ -32,7 +32,7 @@
         "快手菜"
       ],
       "description": "以番茄炒蛋、豆腐、蒜蓉青菜等为主的清爽家常菜组合。",
-      "count": 4
+      "count": 5
     },
     {
       "id": "noodles-staples",
@@ -46,7 +46,7 @@
         "家常菜"
       ],
       "description": "以牛肉面、饺子、米饭和小菜等为主的主食场景。",
-      "count": 4
+      "count": 5
     },
     {
       "id": "soups-stews",
@@ -60,7 +60,7 @@
         "一锅出"
       ],
       "description": "以番茄炖菜、萝卜排骨汤、玉米排骨汤等为主的汤羹炖煮场景。",
-      "count": 4
+      "count": 5
     },
     {
       "id": "eggs",
@@ -330,6 +330,66 @@
         "下饭菜"
       ],
       "sourceSet": "single-dish"
+    },
+    {
+      "id": "shiitake-braised-chicken",
+      "src": "images/meat-braises/shiitake-braised-chicken.webp",
+      "category": "meat-braises",
+      "categoryLabel": "家常荤菜 / 红烧炖菜",
+      "description": "香菇烧鸡，配白米饭与清炒青菜的暖色家常餐桌。",
+      "suggestedTags": [
+        "家常菜",
+        "荤菜",
+        "鸡肉",
+        "炖煮",
+        "下饭菜"
+      ],
+      "sourceSet": "generated-2026-11-12"
+    },
+    {
+      "id": "homestyle-tofu",
+      "src": "images/vegetables-eggs-tofu/homestyle-tofu.webp",
+      "category": "vegetables-eggs-tofu",
+      "categoryLabel": "蔬菜 / 蛋类 / 豆制品",
+      "description": "家常豆腐，金黄豆腐配青红椒与木耳，米色陶盘近景。",
+      "suggestedTags": [
+        "家常菜",
+        "豆制品",
+        "蔬菜",
+        "快手菜",
+        "下饭菜"
+      ],
+      "sourceSet": "generated-2026-11-12"
+    },
+    {
+      "id": "scallion-oil-noodles",
+      "src": "images/noodles-staples/scallion-oil-noodles.webp",
+      "category": "noodles-staples",
+      "categoryLabel": "面食 / 主食",
+      "description": "葱油拌面，配煎蛋与黄瓜小菜的家常主食场景。",
+      "suggestedTags": [
+        "家常菜",
+        "主食",
+        "面食",
+        "面条",
+        "快手菜"
+      ],
+      "sourceSet": "generated-2026-11-12"
+    },
+    {
+      "id": "winter-melon-meatball-soup",
+      "src": "images/soups-stews/winter-melon-meatball-soup.webp",
+      "category": "soups-stews",
+      "categoryLabel": "汤羹 / 炖菜",
+      "description": "冬瓜肉丸汤，清汤配冬瓜、肉丸与少许葱花的家常汤品。",
+      "suggestedTags": [
+        "家常菜",
+        "汤羹",
+        "汤品",
+        "炖煮",
+        "一锅出"
+      ],
+      "sourceSet": "generated-2026-11-12"
     }
   ]
 }

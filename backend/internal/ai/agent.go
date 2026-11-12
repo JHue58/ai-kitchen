@@ -176,6 +176,8 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 // Expose public action summaries and tool activity, never internal reasoning.
 func toolTitle(name string) string {
 	switch name {
+	case "search_existing_dishes":
+		return "正在搜索我的历史菜品与菜单"
 	case "search_web":
 		return "正在搜索网页资料"
 	case "view_image":
@@ -220,6 +222,11 @@ func toolResult(name string, result any, err error) (string, string) {
 	if name == "report_progress" {
 		summary, _ := result.(string)
 		return "AI 行动摘要", summary
+	}
+	if name == "search_existing_dishes" {
+		if data, ok := result.(map[string]any); ok {
+			return "历史菜品搜索完成", fmt.Sprintf("找到 %v 道符合筛选条件的菜品，AI 将检查能否复用", data["total"])
+		}
 	}
 	if name == "check_menu" {
 		if data, ok := result.(map[string]any); ok {

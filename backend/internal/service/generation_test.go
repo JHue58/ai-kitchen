@@ -82,7 +82,7 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 	t.Cleanup(func() { sqlDB.Close() })
 	user := model.User{Username: "chef"}
 	db.Create(&user)
-	request := model.Request{Servings: 2, Mode: "strict", Ingredients: []string{"鸡蛋"}, Search: true}
+	request := model.Request{ReuseExisting: &reuseDisabledForLegacyTests, Servings: 2, Mode: "strict", Ingredients: []string{"鸡蛋"}, Search: true}
 	b, _ := json.Marshal(request)
 	for i := 0; i < 2; i++ {
 		if i == 1 {

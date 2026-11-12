@@ -8,16 +8,20 @@
 
 菜品列表、菜单封面和详情优先显示 AI 提供的有效 HTTP(S) 图片；缺图、加载失败或尺寸不足时使用图库，详情标注为默认示意图。资源由 Vite 输出到构建目录，无需额外复制 public 文件。
 
-本包包含 17 张独立 WebP 菜品展示图，延续项目当前暖木桌、米色亚麻、浅色陶瓷餐具与自然窗光的家常美食摄影风格。
+本包包含 21 张独立 WebP 菜品展示图，延续项目当前暖木桌、米色亚麻、浅色陶瓷餐具与自然窗光的家常美食摄影风格。
 
 ## 目录
 
-- `images/meat-braises/`：家常荤菜、红烧炖菜（4 张）
-- `images/vegetables-eggs-tofu/`：蔬菜、蛋类、豆制品（4 张）
-- `images/noodles-staples/`：面食、饺子、主食（4 张）
-- `images/soups-stews/`：汤羹、炖菜（4 张）
+- `images/meat-braises/`：家常荤菜、红烧炖菜（5 张）
+- `images/vegetables-eggs-tofu/`：蔬菜、蛋类、豆制品（5 张）
+- `images/noodles-staples/`：面食、饺子、主食（5 张）
+- `images/soups-stews/`：汤羹、炖菜（5 张）
 - `images/eggs/`：番茄炒蛋单菜近景（1 张）
 - `manifest.json`：图片路径、分类、描述与建议标签
+- `preview-expanded.jpg`：包含全部 21 张菜品图的最新总览；`preview.jpg` 保留原始总览。
+- `generation-prompts.json`：2026-11-12 新增图片的完整提示词和风格参考，使用内置 image_gen 生成。
+
+2026-11-12 新增香菇烧鸡、家常豆腐、葱油拌面、冬瓜肉丸汤各一张，均为 1536 × 1024 WebP，已登记到原有分类。前端现有 `import.meta.glob` 与 `defaultDishPhoto` 会自动收录这些图片。
 
 ## 标签说明
 

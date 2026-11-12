@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-12",
+  "mode": "built-in image_gen",
+  "styleReference": "images/meat-braises/meat-01.webp",
+  "images": [
+    {
+      "src": "images/meat-braises/shiitake-braised-chicken.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: Chinese home cooking food gallery photograph for a website. Input image: reference image for visual style only; do not copy its dish or composition. Match the reference's warm honey-colored wooden table, beige rumpled linen, cream speckled ceramics, soft golden window light with delicate foliage shadows, appetizing realistic food texture, cozy home-cooked feeling and restrained rustic styling. Landscape 3:2, one continuous photograph, three-quarter overhead camera angle, main dish large in foreground, clear visual hierarchy, subtle background softness, professional natural food photography. No text, no watermark, no collage, no people. Primary subject: A shallow cream speckled ceramic bowl of Chinese home-style braised chicken with shiitake mushrooms, glossy brown sauce, a few scallions. A small bowl of steamed rice and a modest side of stir-fried greens in the background."
+    },
+    {
+      "src": "images/vegetables-eggs-tofu/homestyle-tofu.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: Chinese home cooking food gallery photograph for a website. Input image: reference image for visual style only; do not copy its dish or composition. Match the reference's warm honey-colored wooden table, beige rumpled linen, cream speckled ceramics, soft golden window light with delicate foliage shadows, appetizing realistic food texture, cozy home-cooked feeling and restrained rustic styling. Landscape 3:2, one continuous photograph, three-quarter overhead camera angle, main dish large in foreground, clear visual hierarchy, subtle background softness, professional natural food photography. No text, no watermark, no collage, no people. Primary subject: A shallow cream speckled ceramic plate of Chinese home-style golden pan-fried tofu triangles with green and red pepper and wood ear mushrooms in a light savory sauce. A small rice bowl and small plate of cucumber softly in background."
+    },
+    {
+      "src": "images/noodles-staples/scallion-oil-noodles.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: Chinese home cooking food gallery photograph for a website. Input image: reference image for visual style only; do not copy its dish or composition. Match the reference's warm honey-colored wooden table, beige rumpled linen, cream speckled ceramics, soft golden window light with delicate foliage shadows, appetizing realistic food texture, cozy home-cooked feeling and restrained rustic styling. Landscape 3:2, one continuous photograph, three-quarter overhead camera angle, main dish large in foreground, clear visual hierarchy, subtle background softness, professional natural food photography. No text, no watermark, no collage, no people. Primary subject: A cream ceramic bowl of Chinese scallion-oil tossed thin noodles, glossy soy-brown strands topped with caramelized scallions and a fried egg at one side, with a small cucumber side dish in background."
+    },
+    {
+      "src": "images/soups-stews/winter-melon-meatball-soup.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: Chinese home cooking food gallery photograph for a website. Input image: reference image for visual style only; do not copy its dish or composition. Match the reference's warm honey-colored wooden table, beige rumpled linen, cream speckled ceramics, soft golden window light with delicate foliage shadows, appetizing realistic food texture, cozy home-cooked feeling and restrained rustic styling. Landscape 3:2, one continuous photograph, three-quarter overhead camera angle, main dish large in foreground, clear visual hierarchy, subtle background softness, professional natural food photography. No text, no watermark, no collage, no people. Primary subject: A cream ceramic handled soup pot of Chinese winter melon and pork meatball soup, clear golden broth, translucent pale winter melon wedges and handmade pork meatballs with a few scallions. Small rice bowl and leafy vegetable side in background."
+    }
+  ]
+}

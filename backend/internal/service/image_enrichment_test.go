@@ -92,7 +92,7 @@ func TestMenuDeliveredBeforeImageSearch(t *testing.T) {
 			defer sqlDB.Close()
 			user := model.User{Username: "chef"}
 			db.Create(&user)
-			q := model.Request{Target: target, Search: true, Servings: 2, Mode: "strict", Ingredients: []string{"鸡蛋"}, DishCount: 1}
+			q := model.Request{ReuseExisting: &reuseDisabledForLegacyTests, Target: target, Search: true, Servings: 2, Mode: "strict", Ingredients: []string{"鸡蛋"}, DishCount: 1}
 			raw, _ := json.Marshal(q)
 			job := model.Job{UserID: user.ID, Status: "pending", Request: string(raw)}
 			db.Create(&job)

@@ -54,6 +54,9 @@ func enrichImages(parent context.Context, db *gorm.DB, c config.Config, job mode
 	}()
 	logger.Info("images.started", "timeout_seconds", seconds)
 	for index, dish := range recipe.Dishes {
+		if dish.Image != nil {
+			continue
+		}
 		if ctx.Err() != nil {
 			break
 		}

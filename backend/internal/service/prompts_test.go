@@ -76,7 +76,7 @@ func TestGenerationIncludesScopedGlobalPrompts(t *testing.T) {
 		}
 		personal, other = user.prompt, user.other
 		for _, target := range []string{"menu", "dish"} {
-			q, _ := json.Marshal(model.Request{Target: target, Mode: "strict", Servings: 2, Ingredients: []string{"鸡蛋"}})
+			q, _ := json.Marshal(model.Request{ReuseExisting: &reuseDisabledForLegacyTests, Target: target, Mode: "strict", Servings: 2, Ingredients: []string{"鸡蛋"}})
 			job := model.Job{UserID: user.id, Status: "pending", Request: string(q)}
 			db.Create(&job)
 			run(context.Background(), db, c, job)

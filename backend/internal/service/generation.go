@@ -207,7 +207,7 @@ func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 			fail(e)
 			return
 		}
-		recipe, e = parseGeneratedRecipe(raw)
+		recipe, e = parseRecipeWithReuse(ctx, db, j.UserID, q, raw)
 		if e != nil {
 			logger.Warn("job.parse.failed", "error", e, "attempt", attempt+1)
 		}
@@ -237,13 +237,33 @@ func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 		recipe.Warnings = append(warnings, violations...)
 		break
 	}
-	if q.Search && len(sources) == 0 {
+	seenSources := map[string]bool{}
+	for _, source := range sources {
+		seenSources[source.URL] = true
+	}
+	for _, source := range recipe.Sources {
+		if !seenSources[source.URL] {
+			sources = append(sources, source)
+			seenSources[source.URL] = true
+		}
+	}
+	allReused := len(recipe.Dishes) > 0
+	for _, dish := range recipe.Dishes {
+		allReused = allReused && dish.ReuseFrom != nil
+	}
+	if q.Search && len(sources) == 0 && !allReused {
 		recipe.Warnings = append(recipe.Warnings, "本次未获得联网参考菜谱，结果基于模型已有知识")
 	}
 	for i := range recipe.Dishes {
-		recipe.Dishes[i].Image = nil
+		if recipe.Dishes[i].ReuseFrom == nil {
+			recipe.Dishes[i].Image = nil
+		}
 	}
-	if imageSearchEnabled(c, q) {
+	needsImages := false
+	for _, dish := range recipe.Dishes {
+		needsImages = needsImages || dish.Image == nil
+	}
+	if needsImages && imageSearchEnabled(c, q) {
 		recipe.ImageStatus = "pending"
 	}
 	recipe.Sources = sources

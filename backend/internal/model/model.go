@@ -97,17 +97,18 @@ type Preferences struct {
 	ElectricityPrice float64  `json:"electricity_price"`
 }
 type Request struct {
-	Target       string   `json:"target"`
-	Servings     int      `json:"servings"`
-	Ingredients  []string `json:"ingredients"`
-	Mode         string   `json:"mode"`
-	EquipmentIDs []uint   `json:"equipment_ids"`
-	Minutes      *float64 `json:"minutes"`
-	Budget       *float64 `json:"budget"`
-	Tags         []string `json:"tags"`
-	Description  string   `json:"description"`
-	Search       bool     `json:"search"`
-	DishCount    int      `json:"dish_count"`
+	Target        string   `json:"target"`
+	Servings      int      `json:"servings"`
+	Ingredients   []string `json:"ingredients"`
+	Mode          string   `json:"mode"`
+	EquipmentIDs  []uint   `json:"equipment_ids"`
+	Minutes       *float64 `json:"minutes"`
+	Budget        *float64 `json:"budget"`
+	Tags          []string `json:"tags"`
+	Description   string   `json:"description"`
+	Search        bool     `json:"search"`
+	ReuseExisting *bool    `json:"reuse_existing,omitempty"`
+	DishCount     int      `json:"dish_count"`
 }
 type Ingredient struct {
 	Name            string     `json:"name"`
@@ -149,18 +150,30 @@ type DishImage struct {
 }
 
 type Dish struct {
-	Image       *DishImage   `json:"image,omitempty"`
-	Tags        []string     `json:"tags"`
-	Name        string       `json:"name"`
-	Description string       `json:"description"`
-	Ingredients []Ingredient `json:"ingredients"`
-	Equipment   []uint       `json:"equipment"`
-	PrepMinutes float64      `json:"prep_minutes"`
-	CookMinutes float64      `json:"cook_minutes"`
-	Steps       []Step       `json:"steps"`
-	Cost        float64      `json:"cost"`
-	Nutrition   Nutrition    `json:"nutrition"`
+	ReuseFrom   *DishReference `json:"reuse_from,omitempty"`
+	Image       *DishImage     `json:"image,omitempty"`
+	Tags        []string       `json:"tags"`
+	Name        string         `json:"name"`
+	Description string         `json:"description"`
+	Ingredients []Ingredient   `json:"ingredients"`
+	Equipment   []uint         `json:"equipment"`
+	PrepMinutes float64        `json:"prep_minutes"`
+	CookMinutes float64        `json:"cook_minutes"`
+	Steps       []Step         `json:"steps"`
+	Cost        float64        `json:"cost"`
+	Nutrition   Nutrition      `json:"nutrition"`
 }
+
+// DishReference identifies an immutable dish snapshot in the owner's collection.
+type DishReference struct {
+	Kind        string  `json:"kind"`
+	ID          uint    `json:"id"`
+	DishIndex   int     `json:"dish_index"`
+	StartOffset float64 `json:"start_minute_offset"`
+}
+
+func (q Request) ReuseEnabled() bool { return q.ReuseExisting == nil || *q.ReuseExisting }
+
 type Source struct {
 	Images    []DishImage `json:"images,omitempty"`
 	Title     string      `json:"title"`
