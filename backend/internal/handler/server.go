@@ -130,11 +130,18 @@ func (s *Server) Router() *gin.Engine {
 	})
 	a.PUT("/account", s.account)
 	a.GET("/documents/:kind", s.list)
+	a.GET("/documents/:kind/:id", s.document)
 	a.POST("/documents/:kind", s.create)
 	a.PUT("/documents/:kind/:id", s.update)
 	a.DELETE("/documents/:kind/:id", s.remove)
 	a.POST("/generate", s.generate)
 	a.GET("/jobs/:id", s.job)
+	a.GET("/documents/:kind/:id/chat", s.recipeChat)
+	a.POST("/documents/:kind/:id/chat", s.recipeChat)
+	a.DELETE("/documents/:kind/:id/chat", s.recipeChat)
+	a.GET("/recipes/:id/chat", s.recipeChat)
+	a.POST("/recipes/:id/chat", s.recipeChat)
+	a.DELETE("/recipes/:id/chat", s.recipeChat)
 	a.GET("/jobs", func(c *gin.Context) {
 		var jobs []model.Job
 		s.DB.Where("user_id = ?", uid(c)).Order("id desc").Limit(30).Find(&jobs)
@@ -521,30 +528,46 @@ func (s *Server) write(c *gin.Context, update bool) {
 			b, _ = json.Marshal(menu)
 		}
 		if update {
+			previousData := d.Data
 			d.Data = string(b)
+			repository.SetCollectionActionTimes(&d, previousData, time.Now())
 			if kind == "dishes" {
-				return repository.UpdateDishSnapshot(tx, &d)
+				if err := repository.UpdateDishSnapshot(tx, &d); err != nil {
+					return err
+				}
+			} else if err := tx.Save(&d).Error; err != nil {
+				return err
 			}
-			return tx.Save(&d).Error
-		}
-		if kind == "dishes" {
+		} else if kind == "dishes" {
 			var record model.DishRecord
 			if err := json.Unmarshal(b, &record); err != nil {
 				return err
 			}
 			var err error
 			d, _, err = repository.SaveDishSnapshot(tx, uid(c), record)
+			if err != nil {
+				return err
+			}
+		} else {
+			d = model.Document{UserID: uid(c), Kind: kind, Data: string(b)}
+			repository.SetCollectionActionTimes(&d, "", time.Now())
+			if err := tx.Create(&d).Error; err != nil {
+				return err
+			}
+		}
+		if err := repository.PruneCollectionHistory(tx, uid(c), kind); err != nil {
 			return err
 		}
-		d = model.Document{UserID: uid(c), Kind: kind, Data: string(b)}
-		return tx.Create(&d).Error
+		if kind == "recipes" {
+			return repository.PruneCollectionHistory(tx, uid(c), "dishes")
+		}
+		return nil
 	})
 	if err != nil {
 		bad(c, 500, "保存失败")
 		return
 	}
-	json.Unmarshal([]byte(d.Data), &data)
-	data["id"] = d.ID
+	data, _ = repository.DocumentData(d)
 	c.JSON(200, data)
 }
 func (s *Server) create(c *gin.Context) { s.write(c, false) }
@@ -558,7 +581,12 @@ func (s *Server) remove(c *gin.Context) {
 	if !ok {
 		return
 	}
-	if s.DB.Delete(&d).Error != nil {
+	if err := s.DB.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Where("user_id = ? AND kind = ? AND document_id = ?", uid(c), d.Kind, d.ID).Delete(&model.RecipeChat{}).Error; err != nil {
+			return err
+		}
+		return tx.Delete(&d).Error
+	}); err != nil {
 		bad(c, 500, "删除失败")
 		return
 	}
@@ -778,7 +806,7 @@ func (s *Server) adminDelete(c *gin.Context) {
 		return
 	}
 	if e := s.DB.Transaction(func(tx *gorm.DB) error {
-		for _, m := range []any{&model.Session{}, &model.Document{}, &model.Job{}} {
+		for _, m := range []any{&model.Session{}, &model.Document{}, &model.Job{}, &model.RecipeChat{}} {
 			if e := tx.Where("user_id = ?", id).Delete(m).Error; e != nil {
 				return e
 			}

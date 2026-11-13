@@ -1,0 +1,78 @@
+.recipe-chat{display:flex;flex-direction:column;position:relative;height:min(580px,calc(var(--assistant-viewport-height,100dvh) - var(--assistant-viewport-bottom,var(--assistant-bottom)) - var(--assistant-chrome-height,140px)));min-height:0;color:var(--text);background:var(--card)}
+.recipe-chat-context{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;padding:13px 21px;border-bottom:1px solid var(--line);font-size:11px;background:linear-gradient(105deg,color-mix(in srgb,var(--chat-lilac) 35%,var(--card)),color-mix(in srgb,var(--chat-sky) 24%,var(--card)))}
+.recipe-chat-context>span{display:flex;align-items:center;gap:7px;min-width:0;color:var(--chat-lilac-ink)}
+.recipe-chat-context>span>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.recipe-chat-context>small{flex-shrink:0;font-size:10px}
+.recipe-chat-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent;overflow-anchor:none;background:radial-gradient(ellipse at 3% 1%,color-mix(in srgb,var(--chat-butter) 23%,transparent),transparent 50%),radial-gradient(ellipse at 97% 2%,color-mix(in srgb,var(--chat-lilac) 30%,transparent),transparent 47%),var(--card)}
+.recipe-chat-welcome{padding:24px 23px 12px;text-align:center}
+.recipe-chat-orb{display:grid;place-items:center;position:relative;width:58px;height:58px;margin:0 auto 15px;border-radius:21px;background:radial-gradient(circle at 24% 13%,var(--chat-glint),transparent 62%),linear-gradient(135deg,var(--chat-lime),var(--chat-butter) 38%,var(--chat-apricot) 67%,var(--chat-lilac));color:var(--chat-lilac-ink);box-shadow:inset 0 1px 0 var(--chat-glint),0 7px 19px color-mix(in srgb,var(--chat-lilac) 35%,transparent)}
+.recipe-chat-orb>i{position:absolute;width:5px;height:5px;top:8px;right:-8px;border-radius:50%;background:var(--chat-apricot-ink);opacity:.65}
+.recipe-chat-orb>i:last-child{width:3px;height:3px;top:auto;bottom:6px;left:-9px;background:var(--chat-lilac-ink);opacity:.4}
+.recipe-chat-eyebrow{display:block;margin-bottom:7px;font-size:8px;letter-spacing:1.6px;color:var(--chat-lilac-ink)}
+.recipe-chat-welcome>h3{font-size:23px;letter-spacing:-.6px;font-weight:600}
+.recipe-chat-welcome>p{margin:6px 0 18px;font-size:12px;color:var(--muted)}
+.recipe-chat-guidance{display:flex;gap:11px;padding:14px 15px;text-align:left;border-radius:16px;background:var(--chat-butter);box-shadow:inset 0 1px 0 var(--chat-glint);animation:chat-guide-arrive .62s cubic-bezier(.16,1,.3,1)}
+.recipe-chat-guidance>svg{margin-top:3px;color:var(--chat-butter-ink)}
+.recipe-chat-guidance strong{font-size:12px;font-weight:550;color:var(--chat-butter-ink)}
+.recipe-chat-guidance p{font-size:11px;color:var(--chat-butter-ink);margin-top:3px;line-height:1.7}
+.recipe-chat-suggestions{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin:13px 0 5px}
+.recipe-chat-scroll>.recipe-chat-suggestions{padding:0 17px 16px;margin-top:0}
+.recipe-chat-suggestions>button{--chip-bg:var(--chat-lime);--chip-ink:var(--chat-lime-ink);display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:36px;padding:7px 11px;border:1px solid color-mix(in srgb,var(--chip-ink) 8%,var(--chip-bg));border-radius:12px;font-size:11px;color:var(--chip-ink);background:var(--chip-bg);box-shadow:inset 0 1px 0 var(--chat-glint)}
+.recipe-chat-suggestions>button>span{font-size:12px;color:inherit;opacity:.7}
+.recipe-chat-suggestions>button:hover{background:color-mix(in srgb,var(--chip-bg) 80%,var(--card));border-color:color-mix(in srgb,var(--chip-ink) 24%,var(--chip-bg));transform:translateY(-2px)}
+.recipe-chat-loading{padding:7px 20px 12px;text-align:center;color:var(--muted);font-size:11px}
+.recipe-chat-messages{display:flex;flex-direction:column;gap:17px;padding:18px 21px 22px}
+.recipe-chat-messages:empty{display:none}
+.recipe-chat-message{width:fit-content;max-width:94%;min-width:0;animation:chat-message-arrive .52s cubic-bezier(.18,1.18,.35,1)}
+.recipe-chat-message-author{display:flex;align-items:center;gap:5px;padding:0 2px 5px;font-size:10px;color:var(--muted)}
+.recipe-chat-message>p{margin:0;padding:13px 15px;border:1px solid color-mix(in srgb,var(--chat-lilac-ink) 9%,var(--chat-lilac));border-radius:5px 18px 18px 18px;background:color-mix(in srgb,var(--chat-lilac) 56%,var(--card));font-size:13px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:inset 0 1px 0 var(--chat-glint)}
+.recipe-chat-message[data-role="assistant"]>.recipe-chat-message-author{color:var(--chat-lilac-ink)}
+.recipe-chat-message[data-role="user"]{align-self:flex-end}
+.recipe-chat-message[data-role="user"]>.recipe-chat-message-author{justify-content:flex-end}
+.recipe-chat-message[data-role="user"]>p{border-radius:18px 5px 18px 18px;background:color-mix(in srgb,var(--chat-lime) 68%,var(--card));border-color:color-mix(in srgb,var(--chat-lime-ink) 10%,var(--chat-lime))}
+.recipe-chat-updated{display:flex;align-items:center;gap:5px;margin-top:6px;color:var(--sage-ink);font-size:10px}
+.recipe-chat-pending{display:flex;gap:11px;align-items:center;padding:4px 2px;color:var(--sage-ink)}
+.recipe-chat-pending>span{display:flex;align-items:center;gap:3px;padding:9px 8px;border-radius:12px;background:linear-gradient(115deg,var(--chat-butter),var(--chat-apricot))}
+.recipe-chat-pending i{width:4px;height:4px;border-radius:50%;background:var(--green);animation:chat-thought 1.5s cubic-bezier(.45,0,.2,1) infinite}
+.recipe-chat-pending i:nth-child(2){animation-delay:.15s;background:var(--chat-apricot-ink)}.recipe-chat-pending i:nth-child(3){animation-delay:.3s;background:var(--chat-lilac-ink)}
+.recipe-chat-pending p{font-size:11px;line-height:1.5}.recipe-chat-pending small{display:block;margin-top:3px;font-size:10px}
+.recipe-chat-composer{flex-shrink:0;padding:12px 17px 14px;border-top:1px solid var(--line);background:linear-gradient(120deg,var(--card),color-mix(in srgb,var(--chat-apricot) 19%,var(--card)))}
+.recipe-chat-input-label{display:block;margin:0 3px 7px;font-size:10px;color:var(--muted)}
+.recipe-chat-input-wrap{display:flex;align-items:flex-end;gap:7px;padding:7px;border:1px solid var(--line);border-radius:18px;background:var(--field-bg);transition:border-color .3s cubic-bezier(.22,1,.36,1),box-shadow .3s cubic-bezier(.22,1,.36,1)}
+.recipe-chat-input-wrap:focus-within{border-color:color-mix(in srgb,var(--sage-ink) 48%,var(--line));box-shadow:0 0 0 3px color-mix(in srgb,var(--chat-lilac) 55%,transparent)}
+.recipe-chat-input-wrap>textarea{min-height:36px;max-height:112px;padding:6px 4px 5px 6px;border:0;border-radius:0;background:transparent;resize:none;font-size:13px;line-height:1.8;box-shadow:none}
+.recipe-chat-input-wrap>textarea:focus{box-shadow:none}.recipe-chat-input-wrap>textarea::placeholder{font-size:12px}
+.recipe-chat-send{display:grid;place-items:center;flex-shrink:0;width:36px;height:36px;border-radius:13px;background:var(--primary);color:var(--on-primary)}
+.recipe-chat-send:hover:not(:disabled){background:var(--primary-hover);transform:translateY(-2px)}
+.recipe-chat-send:disabled{opacity:.32}
+.recipe-chat-composer-note{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:8px 3px 0;font-size:9px;color:var(--muted)}
+.recipe-chat-composer-note>span:last-child{display:flex;align-items:center;gap:4px}
+.recipe-chat-error{margin:0 0 10px;padding:10px 12px;border:1px solid color-mix(in srgb,var(--accent) 20%,var(--line));border-radius:13px;background:var(--warm);color:var(--clay-ink);font-size:11px;line-height:1.7}
+.recipe-chat-scroll>.recipe-chat-error{margin:8px 20px 12px}
+.recipe-chat-error p{font-size:11px}.recipe-chat-error>span{display:block;margin-top:3px;font-size:10px}
+.recipe-chat-error>button{display:flex;align-items:center;gap:5px;margin-top:6px;min-height:32px;font-size:11px}
+.recipe-chat-latest{position:absolute;right:21px;bottom:150px;z-index:2;min-height:34px;padding:7px 13px;border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:0 4px 15px #172c2414;color:var(--sage-ink);font-size:11px}
+[data-theme="dark"] .recipe-chat-orb{box-shadow:inset 0 1px 0 var(--chat-glint),0 7px 19px #00000018}
+@keyframes chat-guide-arrive{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes chat-message-arrive{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes chat-thought{0%,65%,100%{opacity:.35;transform:translateY(0)}32%{opacity:1;transform:translateY(-3px)}}
+@media(max-width:700px){
+ .recipe-chat{height:min(570px,calc(var(--assistant-viewport-height,100dvh) - var(--assistant-viewport-bottom,var(--assistant-bottom)) - var(--assistant-chrome-height,140px)))}
+ .recipe-chat-context{padding:11px 17px;font-size:10px}.recipe-chat-context>small{font-size:9px}
+ .recipe-chat-welcome{padding:20px 17px 10px}.recipe-chat-welcome>h3{font-size:21px}.recipe-chat-welcome>p{font-size:11px;margin-bottom:15px}
+ .recipe-chat-orb{width:50px;height:50px;border-radius:18px;margin-bottom:13px}.recipe-chat-orb>svg{width:22px}
+ .recipe-chat-suggestions{gap:6px}.recipe-chat-suggestions>button{padding:7px 10px;font-size:10px;gap:6px;min-height:36px}
+ .recipe-chat-messages{padding:15px 16px 19px;gap:15px}.recipe-chat-message>p{font-size:12px;padding:11px 13px}
+ .recipe-chat-composer{padding:11px 12px 12px}.recipe-chat-input-wrap>textarea{font-size:16px}.recipe-chat-input-wrap>textarea::placeholder{font-size:12px}
+ .recipe-chat-composer-note{font-size:9px}.recipe-chat-composer-note>span:last-child{display:none}
+}
+@media(max-height:600px){.recipe-chat-context>small{display:none}.recipe-chat-welcome{padding-top:14px}.recipe-chat-orb{display:none}.recipe-chat-composer-note,.recipe-chat-input-label{display:none}.recipe-chat-composer{padding-top:8px;padding-bottom:8px}}
+[data-compact] .recipe-chat-context{display:none}
+[data-compact] .recipe-chat-orb,[data-compact] .recipe-chat-eyebrow{display:none}
+[data-compact] .recipe-chat-welcome{padding-top:12px}
+[data-compact] .recipe-chat-composer-note,[data-compact] .recipe-chat-input-label{display:none}
+[data-compact] .recipe-chat-composer{padding-top:8px;padding-bottom:8px}
+[data-compact] .recipe-chat-input-wrap>textarea{max-height:64px}
+[data-compact] .recipe-chat-error{max-height:46px;overflow:auto}
+[data-compact][data-keyboard] .generation-assistant-tabs{display:none}
+@media(prefers-reduced-motion:reduce){.recipe-chat *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

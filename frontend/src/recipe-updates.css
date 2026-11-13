@@ -1,0 +1,31 @@
+/* The decoration is bounded to the existing block. It never captures input,
+   changes layout, replaces content or replays merely because an image arrives. */
+@property --recipe-update-angle{syntax:'<angle>';inherits:false;initial-value:0deg}
+.ai-update-anchor{display:contents}
+.ai-update-positioned{position:relative}
+.ai-update-target{isolation:isolate}
+.ai-update-decoration{position:absolute;inset:-1px;z-index:3;display:block;overflow:hidden;border-radius:var(--ai-update-radius,22px);pointer-events:none;contain:paint}
+.ai-update-decoration::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.5px;background:conic-gradient(from var(--recipe-update-angle),#afd895 0deg,#a2d7c7 70deg,#b3b5eb 145deg,#e2b1d8 215deg,#f3cb91 285deg,#afd895 360deg);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;animation:recipe-update-ring 1.9s cubic-bezier(.25,.8,.2,1) both}
+.ai-update-decoration::after{content:'';position:absolute;inset:-10% -20%;border-radius:40%;background:radial-gradient(ellipse at 32% 20%,#c5b5eb88 0,transparent 42%),radial-gradient(ellipse at 62% 82%,#a6dccaaa 0,transparent 43%),radial-gradient(ellipse at 52% 35%,#f4d3a88c 0,transparent 45%),linear-gradient(100deg,transparent 12%,color-mix(in srgb,var(--card) 94%,transparent) 46%,color-mix(in srgb,var(--card) 80%,transparent) 61%,transparent 85%);filter:blur(5px);animation:recipe-update-veil 1.8s cubic-bezier(.22,.86,.22,1) both}
+@keyframes recipe-update-ring{
+ 0%{--recipe-update-angle:-55deg;opacity:0}
+ 12%{opacity:.88}
+ 42%{--recipe-update-angle:105deg;opacity:1}
+ 77%{--recipe-update-angle:285deg;opacity:.8}
+ 100%{--recipe-update-angle:345deg;opacity:0}
+}
+@keyframes recipe-update-veil{
+ 0%{opacity:0;transform:translate3d(-105%,0,0) skewX(-12deg) scale(.93)}
+ 14%{opacity:.78}
+ 40%{opacity:.94;transform:translate3d(-15%,0,0) skewX(-5deg) scale(1.03)}
+ 72%{opacity:.65;transform:translate3d(68%,0,0) skewX(4deg) scale(1)}
+ 100%{opacity:0;transform:translate3d(110%,0,0) skewX(0deg) scale(1)}
+}
+[data-theme='dark'] .ai-update-decoration::before{filter:saturate(.8);opacity:.9}
+[data-theme='dark'] .ai-update-decoration::after{background:radial-gradient(ellipse at 35% 20%,#9683d45c 0,transparent 43%),radial-gradient(ellipse at 62% 80%,#6fbea76e 0,transparent 44%),radial-gradient(ellipse at 52% 35%,#ddb37c4f 0,transparent 44%),linear-gradient(100deg,transparent 12%,color-mix(in srgb,var(--card) 94%,transparent) 46%,color-mix(in srgb,var(--card) 80%,transparent) 61%,transparent 85%)}
+.ai-update-decoration.ai-update-reduced::before{animation:none!important;--recipe-update-angle:35deg;opacity:.85}
+.ai-update-decoration.ai-update-reduced::after{display:none;animation:none!important}
+@media(prefers-reduced-motion:reduce){
+ .ai-update-decoration::before{animation:none!important;--recipe-update-angle:35deg;opacity:.85}
+ .ai-update-decoration::after{display:none;animation:none!important}
+}

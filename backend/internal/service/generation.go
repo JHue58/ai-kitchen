@@ -48,12 +48,17 @@ func Read[T any](db *gorm.DB, uid uint, kind string) []T {
 		})
 	}
 	var docs []model.Document
-	db.Where("user_id = ? AND kind = ?", uid, kind).Order("id asc").Find(&docs)
+	order := "id asc"
+	if kind == "recipes" || kind == "dishes" {
+		order = "COALESCE(generated_at, created_at) desc, id desc"
+	}
+	db.Where("user_id = ? AND kind = ?", uid, kind).Order(order).Find(&docs)
 	out := []T{}
 	for _, d := range docs {
-		var v map[string]any
-		json.Unmarshal([]byte(d.Data), &v)
-		v["id"] = d.ID
+		v, err := repository.DocumentData(d)
+		if err != nil {
+			continue
+		}
 		b, _ := json.Marshal(v)
 		var t T
 		if json.Unmarshal(b, &t) == nil {
@@ -79,7 +84,20 @@ func Save(db *gorm.DB, uid uint, kind string, data any) (model.Document, error) 
 		if err := json.Unmarshal(b, &record); err != nil {
 			return model.Document{}, err
 		}
-		doc, _, err := repository.SaveDishSnapshot(db, uid, record)
+		var doc model.Document
+		err = db.Transaction(func(tx *gorm.DB) error {
+			var saveErr error
+			doc, _, saveErr = repository.SaveDishSnapshot(tx, uid, record)
+			if saveErr != nil {
+				return saveErr
+			}
+			now := time.Now()
+			if err := tx.Model(&doc).UpdateColumn("generated_at", now).Error; err != nil {
+				return err
+			}
+			doc.GeneratedAt = &now
+			return repository.PruneCollectionHistory(tx, uid, kind)
+		})
 		return doc, err
 	}
 	b, e := json.Marshal(data)
@@ -87,7 +105,34 @@ func Save(db *gorm.DB, uid uint, kind string, data any) (model.Document, error) 
 		return model.Document{}, e
 	}
 	d := model.Document{UserID: uid, Kind: kind, Data: string(b)}
-	e = db.Create(&d).Error
+	if kind == "recipes" {
+		now := time.Now()
+		d.GeneratedAt = &now
+	}
+	repository.SetCollectionActionTimes(&d, "", time.Now())
+	e = db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&d).Error; err != nil {
+			return err
+		}
+		if err := repository.PruneCollectionHistory(tx, uid, kind); err != nil {
+			return err
+		}
+		if kind == "recipes" {
+			var menu model.Recipe
+			_ = json.Unmarshal(b, &menu)
+			ids := []uint{}
+			for _, dish := range menu.Dishes {
+				ids = append(ids, dish.CollectionID)
+			}
+			if len(ids) > 0 {
+				if err := tx.Model(&model.Document{}).Where("user_id = ? AND kind = ? AND id IN ?", uid, "dishes", ids).UpdateColumn("generated_at", d.GeneratedAt).Error; err != nil {
+					return err
+				}
+			}
+			return repository.PruneCollectionHistory(tx, uid, "dishes")
+		}
+		return nil
+	})
 	return d, e
 }
 
@@ -100,8 +145,9 @@ const Prompt = `你是中文智能厨房助手。你处于中国大陆，请不�
 4. 当前为菜谱生成阶段，所有 image 必须填 null。成品图在菜单保存交付后由独立配图任务搜索和核验；无图不影响菜谱有效性，不在 tips 中说明无图原因。来源由系统独立展示，不在点评中写来源。
 5. tags 描述整餐特点；每道菜的 tags 独立从 available_tags 选择全部适用标签，可多选，均不适用填 ["未知"]，不能把整餐标签套给所有菜。
 每项食材必须依据它在当前菜品中的实际用途填写 category：main 为主要食材（可有多个），supporting 为配料或装饰，seasoning 为调味料。葱姜蒜等应结合用量与菜品角色判断，不能机械按食材名称归类。每道菜都必须有独立 ai_commentary，点评该菜的口味、营养与制作要点；根 ai_commentary 总评整桌搭配。每道菜必须有 energy_usage，仅记录该菜电器实际加热时间，不使用电器填 []；同一设备服务多道菜时把加热时间分摊到对应菜品，一次加热不能重复计费，根 energy_usage 汇总各菜能耗。电量与电费由系统按设备功率、电价计算，不由模型填写。
-6. 以下数值仅演示类型，不是要求使用示例食材、设备或固定数值；image 在本阶段必须为 null。不要输出系统计算或保存的 cost、totals、nutrition（汇总）、sources、warnings、request、id、收藏状态等字段。
-{"title":"菜单名","tags":["家常菜"],"summary":"简介","servings":2,"dishes":[{"image":null,"tags":["家常菜"],"name":"菜名","description":"描述","ingredients":[{"name":"鸡蛋","category":"main","quantity":2,"unit":"个","estimated_edible_weight_g":100,"estimated_price_per_kg":12,"nutrition_per_100g":{"calories":143,"protein":12.6,"fat":9.5,"carbs":0.7}}],"equipment":[1],"prep_minutes":5,"cook_minutes":10,"steps":[{"step":1,"title":"准备","description":"具体操作","duration_minutes":5,"start_minute":0,"equipment_id":0,"temperature_c":null,"power_level":"","safety_note":""}],"energy_usage":[{"equipment_id":1,"heating_minutes":10,"duty_cycle":null}],"ai_commentary":"该菜口感与制作要点"}],"energy_usage":[{"equipment_id":1,"heating_minutes":10,"duty_cycle":null}],"ai_commentary":"整桌搭配点评","tips":[],"substitutions":[]}
+6. 根菜单和每道菜都必须生成 chat_suggestions，包含 3 至 5 个 {"label":"简短按钮文字","message":"点击后填入的完整提问或调整要求"}。label 不超过 12 个汉字，message 不超过 200 字。根据当前实际菜名、食材、烹饪步骤、用户偏好和设备提出有用的后续问题或调整方向；单菜建议只围绕该菜，菜单建议可涉及搭配和并行顺序。不得机械套用固定选项，不存在牛肉时不得建议“不要牛肉”，不重复已满足的要求，不建议违反忌口或约束的改动。
+7. 以下数值仅演示类型，不是要求使用示例食材、设备或固定数值；image 在本阶段必须为 null。不要输出系统计算或保存的 cost、totals、nutrition（汇总）、sources、warnings、request、id、收藏状态等字段。
+{"title":"菜单名","tags":["家常菜"],"summary":"简介","chat_suggestions":[{"label":"一起出锅","message":"怎样安排这顿饭的顺序，让各道菜一起上桌？"}],"servings":2,"dishes":[{"image":null,"tags":["家常菜"],"name":"菜名","description":"描述","chat_suggestions":[{"label":"判断熟度","message":"这道菜该怎样判断已经熟透？请结合当前步骤说明。"}],"ingredients":[{"name":"鸡蛋","category":"main","quantity":2,"unit":"个","estimated_edible_weight_g":100,"estimated_price_per_kg":12,"nutrition_per_100g":{"calories":143,"protein":12.6,"fat":9.5,"carbs":0.7}}],"equipment":[1],"prep_minutes":5,"cook_minutes":10,"steps":[{"step":1,"title":"准备","description":"具体操作","duration_minutes":5,"start_minute":0,"equipment_id":0,"temperature_c":null,"power_level":"","safety_note":""}],"energy_usage":[{"equipment_id":1,"heating_minutes":10,"duty_cycle":null}],"ai_commentary":"该菜口感与制作要点"}],"energy_usage":[{"equipment_id":1,"heating_minutes":10,"duty_cycle":null}],"ai_commentary":"整桌搭配点评","tips":[],"substitutions":[]}
 所有用量为整顿饭总量，包括配料与调味料。质量单位使用 g/kg，体积单位使用 ml/L，其他可用个等明确单位。非质量单位提供 estimated_edible_weight_g（可食用克重），尽量合理估算每项食材的人民币每公斤价格；确实无法估算才填 null。nutrition_per_100g 是每 100 克营养，calories 单位 kcal，其余为克，未知填 null。start_minute 是整顿菜单开始后的分钟，提供可执行的并行时间线，同一设备不能重叠；heating_minutes 只计实际加热，不含待机。
 提交前必须调用 check_menu，修正 violations，再输出符合本契约的完整菜单。若收到 repair_error、repair_constraints 或 previous_output，按具体问题修复，保留仍有效的菜谱信息，image 仍填 null，重新输出完整 JSON。
 如果在某一个步骤失败太多，则不要反复重试，结合已有知识和结果输出
@@ -109,6 +155,9 @@ const Prompt = `你是中文智能厨房助手。你处于中国大陆，请不�
 
 func Worker(ctx context.Context, db *gorm.DB, c config.Config) {
 	interruptImageSearches(db)
+	// Follow-up requests run in the serving process. Restarting that process
+	// abandons their in-memory candidates, so release their persisted leases.
+	db.Model(&model.RecipeChat{}).Where("lock_token <> ?", "").Updates(map[string]any{"lock_token": "", "locked_at": nil})
 	db.Model(&model.Job{}).Where("status NOT IN ?", []string{"pending", "completed", "failed"}).Updates(map[string]any{"status": "failed", "error": "服务重启中断了任务，请重新生成"})
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
@@ -235,6 +284,10 @@ func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 			return
 		}
 		stage("validating")
+		recipe.ChatSuggestions = cleanChatSuggestions(recipe.ChatSuggestions)
+		for i := range recipe.Dishes {
+			recipe.Dishes[i].ChatSuggestions = cleanChatSuggestions(recipe.Dishes[i].ChatSuggestions)
+		}
 		NormalizeDishTags(&recipe, availableTags)
 		calculator.Calculate(&recipe, prices, pantry, eq, p)
 		violations := calculator.Validate(recipe, q, p, eq, pantry)

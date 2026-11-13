@@ -58,6 +58,9 @@ func Open(c config.Config) (*gorm.DB, error) {
 		e = db.AutoMigrate(&model.Document{})
 	}
 	if e == nil {
+		e = migrateRecipeChatVisits(db)
+	}
+	if e == nil {
 		e = migrateCollections(db)
 	}
 	if e == nil {
@@ -65,6 +68,9 @@ func Open(c config.Config) (*gorm.DB, error) {
 	}
 	if e == nil {
 		e = migrateDishDetails(db)
+	}
+	if e == nil {
+		e = migrateCollectionHistory(db)
 	}
 	return db, e
 }

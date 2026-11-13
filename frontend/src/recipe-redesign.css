@@ -1,4 +1,5 @@
 /* A dense, tactile recipe worktop: food first, ingredients close at hand. */
+@media(min-width:701px){.dish-detail-grid>.reveal-section:first-child{position:sticky;top:100px}}
 .page.recipe-reading,.page.dish-reading{--recipe-sage:#e9efdf;--recipe-lime:#cbe882;--recipe-butter:#ffda82;--recipe-orange:#ffb375;--recipe-stone:#e8e9e5;--recipe-ink:#2f3b2c;--recipe-quiet:color-mix(in srgb,var(--card) 80%,var(--soft));padding-top:18px;min-width:0}
 [data-theme=dark] .recipe-reading,[data-theme=dark] .dish-reading{--recipe-sage:#29362b;--recipe-lime:#50663b;--recipe-butter:#6c5832;--recipe-orange:#714d35;--recipe-stone:#383f3d;--recipe-ink:#f0eddf}
 .recipe-reading [id],.dish-reading [id]{scroll-margin-top:112px}

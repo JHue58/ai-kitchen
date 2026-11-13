@@ -26,6 +26,7 @@ func dishSnapshotKey(record model.DishRecord) (string, error) {
 		return "", err
 	}
 	dish.CollectionID, dish.ReuseFrom, dish.Image = 0, nil, nil
+	dish.ChatSuggestions = nil
 	dish.Cost, dish.Nutrition = 0, model.Nutrition{}
 	// Classification, commentary and energy estimates enrich an existing recipe;
 	// they must not change its collection identity.
@@ -67,6 +68,7 @@ func SaveDishSnapshot(db *gorm.DB, uid uint, record model.DishRecord) (model.Doc
 		return model.Document{}, false, err
 	}
 	doc := model.Document{UserID: uid, Kind: "dishes", CollectionKey: &key, Data: string(raw)}
+	SetCollectionActionTimes(&doc, "", time.Now())
 	result := db.Clauses(clause.OnConflict{Columns: []clause.Column{{Name: "user_id"}, {Name: "kind"}, {Name: "collection_key"}}, DoNothing: true}).Create(&doc)
 	if result.Error != nil {
 		return model.Document{}, false, result.Error
@@ -85,13 +87,16 @@ func SaveDishSnapshot(db *gorm.DB, uid uint, record model.DishRecord) (model.Doc
 		if (!record.Saved || existing.Saved) && (!record.Favorite || existing.Favorite) {
 			return doc, false, nil
 		}
+		previousData := doc.Data
 		existing.Saved = existing.Saved || record.Saved
 		existing.Favorite = existing.Favorite || record.Favorite
 		raw, err = json.Marshal(existing)
 		if err != nil {
 			return model.Document{}, false, err
 		}
-		updated := db.Model(&model.Document{}).Where("id = ? AND user_id = ? AND data = ?", doc.ID, uid, doc.Data).Update("data", string(raw))
+		doc.Data = string(raw)
+		SetCollectionActionTimes(&doc, previousData, time.Now())
+		updated := db.Model(&model.Document{}).Where("id = ? AND user_id = ? AND data = ?", doc.ID, uid, previousData).Updates(map[string]any{"data": doc.Data, "saved_at": doc.SavedAt, "favorited_at": doc.FavoritedAt})
 		if updated.Error != nil {
 			return model.Document{}, false, updated.Error
 		}

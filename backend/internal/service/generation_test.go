@@ -25,7 +25,12 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 		case "/v1/tools/fetch":
 			json.NewEncoder(w).Encode(map[string]string{"content": "参考正文"})
 		case "/chat/completions":
-			recipe := validGeneratedRecipe
+			var generated map[string]any
+			json.Unmarshal([]byte(validGeneratedRecipe), &generated)
+			generated["chat_suggestions"] = []model.ChatSuggestion{{Label: "搭配主食", Message: "鸡蛋配什么主食更均衡？"}}
+			generated["dishes"].([]any)[0].(map[string]any)["chat_suggestions"] = []model.ChatSuggestion{{Label: "判断蛋熟", Message: "怎样判断鸡蛋已经完全熟透？"}}
+			generatedJSON, _ := json.Marshal(generated)
+			recipe := string(generatedJSON)
 			var request struct {
 				Messages []struct {
 					Role string `json:"role"`
@@ -145,6 +150,9 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 	recipes := Read[model.Recipe](db, user.ID, "recipes")
 	if len(recipes) != 1 || recipes[0].Cost != 2 || recipes[0].Nutrition.Calories != 143 {
 		t.Fatalf("bad calculated recipe %+v", recipes)
+	}
+	if len(recipes[0].ChatSuggestions) != 1 || len(dishes[0].ChatSuggestions) != 1 || len(recipes[0].Dishes[0].ChatSuggestions) != 1 {
+		t.Fatal("generation lost AI suggestions on menu or collected dish")
 	}
 	for _, usage := range []*model.TokenUsage{recipes[0].TokenUsage, dishes[0].TokenUsage} {
 		if usage == nil || usage.Calls != 4 || usage.InputTokens != 400 || usage.OutputTokens != 80 || usage.TotalTokens != 480 || usage.MissingCalls != 0 {

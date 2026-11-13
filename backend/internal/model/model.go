@@ -16,15 +16,43 @@ type Session struct {
 	ExpiresAt time.Time
 }
 
+// RecipeChat is deliberately separate from generation jobs and their tool trace.
+// Only successful follow-up turns belong to this owner-scoped conversation.
+type RecipeChat struct {
+	ID         uint          `json:"session_id"`
+	UserID     uint          `json:"-" gorm:"uniqueIndex:recipe_chat_visit"`
+	Kind       string        `json:"-" gorm:"uniqueIndex:recipe_chat_visit;size:16"`
+	DocumentID uint          `json:"-" gorm:"uniqueIndex:recipe_chat_visit"`
+	VisitID    string        `json:"-" gorm:"uniqueIndex:recipe_chat_visit;size:80"`
+	Messages   []ChatMessage `json:"messages" gorm:"serializer:json;type:text"`
+	LockToken  string        `json:"-"`
+	LockedAt   *time.Time    `json:"-"`
+	ClosedAt   *time.Time    `json:"-"`
+	CreatedAt  time.Time     `json:"-"`
+	UpdatedAt  time.Time     `json:"-"`
+}
+
+type ChatMessage struct {
+	ID              string    `json:"id"`
+	RequestID       string    `json:"request_id,omitempty"`
+	Role            string    `json:"role"`
+	Content         string    `json:"content"`
+	CreatedAt       time.Time `json:"created_at"`
+	ChangedSections []string  `json:"changed_sections,omitempty"`
+}
+
 // Documents are owner-scoped typed aggregates. Recipes preserve complete immutable versions.
 type Document struct {
-	ID            uint      `json:"id"`
-	UserID        uint      `json:"-" gorm:"index:owner_kind;uniqueIndex:collection_identity"`
-	Kind          string    `json:"kind" gorm:"index:owner_kind;uniqueIndex:collection_identity"`
-	CollectionKey *string   `json:"-" gorm:"uniqueIndex:collection_identity;size:64"`
-	Data          string    `json:"-" gorm:"type:text"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
+	ID            uint       `json:"id"`
+	UserID        uint       `json:"-" gorm:"index:owner_kind;uniqueIndex:collection_identity"`
+	Kind          string     `json:"kind" gorm:"index:owner_kind;uniqueIndex:collection_identity"`
+	CollectionKey *string    `json:"-" gorm:"uniqueIndex:collection_identity;size:64"`
+	Data          string     `json:"-" gorm:"type:text"`
+	CreatedAt     time.Time  `json:"created_at"`
+	UpdatedAt     time.Time  `json:"updated_at"`
+	GeneratedAt   *time.Time `json:"generated_at,omitempty"`
+	SavedAt       *time.Time `json:"saved_at,omitempty"`
+	FavoritedAt   *time.Time `json:"favorited_at,omitempty"`
 }
 type JobEvent struct {
 	Detail  string    `json:"detail,omitempty"`
@@ -153,24 +181,30 @@ type DishImage struct {
 	License   string `json:"license"`
 }
 
+type ChatSuggestion struct {
+	Label   string `json:"label"`
+	Message string `json:"message"`
+}
+
 type Dish struct {
-	CollectionID uint           `json:"collection_id,omitempty"`
-	ReuseFrom    *DishReference `json:"reuse_from,omitempty"`
-	Image        *DishImage     `json:"image,omitempty"`
-	Tags         []string       `json:"tags"`
-	Name         string         `json:"name"`
-	Description  string         `json:"description"`
-	Ingredients  []Ingredient   `json:"ingredients"`
-	Equipment    []uint         `json:"equipment"`
-	PrepMinutes  float64        `json:"prep_minutes"`
-	CookMinutes  float64        `json:"cook_minutes"`
-	Steps        []Step         `json:"steps"`
-	Cost         float64        `json:"cost"`
-	Nutrition    Nutrition      `json:"nutrition"`
-	Commentary   string         `json:"ai_commentary,omitempty"`
-	Usage        []Usage        `json:"energy_usage"`
-	KWh          float64        `json:"theoretical_kwh"`
-	EnergyCost   float64        `json:"theoretical_energy_cost"`
+	ChatSuggestions []ChatSuggestion `json:"chat_suggestions,omitempty"`
+	CollectionID    uint             `json:"collection_id,omitempty"`
+	ReuseFrom       *DishReference   `json:"reuse_from,omitempty"`
+	Image           *DishImage       `json:"image,omitempty"`
+	Tags            []string         `json:"tags"`
+	Name            string           `json:"name"`
+	Description     string           `json:"description"`
+	Ingredients     []Ingredient     `json:"ingredients"`
+	Equipment       []uint           `json:"equipment"`
+	PrepMinutes     float64          `json:"prep_minutes"`
+	CookMinutes     float64          `json:"cook_minutes"`
+	Steps           []Step           `json:"steps"`
+	Cost            float64          `json:"cost"`
+	Nutrition       Nutrition        `json:"nutrition"`
+	Commentary      string           `json:"ai_commentary,omitempty"`
+	Usage           []Usage          `json:"energy_usage"`
+	KWh             float64          `json:"theoretical_kwh"`
+	EnergyCost      float64          `json:"theoretical_energy_cost"`
 }
 
 // DishReference identifies an immutable dish snapshot in the owner's collection.
@@ -209,32 +243,33 @@ type TokenUsage struct {
 }
 
 type Recipe struct {
-	ImageStatus   string      `json:"image_status,omitempty"`
-	TokenUsage    *TokenUsage `json:"token_usage,omitempty"`
-	Tags          []string    `json:"tags"`
-	Title         string      `json:"title"`
-	Summary       string      `json:"summary"`
-	Servings      int         `json:"servings"`
-	Dishes        []Dish      `json:"dishes"`
-	Elapsed       float64     `json:"total_elapsed_minutes"`
-	Commentary    string      `json:"ai_commentary"`
-	Tips          []string    `json:"tips"`
-	Substitutions []string    `json:"substitutions"`
-	Usage         []Usage     `json:"energy_usage"`
-	Sources       []Source    `json:"sources"`
-	Warnings      []string    `json:"warnings"`
-	Cost          float64     `json:"total_cost"`
-	PurchaseCost  float64     `json:"purchase_cost"`
-	UnknownPrices int         `json:"unknown_prices"`
-	Nutrition     Nutrition   `json:"nutrition"`
-	KWh           float64     `json:"theoretical_kwh"`
-	EnergyCost    float64     `json:"theoretical_energy_cost"`
-	Favorite      bool        `json:"favorite"`
-	Saved         bool        `json:"saved"`
-	Rating        int         `json:"rating"`
-	Feedback      string      `json:"feedback"`
-	ParentID      uint        `json:"parent_id"`
-	Request       Request     `json:"request"`
+	ChatSuggestions []ChatSuggestion `json:"chat_suggestions,omitempty"`
+	ImageStatus     string           `json:"image_status,omitempty"`
+	TokenUsage      *TokenUsage      `json:"token_usage,omitempty"`
+	Tags            []string         `json:"tags"`
+	Title           string           `json:"title"`
+	Summary         string           `json:"summary"`
+	Servings        int              `json:"servings"`
+	Dishes          []Dish           `json:"dishes"`
+	Elapsed         float64          `json:"total_elapsed_minutes"`
+	Commentary      string           `json:"ai_commentary"`
+	Tips            []string         `json:"tips"`
+	Substitutions   []string         `json:"substitutions"`
+	Usage           []Usage          `json:"energy_usage"`
+	Sources         []Source         `json:"sources"`
+	Warnings        []string         `json:"warnings"`
+	Cost            float64          `json:"total_cost"`
+	PurchaseCost    float64          `json:"purchase_cost"`
+	UnknownPrices   int              `json:"unknown_prices"`
+	Nutrition       Nutrition        `json:"nutrition"`
+	KWh             float64          `json:"theoretical_kwh"`
+	EnergyCost      float64          `json:"theoretical_energy_cost"`
+	Favorite        bool             `json:"favorite"`
+	Saved           bool             `json:"saved"`
+	Rating          int              `json:"rating"`
+	Feedback        string           `json:"feedback"`
+	ParentID        uint             `json:"parent_id"`
+	Request         Request          `json:"request"`
 }
 
 // DishRecord is an independent snapshot; removing its source menu cannot remove it.

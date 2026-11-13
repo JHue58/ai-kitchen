@@ -31,6 +31,7 @@ func TestDishSnapshotConcurrentSavesAndOwnership(t *testing.T) {
 	record.Steps[0].Start = 20
 	record.Image = &model.DishImage{URL: "https://example.com/egg.jpg"}
 	record.Saved = true
+	record.ChatSuggestions = []model.ChatSuggestion{{Label: "嫩一点", Message: "怎样让鸡蛋更嫩？"}}
 	const clicks = 12
 	ids := make(chan uint, clicks)
 	errs := make(chan error, clicks)

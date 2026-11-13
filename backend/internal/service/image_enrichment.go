@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"reflect"
 	"time"
 
 	"gorm.io/gorm"
@@ -158,7 +159,10 @@ func patchImageDish(db *gorm.DB, doc model.Document, index int, dish model.Dish,
 		} else if dishes, ok := data["dishes"].([]any); ok && index < len(dishes) {
 			target, _ = dishes[index].(map[string]any)
 		}
-		if target != nil && target["name"] == dish.Name && target["description"] == dish.Description {
+		expectedRaw, _ := json.Marshal(dish)
+		var expected map[string]any
+		json.Unmarshal(expectedRaw, &expected)
+		if target != nil && target["name"] == dish.Name && target["description"] == dish.Description && reflect.DeepEqual(mainIngredients(target), mainIngredients(expected)) {
 			target["image"] = image
 			if single {
 				target["image_status"] = "completed"
