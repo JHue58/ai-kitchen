@@ -14,8 +14,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func imageSearchEnabled(c config.Config, q model.Request) bool {
-	return q.Search && c.Search.Enabled && c.Search.APIKey != "" &&
+func imageSearchEnabled(c config.Config, q model.Request, p model.Preferences) bool {
+	return p.AutoSearchImages && q.Search && c.Search.Enabled && c.Search.APIKey != "" &&
 		c.LLM.Enabled && c.LLM.VisionEnabled && c.LLM.APIKey != "" && c.LLM.Model != ""
 }
 

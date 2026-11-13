@@ -1,11 +1,11 @@
-import {useEffect,useId,useLayoutEffect,useRef,useState,type ComponentProps} from 'react';
+import {useEffect,useId,useLayoutEffect,useRef,useState,type ComponentProps,type RefObject} from 'react';
 import {createPortal} from 'react-dom';
 import {Check,ChevronDown,Sparkles} from 'lucide-react';
 import {GenerationProgress} from './kitchen-experience';
 import '../generation-assistant.css';
 
 type Mode='inline'|'docked'|'expanded';
-type Props=ComponentProps<typeof GenerationProgress>&{completed:boolean};
+type Props=ComponentProps<typeof GenerationProgress>&{completed:boolean;contentRef:RefObject<HTMLDivElement|null>};
 const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // A damped spring keeps position and scale on the same continuous trajectory.
@@ -22,47 +22,53 @@ function springFrames(from:DOMRect,to:DOMRect,counterScale=false):Keyframe[]{
  });
 }
 
-export function GenerationAssistant({completed,...progress}:Props){
+export function GenerationAssistant({completed,contentRef,...progress}:Props){
  const recordId=useId();
  const [mode,setMode]=useState<Mode>('inline');
  const slot=useRef<HTMLDivElement>(null),inline=useRef<HTMLDivElement>(null),floating=useRef<HTMLDivElement>(null);
  const capsule=useRef<HTMLButtonElement>(null),close=useRef<HTMLButtonElement>(null);
  const detail=useRef<HTMLDivElement>(null),capsuleCopy=useRef<HTMLButtonElement>(null);
- const previous=useRef<{rect:DOMRect;slotHeight:number;slotMargin:string;mode:Mode;focus:boolean}|null>(null);
+ const previous=useRef<{rect:DOMRect;contentTop?:number;snapshot?:HTMLElement;mode:Mode;focus:boolean}|null>(null);
+ const snapshot=useRef<HTMLElement|null>(null);
  const animations=useRef<Animation[]>([]);
  const currentMode=useRef(mode);currentMode.current=mode;
 
  function finishMotion(){
   animations.current.forEach(animation=>animation.cancel());animations.current=[];
   floating.current?.classList.remove('is-morphing','is-from-inline');
+  snapshot.current?.remove();snapshot.current=null;
   for(const content of [detail.current,capsuleCopy.current])if(content){content.style.width='';content.style.height='';content.style.transformOrigin=''}
  }
  function move(next:Mode,focus=true){
   if(currentMode.current===next)return;
   const source=currentMode.current==='inline'?inline.current:floating.current;
-  if(source)previous.current={rect:source.getBoundingClientRect(),slotHeight:slot.current?.getBoundingClientRect().height||0,slotMargin:slot.current?getComputedStyle(slot.current).marginBottom:'0px',mode:currentMode.current,focus};
+  if(source)previous.current={rect:source.getBoundingClientRect(),contentTop:contentRef.current?.getBoundingClientRect().top,snapshot:currentMode.current==='inline'&&!reducedMotion()?source.cloneNode(true) as HTMLElement:undefined,mode:currentMode.current,focus};
   finishMotion();setMode(next);
  }
 
- useEffect(()=>{
+ useLayoutEffect(()=>{
   if(!completed||progress.error||progress.job?.status==='failed'){
    if(currentMode.current!=='inline'){finishMotion();previous.current=null;setMode('inline')}
    return;
   }
   if(mode!=='inline')return;
-  let timer:ReturnType<typeof setTimeout>;
   const dock=()=>{
    // Don't take away a record while someone is using its keyboard controls.
-   if(inline.current?.contains(document.activeElement)){timer=setTimeout(dock,900);return}
+   if(inline.current?.contains(document.activeElement))return;
    move('docked',false);
   };
-  timer=setTimeout(dock,reducedMotion()?0:900);
-  return()=>clearTimeout(timer);
+  dock();
+  // Resume immediately when keyboard focus leaves, without polling or a delay.
+  const source=inline.current;
+  const blur=(event:FocusEvent)=>{if(!(event.relatedTarget instanceof Node)||!source?.contains(event.relatedTarget))move('docked',false)};
+  source?.addEventListener('focusout',blur);
+  return()=>source?.removeEventListener('focusout',blur);
  },[completed,mode,progress.error,progress.job?.status]);
 
  useLayoutEffect(()=>{
+  if(mode==='inline')return;
   const source=previous.current;previous.current=null;
-  if(mode==='inline'||!source||!floating.current)return;
+  if(!source||!floating.current)return;
   const target=floating.current.getBoundingClientRect();
   const panel=floating.current;
   if(source.focus){if(mode==='expanded')close.current?.focus({preventScroll:true});else capsule.current?.focus({preventScroll:true})}
@@ -71,10 +77,21 @@ export function GenerationAssistant({completed,...progress}:Props){
   if(source.mode==='inline')panel.classList.add('is-from-inline');
   const geometry=panel.animate(springFrames(source.rect,target),{duration:860,fill:'both'});
   animations.current.push(geometry);
-  if(source.mode==='inline'&&slot.current){
-   animations.current.push(slot.current.animate([{height:source.slotHeight+'px',marginBottom:source.slotMargin},{height:'0px',marginBottom:'0px'}],{duration:790,easing:'cubic-bezier(.22,1,.36,1)'}));
+  if(source.mode==='inline'&&contentRef.current&&source.contentTop!==undefined){
+   // Collapse layout once, then move the recipe on the compositor while it reveals.
+   const dy=source.contentTop-contentRef.current.getBoundingClientRect().top;
+   animations.current.push(contentRef.current.animate([{transform:`translate3d(0,${dy}px,0)`},{transform:'translate3d(0,0,0)'}],{duration:790,easing:'cubic-bezier(.22,1,.36,1)'}));
   }
-  if(detail.current){
+  if(source.snapshot){
+   // Keep the exact inline layout during takeoff. Scaling this frozen layer avoids
+   // reflowing and counter-scaling the entire detailed record on every frame.
+   const copy=source.snapshot;snapshot.current=copy;
+   copy.className='generation-assistant-snapshot';copy.setAttribute('aria-hidden','true');copy.inert=true;
+   Object.assign(copy.style,{width:source.rect.width+'px',height:source.rect.height+'px',transform:`scale(${target.width/source.rect.width},${target.height/source.rect.height})`});
+   panel.append(copy);
+   animations.current.push(copy.animate([{opacity:1},{opacity:1,offset:.12},{opacity:0,offset:.55},{opacity:0}],{duration:860,easing:'cubic-bezier(.22,1,.36,1)',fill:'both'}));
+  }
+  if(detail.current&&source.mode!=='inline'){
    detail.current.style.width=(mode==='docked'?source.rect.width:target.width)+'px';detail.current.style.transformOrigin='top left';
    animations.current.push(detail.current.animate(springFrames(source.rect,target,true),{duration:860,fill:'both'}));
    animations.current.push(detail.current.animate(mode==='docked'?[{opacity:1},{opacity:0,offset:.22},{opacity:0}]:[{opacity:0},{opacity:0,offset:.16},{opacity:1,offset:.66},{opacity:1}],{duration:720,easing:'cubic-bezier(.22,1,.36,1)'}));

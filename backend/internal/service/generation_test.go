@@ -64,6 +64,7 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 	c.Database.Driver = "sqlite"
 	c.Database.DSN = filepath.Join(t.TempDir(), "test.db")
 	c.LLM.Enabled = true
+	c.LLM.VisionEnabled = true
 	c.LLM.APIKey = "test"
 	c.LLM.Model = "test"
 	c.LLM.BaseURL = upstream.URL
@@ -114,6 +115,11 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 		}
 		if job.Status != "completed" || job.RecipeID == 0 {
 			t.Fatalf("job failed %+v", job)
+		}
+		var delivered model.Document
+		db.First(&delivered, job.RecipeID)
+		if strings.Contains(delivered.Data, `"image_status":"pending"`) {
+			t.Fatal("image search started without personal opt-in")
 		}
 		if i == 0 {
 			autoDishes := Read[model.DishRecord](db, user.ID, "dishes")

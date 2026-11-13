@@ -277,7 +277,7 @@ func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 	for _, dish := range recipe.Dishes {
 		needsImages = needsImages || dish.Image == nil
 	}
-	if needsImages && imageSearchEnabled(c, q) {
+	if needsImages && imageSearchEnabled(c, q, p) {
 		recipe.ImageStatus = "pending"
 	}
 	recipe.Sources = sources

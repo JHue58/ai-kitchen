@@ -1,4 +1,4 @@
-import {createContext,useContext,useEffect,useState,type ReactNode} from 'react';
+import {createContext,useContext,useEffect,useRef,useState,type ReactNode} from 'react';
 import {Link,useNavigate,useParams,useLocation} from 'react-router-dom';
 import {useQuery,useQueryClient} from '@tanstack/react-query';
 import {api,type Doc} from '../api';
@@ -28,6 +28,7 @@ export function Reveal({index,children,anchorId}:{index:number;children:ReactNod
  </div>
 }
 export function GenerationPage({render}:{render:(recipe:Doc,single:boolean)=>ReactNode}){
+ const contentRef=useRef<HTMLDivElement>(null);
  const {id=''}=useParams();const route=useLocation();const nav=useNavigate(),client=useQueryClient();const submission=submissions.get(id);
  const start=useQuery({queryKey:['generation-submit',id],queryFn:()=>submission!.promise,enabled:!!submission,retry:false,staleTime:Infinity,gcTime:Infinity,refetchOnMount:false});
  useEffect(()=>{if(start.data?.id)nav('/generating/'+start.data.id,{replace:true,state:{single:submission?.request.target==='dish'}})},[start.data,nav]);
@@ -54,8 +55,8 @@ export function GenerationPage({render}:{render:(recipe:Doc,single:boolean)=>Rea
  return <div className={'generation-page '+(!ready?'awaiting-result':'has-result')+(error?' has-error':'')}>
  <div className="generation-heading"><div><Link className="generation-back" to={single?'/inspire-dish':'/'}><ArrowLeft size={15}/>回到灵感厨房</Link><span className="generation-kicker"><Sparkles size={14}/> YOUR PERSONAL AI CHEF</span><h1>{error?'这一餐，我还差一点。':ready?'我把这一餐准备好了。':'稍等会，我在为你认真准备。'}</h1><p>{error?'我记得你的想法，让我再尝试一下。':ready?'食材、做法与每一个细节，我都整理在这里。':'从你的口味到厨房里的小细节，我都会照顾好。'}</p></div>{ready&&revealed<7&&<Button variant="secondary" onClick={()=>setRevealed(7)}>查看完整菜谱<ArrowUpRight size={16}/></Button>}{ready&&revealed===7&&<span className="generation-done"><Check size={15}/>已经为你保存</span>}</div>
  {error&&<div className="notice" role="alert">{error.replace(/生成/g,'制作').replace(/\bAgent\b/gi,'我')}<div className="actions"><Button variant="secondary" onClick={()=>{if(job.data?.status==='failed')nav(single?'/inspire-dish':'/');else if(result.isError)void result.refetch();else if(!id.startsWith('new-'))void job.refetch();else nav(single?'/inspire-dish':'/')}}>{job.data?.status==='failed'?'调整偏好再试':'让我再试一次'}</Button><Link to={single?'/inspire-dish':'/'}>返回调整偏好 →</Link></div></div>}
- {(job.data||!error)&&<GenerationAssistant key={id} job={job.data} connecting={!job.data} error={job.error?.message} completed={ready&&!error}/>}
- <RevealContext.Provider value={{states,single}}>{render(result.data||placeholder,single)}</RevealContext.Provider>
+ {(job.data||!error)&&<GenerationAssistant key={id} job={job.data} connecting={!job.data} error={job.error?.message} completed={ready&&!error} contentRef={contentRef}/>}
+ <div ref={contentRef} className="generation-results"><RevealContext.Provider value={{states,single}}>{render(result.data||placeholder,single)}</RevealContext.Provider></div>
  {ready&&revealed===7&&<Link className="btn secondary generation-saved-link" to={'/'+kind+'/'+result.data.id}>查看我为你保存的{single?'菜品':'菜单'}<ArrowUpRight size={17}/></Link>}
  </div>
 }

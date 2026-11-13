@@ -5,6 +5,13 @@
 .generation-assistant-float{--assistant-bottom:max(22px,env(safe-area-inset-bottom));position:fixed;right:max(22px,env(safe-area-inset-right));bottom:var(--assistant-bottom);width:132px;height:46px;z-index:48;isolation:isolate;transform-origin:top left;border-radius:25px;background:var(--card);border:1px solid color-mix(in srgb,var(--line) 78%,transparent);box-shadow:0 6px 24px #26382413,inset 0 1px 0 #ffffff65;transition:box-shadow .45s cubic-bezier(.22,1,.36,1);overflow:hidden}
 .generation-assistant-float[data-mode="expanded"]{width:min(540px,calc(100vw - 44px));max-width:calc(100% - 44px);height:auto;border-radius:29px;box-shadow:0 18px 75px #172c2426,inset 0 1px 0 #ffffff65}
 .generation-assistant-float.is-morphing{will-change:transform;pointer-events:none}
+.generation-assistant-float.is-morphing.is-from-inline{background:transparent;border-color:transparent;box-shadow:none;overflow:visible;transition:none}
+.generation-assistant-float.is-from-inline>.generation-assistant-capsule{box-shadow:inset 0 0 0 1px var(--line)}
+.generation-results{min-width:0;overflow-anchor:none}
+.generation-assistant-snapshot{position:absolute;inset:0;transform-origin:top left;pointer-events:none}
+.generation-assistant-snapshot>.chef-progress{margin:0}
+.generation-assistant-snapshot *{animation:none!important;transition:none!important;will-change:auto!important}
+.generation-assistant-float.is-morphing.is-from-inline>.generation-assistant-detail{visibility:hidden}
 .generation-assistant-detail{position:relative;width:100%;visibility:visible;opacity:1}
 [data-mode="docked"]>.generation-assistant-detail{position:absolute;inset:0;width:min(540px,calc(100vw - 44px));opacity:0;visibility:hidden;pointer-events:none}
 .generation-assistant-float.is-morphing>.generation-assistant-detail{visibility:visible}

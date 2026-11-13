@@ -30,6 +30,64 @@ func imageTestConfig(t *testing.T, upstream string) config.Config {
 	return c
 }
 
+func TestImageSearchRequiresPersonalOptIn(t *testing.T) {
+	c := imageTestConfig(t, "https://example.com")
+	db, err := repository.Open(c)
+	if err != nil {
+		t.Fatal(err)
+	}
+	sqlDB, _ := db.DB()
+	defer sqlDB.Close()
+	// Older documents have no opt-in field and must remain disabled.
+	legacy, err := Save(db, 2, "preferences", map[string]any{"theme": "light"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := Save(db, 3, "preferences", model.Preferences{AutoSearchImages: true}); err != nil {
+		t.Fatal(err)
+	}
+	q := model.Request{Search: true}
+	for _, uid := range []uint{1, 2, 3} {
+		if got := imageSearchEnabled(c, q, Prefs(db, uid)); got != (uid == 3) {
+			t.Fatalf("user %d image search enabled = %v", uid, got)
+		}
+	}
+	// Saving and then disabling the setting takes effect on later generations.
+	for _, enabled := range []bool{true, false} {
+		raw, _ := json.Marshal(model.Preferences{AutoSearchImages: enabled})
+		if err := db.Model(&legacy).Update("data", string(raw)).Error; err != nil {
+			t.Fatal(err)
+		}
+		if got := imageSearchEnabled(c, q, Prefs(db, 2)); got != enabled {
+			t.Fatalf("saved opt-in %v: enabled = %v", enabled, got)
+		}
+	}
+	p := Prefs(db, 3)
+	if imageSearchEnabled(c, model.Request{}, p) {
+		t.Fatal("searched images with networking disabled")
+	}
+	for _, unavailable := range []string{"search", "search_key", "llm", "vision", "llm_key", "model"} {
+		limited := c
+		switch unavailable {
+		case "search":
+			limited.Search.Enabled = false
+		case "search_key":
+			limited.Search.APIKey = ""
+		case "llm":
+			limited.LLM.Enabled = false
+		case "vision":
+			limited.LLM.VisionEnabled = false
+		case "llm_key":
+			limited.LLM.APIKey = ""
+		case "model":
+			limited.LLM.Model = ""
+		}
+		if imageSearchEnabled(limited, q, p) {
+			t.Errorf("searched images without %s", unavailable)
+		}
+	}
+}
+
 func TestImageAgentSharesOneBatchAndBindsDishIndexes(t *testing.T) {
 	var planning, vision, searches atomic.Int32
 	upstream := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -166,6 +224,9 @@ func TestMenuDeliveredBeforeImageSearch(t *testing.T) {
 			defer sqlDB.Close()
 			user := model.User{Username: "chef"}
 			db.Create(&user)
+			if _, err := Save(db, user.ID, "preferences", model.Preferences{AutoSearchImages: true}); err != nil {
+				t.Fatal(err)
+			}
 			q := model.Request{ReuseExisting: &reuseDisabledForLegacyTests, Target: target, Search: true, Servings: 2, Mode: "strict", Ingredients: []string{"鸡蛋"}, DishCount: 1}
 			raw, _ := json.Marshal(q)
 			job := model.Job{UserID: user.ID, Status: "pending", Request: string(raw)}

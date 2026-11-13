@@ -87,6 +87,7 @@ type Price struct {
 	Nutrition *Nutrition `json:"nutrition_per_100g"`
 }
 type Preferences struct {
+	AutoSearchImages bool     `json:"auto_search_images"`
 	GlobalPrompt     string   `json:"global_prompt"`
 	Allergies        []string `json:"allergies"`
 	Avoid            []string `json:"avoid"`
