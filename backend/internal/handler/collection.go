@@ -2,7 +2,7 @@ package handler
 
 import (
 	"ai-kitchen/internal/model"
-	"ai-kitchen/internal/service"
+	"ai-kitchen/internal/repository"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"strconv"
@@ -77,10 +77,10 @@ func (s *Server) saveDish(c *gin.Context) {
 	q.Target = "dish"
 	q.DishCount = 1
 	dish := model.DishRecord{Dish: menu.Dishes[index], Servings: menu.Servings, Saved: true, Warnings: menu.Warnings, Sources: menu.Sources, Request: q}
-	saved, err := service.Save(s.DB, uid(c), "dishes", dish)
+	saved, created, err := repository.SaveDishSnapshot(s.DB, uid(c), dish)
 	if err != nil {
 		bad(c, 500, "保存失败")
 		return
 	}
-	c.JSON(200, gin.H{"id": saved.ID})
+	c.JSON(200, gin.H{"id": saved.ID, "saved": true, "already_saved": !created})
 }

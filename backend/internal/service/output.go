@@ -25,6 +25,14 @@ func parseGeneratedRecipe(raw []byte) (model.Recipe, error) {
 		if strings.TrimSpace(dish.Name) == "" || len(dish.Tags) == 0 {
 			return r, fmt.Errorf("dishes[%d] 的 name 和 tags 不得为空", di)
 		}
+		if strings.TrimSpace(dish.Commentary) == "" {
+			return r, fmt.Errorf("dishes[%d].ai_commentary 不得为空，请分别点评每道菜", di)
+		}
+		for ii, ingredient := range dish.Ingredients {
+			if ingredient.Category != "main" && ingredient.Category != "supporting" && ingredient.Category != "seasoning" {
+				return r, fmt.Errorf("dishes[%d].ingredients[%d].category 必须为 main、supporting 或 seasoning", di, ii)
+			}
+		}
 		for si, step := range dish.Steps {
 			if step.Step != si+1 || strings.TrimSpace(step.Title) == "" || strings.TrimSpace(step.Description) == "" {
 				return r, fmt.Errorf("dishes[%d].steps[%d] 必须有标题、描述且 step 从 1 连续编号", di, si)
@@ -52,9 +60,9 @@ func checkOutputObject(raw json.RawMessage, path, fields string) error {
 		childFields, array := "", false
 		switch key {
 		case "dishes":
-			childFields, array = "image? tags name description ingredients equipment prep_minutes cook_minutes steps", true
+			childFields, array = "image? tags name description ingredients equipment prep_minutes cook_minutes steps ai_commentary energy_usage", true
 		case "ingredients":
-			childFields, array = "name quantity unit estimated_edible_weight_g? estimated_price_per_kg? nutrition_per_100g?", true
+			childFields, array = "name category quantity unit estimated_edible_weight_g? estimated_price_per_kg? nutrition_per_100g?", true
 		case "steps":
 			childFields, array = "step title description duration_minutes start_minute equipment_id temperature_c? power_level safety_note", true
 		case "energy_usage":

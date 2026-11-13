@@ -1,0 +1,28 @@
+.color-stat-cards{
+ --stat-lime:var(--recipe-lime,#cbe882);
+ --stat-butter:var(--recipe-butter,#ffda82);
+ --stat-orange:var(--recipe-orange,#ffb375);
+ --stat-stone:var(--recipe-stone,#e8e9e5);
+ --stat-ink:var(--recipe-ink,#2f3b2c);
+ display:grid;grid-template-columns:repeat(var(--stat-columns,4),minmax(0,1fr));gap:10px;min-width:0;
+}
+.color-stat-card{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;gap:14px;min-width:0;padding:17px 18px;border:1px solid #ffffff21;border-radius:21px;background:var(--stat-lime);color:var(--stat-ink);box-shadow:inset 0 1px 0 #ffffff42;animation:color-stat-arrive .7s calc(var(--stat-order,0)*65ms) cubic-bezier(.2,.85,.25,1) both;transition:transform .65s cubic-bezier(.18,.9,.25,1.3),box-shadow .4s}
+.color-stat-card.tone-butter{background:var(--stat-butter)}
+.color-stat-card.tone-orange{background:var(--stat-orange)}
+.color-stat-card.tone-stone{background:var(--stat-stone)}
+.color-stat-card::after{content:'';position:absolute;inset:-70% -40%;z-index:-1;pointer-events:none;background:linear-gradient(110deg,transparent 33%,#ffffff38 48%,transparent 63%);transform:translateX(-75%) rotate(-15deg);transition:transform 1.1s cubic-bezier(.2,.75,.2,1)}
+.color-stat-icon{display:grid;place-items:center;height:42px;width:42px;flex-shrink:0;border-radius:14px;background:#ffffffb3;color:#2e392c;box-shadow:0 2px 4px #00000003;transition:transform .7s cubic-bezier(.2,.9,.2,1.4)}
+.color-stat-copy{min-width:0}
+.color-stat-card small{display:block;font-size:11px;line-height:1.6;color:inherit;opacity:.8;overflow-wrap:anywhere}
+.color-stat-card strong{display:block;font-size:26px;line-height:1.5;letter-spacing:-.8px;font-weight:650;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.color-stat-card em{display:inline-block;font-style:normal;font-size:10px;font-weight:400;letter-spacing:0;margin-left:5px;opacity:.75}
+.overview-stats{margin:14px 0}
+.overview-stats .color-stat-card strong{font-size:25px}
+[data-theme=dark] .color-stat-cards{--stat-lime:var(--recipe-lime,#50663b);--stat-butter:var(--recipe-butter,#6c5832);--stat-orange:var(--recipe-orange,#714d35);--stat-stone:var(--recipe-stone,#383f3d);--stat-ink:var(--recipe-ink,#f0eddf)}
+@media(hover:hover){.color-stat-card:hover{transform:translateY(-4px) rotate(-.45deg);box-shadow:0 12px 25px #22301e13,inset 0 1px 0 #ffffff6e}.color-stat-card:nth-child(even):hover{transform:translateY(-4px) rotate(.45deg)}.color-stat-card:hover::after{transform:translateX(75%) rotate(-15deg)}.color-stat-card:hover .color-stat-icon{transform:translateY(-2px) rotate(-7deg) scale(1.04)}}
+@keyframes color-stat-arrive{from{opacity:0;translate:0 10px;scale:.98}to{opacity:1;translate:0 0;scale:1}}
+@media(max-width:1150px){.color-stat-card{padding:15px;gap:10px}.color-stat-icon{height:35px;width:35px;border-radius:12px}.color-stat-card strong,.overview-stats .color-stat-card strong{font-size:23px}}
+@media(max-width:900px){.color-stat-card{display:block}.color-stat-icon{height:31px;width:31px;margin-bottom:10px;border-radius:10px}.color-stat-icon svg{width:18px;height:18px}.color-stat-card strong{font-size:24px}}
+@media(max-width:600px){.color-stat-cards{gap:8px}.color-stat-card{padding:13px 12px;border-radius:18px}.color-stat-card small{font-size:10px}.color-stat-card strong,.overview-stats .color-stat-card strong{font-size:23px}.color-stat-card em{font-size:9px}.color-stat-cards.nutrition-ribbon{grid-template-columns:repeat(2,minmax(0,1fr))}.nutrition-ribbon .color-stat-card{display:flex;gap:11px}.nutrition-ribbon .color-stat-icon{margin-bottom:0}.overview-stats .color-stat-card strong{font-size:21px}.overview-stats .color-stat-card em{display:block;margin:1px 0 0}}
+@media(max-width:360px){.overview-stats .color-stat-card{padding:12px 9px}.overview-stats .color-stat-card strong{font-size:20px}.nutrition-ribbon .color-stat-card{gap:8px;padding:13px 10px}}
+@media(prefers-reduced-motion:reduce){.color-stat-card,.color-stat-card::after,.color-stat-icon{animation:none;transition:none;transform:none}.color-stat-card:hover,.color-stat-card:nth-child(even):hover,.color-stat-card:hover .color-stat-icon{transform:none}.color-stat-card{opacity:1;translate:none;scale:none}}

@@ -41,6 +41,26 @@ func TestAgentToolErrorsAndHistory(t *testing.T) {
 	}
 }
 
+func TestAgentAlwaysSuppliesExplicitJSONInstruction(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var body struct {
+			Messages []message `json:"messages"`
+		}
+		json.NewDecoder(r.Body).Decode(&body)
+		if len(body.Messages) == 0 || !strings.Contains(strings.ToLower(body.Messages[0].Content), "json") {
+			http.Error(w, "messages must contain the word json for json_object", http.StatusBadRequest)
+			return
+		}
+		json.NewEncoder(w).Encode(map[string]any{"choices": []any{map[string]any{"message": map[string]string{"content": "{}"}}}})
+	}))
+	defer server.Close()
+	var c config.Config
+	c.LLM.Enabled, c.LLM.APIKey, c.LLM.Model, c.LLM.BaseURL = true, "test", "test", server.URL
+	if _, err := Agent(context.Background(), c, "最终仅输出 {}", "为鸡蛋找图", nil, func(string) {}); err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestProgressDetailsExposeOnlyUsefulActivity(t *testing.T) {
 	if got := toolDetail("fetch_page", `{"url":"https://user:secret@example.com/recipe?token=private"}`); got != "example.com" {
 		t.Fatalf("URL credentials or query exposed: %q", got)

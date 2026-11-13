@@ -18,12 +18,13 @@ type Session struct {
 
 // Documents are owner-scoped typed aggregates. Recipes preserve complete immutable versions.
 type Document struct {
-	ID        uint      `json:"id"`
-	UserID    uint      `json:"-" gorm:"index:owner_kind"`
-	Kind      string    `json:"kind" gorm:"index:owner_kind"`
-	Data      string    `json:"-" gorm:"type:text"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID            uint      `json:"id"`
+	UserID        uint      `json:"-" gorm:"index:owner_kind;uniqueIndex:collection_identity"`
+	Kind          string    `json:"kind" gorm:"index:owner_kind;uniqueIndex:collection_identity"`
+	CollectionKey *string   `json:"-" gorm:"uniqueIndex:collection_identity;size:64"`
+	Data          string    `json:"-" gorm:"type:text"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
 }
 type JobEvent struct {
 	Detail  string    `json:"detail,omitempty"`
@@ -94,6 +95,7 @@ type Preferences struct {
 	Cuisines         []string `json:"cuisines"`
 	Notes            string   `json:"notes"`
 	Theme            string   `json:"theme"`
+	Appearance       string   `json:"appearance"`
 	ElectricityPrice float64  `json:"electricity_price"`
 }
 type Request struct {
@@ -111,6 +113,7 @@ type Request struct {
 	DishCount     int      `json:"dish_count"`
 }
 type Ingredient struct {
+	Category        string     `json:"category,omitempty"`
 	Name            string     `json:"name"`
 	Quantity        float64    `json:"quantity"`
 	Unit            string     `json:"unit"`
@@ -150,18 +153,23 @@ type DishImage struct {
 }
 
 type Dish struct {
-	ReuseFrom   *DishReference `json:"reuse_from,omitempty"`
-	Image       *DishImage     `json:"image,omitempty"`
-	Tags        []string       `json:"tags"`
-	Name        string         `json:"name"`
-	Description string         `json:"description"`
-	Ingredients []Ingredient   `json:"ingredients"`
-	Equipment   []uint         `json:"equipment"`
-	PrepMinutes float64        `json:"prep_minutes"`
-	CookMinutes float64        `json:"cook_minutes"`
-	Steps       []Step         `json:"steps"`
-	Cost        float64        `json:"cost"`
-	Nutrition   Nutrition      `json:"nutrition"`
+	CollectionID uint           `json:"collection_id,omitempty"`
+	ReuseFrom    *DishReference `json:"reuse_from,omitempty"`
+	Image        *DishImage     `json:"image,omitempty"`
+	Tags         []string       `json:"tags"`
+	Name         string         `json:"name"`
+	Description  string         `json:"description"`
+	Ingredients  []Ingredient   `json:"ingredients"`
+	Equipment    []uint         `json:"equipment"`
+	PrepMinutes  float64        `json:"prep_minutes"`
+	CookMinutes  float64        `json:"cook_minutes"`
+	Steps        []Step         `json:"steps"`
+	Cost         float64        `json:"cost"`
+	Nutrition    Nutrition      `json:"nutrition"`
+	Commentary   string         `json:"ai_commentary,omitempty"`
+	Usage        []Usage        `json:"energy_usage"`
+	KWh          float64        `json:"theoretical_kwh"`
+	EnergyCost   float64        `json:"theoretical_energy_cost"`
 }
 
 // DishReference identifies an immutable dish snapshot in the owner's collection.

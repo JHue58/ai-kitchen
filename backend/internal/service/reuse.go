@@ -2,6 +2,7 @@ package service
 
 import (
 	"ai-kitchen/internal/ai"
+	"ai-kitchen/internal/calculator"
 	"ai-kitchen/internal/model"
 	"context"
 	"encoding/json"
@@ -27,12 +28,16 @@ func dishesInDocument(doc model.Document) ([]existingDish, error) {
 		if err := json.Unmarshal([]byte(doc.Data), &r); err != nil {
 			return nil, err
 		}
+		menu := model.Recipe{Dishes: []model.Dish{r.Dish}}
+		calculator.NormalizeRecipeDetails(&menu)
+		r.Dish = menu.Dishes[0]
 		out = append(out, existingDish{Reference: model.DishReference{Kind: doc.Kind, ID: doc.ID}, Servings: r.Servings, Dish: r.Dish, Sources: r.Sources})
 	} else {
 		var r model.Recipe
 		if err := json.Unmarshal([]byte(doc.Data), &r); err != nil {
 			return nil, err
 		}
+		calculator.NormalizeRecipeDetails(&r)
 		for i, dish := range r.Dishes {
 			out = append(out, existingDish{Reference: model.DishReference{Kind: doc.Kind, ID: doc.ID, DishIndex: i}, MenuTitle: r.Title, Servings: r.Servings, Dish: dish, Sources: r.Sources})
 		}

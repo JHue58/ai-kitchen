@@ -1,12 +1,14 @@
 import {useEffect,useMemo,useState} from 'react';
 import {useQuery,useQueryClient} from '@tanstack/react-query';
-import {BookOpen,ExternalLink,ShoppingBasket,Leaf,Flame,Zap,ShieldCheck,ArrowLeftRight,Sparkles,Wheat,Fish,Droplets,Check,ArrowUpRight} from 'lucide-react';
+import {BookOpen,ExternalLink,ShoppingBasket,Flame,Zap,ShieldCheck,ArrowLeftRight,Sparkles,Wheat,Fish,Droplets,Check,ArrowUpRight} from 'lucide-react';
 import {api} from '../api';
 import {Button} from './ui/button';
 import {StepText} from './kitchen-experience';
 import {defaultDishPhoto,tablePhoto} from '../resources';
 import {ResourceIcon} from './kitchen-icon';
+import {ColorStatCards} from './color-stat-cards';
 import '../recipe-redesign.css';
+import '../dish-insights.css';
 
 const safe=(url?:string)=>!!url&&/^https?:\/\//i.test(url);
 function useDishImage(dish:any) {
@@ -47,25 +49,69 @@ function FullText({text}:{text:string}){
  if(!text)return <p className="muted">本次没有额外的搭配说明。</p>;
  return text.length>300?<><p className="analysis-intro">{text.slice(0,180)}…</p><details><summary>继续阅读我的建议</summary><div className="full-ai-text" tabIndex={0}><p>{text}</p></div></details></>:<p className="full-ai-text">{text}</p>;
 }
+type IngredientCategory='main'|'supporting'|'seasoning'|'uncategorized';
+const ingredientCategories:{key:IngredientCategory;label:string;note:string}[]=[
+ {key:'main',label:'主要食材',note:'这一道的主角'},
+ {key:'supporting',label:'配料',note:'添一点层次'},
+ {key:'seasoning',label:'调料',note:'把味道调好'},
+ {key:'uncategorized',label:'其他食材',note:'历史食材尚未分类'},
+];
+function ingredientCategory(category?:string):IngredientCategory{
+ if(category==='main'||category==='主料'||category==='主要食材')return 'main';
+ if(category==='supporting'||category==='配料'||category==='辅料')return 'supporting';
+ if(category==='seasoning'||category==='调料'||category==='调味料')return 'seasoning';
+ return 'uncategorized';
+}
+const estimate=(value:unknown,digits=2)=>value==null||!Number.isFinite(Number(value))?'—':Number(value).toFixed(digits);
+export function IngredientGroups({ingredients=[],showCosts=false}:{ingredients?:any[];showCosts?:boolean}){
+ const rows=(Array.isArray(ingredients)?ingredients:[]).filter(Boolean);
+ if(!rows.length)return <p className="hint">食材清单尚未提供，请补全后再烹饪。</p>;
+ return <div className="ingredient-groups">{ingredientCategories.map(group=>{
+  const items=rows.filter(i=>ingredientCategory(i.category)===group.key);
+  if(!items.length)return null;
+  return <section className={'ingredient-group ingredient-group-'+group.key} key={group.key} aria-label={group.label}>
+   <header><div><h4>{group.label}</h4><small>{group.note}</small></div><span>{items.length} 样</span></header>
+   {items.map((i,n)=><div className="ingredient-line" key={n}><span><ResourceIcon name={i.name} kind="ingredient" size={22}/>{i.name}{showCosts&&<small>{i.is_pantry?'制作时库存已有':'制作时需采购'} · {i.cost_source==='personal'?'个人价格':i.cost_source==='unknown'?'价格未知':'AI 估价'}</small>}</span><span>{i.quantity??'适量'} {i.unit}{showCosts&&<small>{i.cost==null?'—':'¥'+estimate(i.cost)}</small>}</span></div>)}
+  </section>;
+ })}</div>;
+}
+function EnergyEstimate({recipe:r,shared=false,single=false}:{recipe:any;shared?:boolean;single?:boolean}){
+ const equipment=useQuery({queryKey:['docs','equipment'],queryFn:()=>api('/documents/equipment'),enabled:!shared});
+ const usage=Array.isArray(r.energy_usage)?r.energy_usage.filter(Boolean):[];
+ const unknown=usage.some((u:any)=>u.theoretical_kwh==null||!Number.isFinite(Number(u.theoretical_kwh)));
+ const known=usage.some((u:any)=>u.theoretical_kwh!=null&&Number.isFinite(Number(u.theoretical_kwh)));
+ return <div className="card energy-analysis"><h3><Zap size={18}/>{single?'这道菜的电费预估':'整桌电费预估'}</h3>
+  <div className="energy-total"><span>{unknown&&known?'已知部分理论电费':'满功率理论电费'}</span><strong className={unknown&&!known?'energy-unknown':undefined}>{unknown&&!known?'功率待确认':r.theoretical_energy_cost==null?'—':'¥'+estimate(r.theoretical_energy_cost)}<small>{unknown?'未知功率未计入':single?'本菜合计':'菜单合计'}</small></strong></div>
+  {usage.length?usage.map((u:any,i:number)=><div className="energy-row" key={i}><span>{equipment.data?.find((e:any)=>e.id===u.equipment_id)?.name||'设备 #'+u.equipment_id}<small>计划加热 {u.heating_minutes??'—'} 分钟</small></span><strong>{estimate(u.theoretical_kwh,3)}<small>kWh · 理论{u.estimated_kwh!=null?' / 估算 '+estimate(u.estimated_kwh,3):''}</small></strong></div>):<p className="muted">{r.theoretical_energy_cost===0?'未记录电器耗电。':'这份历史菜谱暂无单独耗电记录。'}</p>}
+  {!single&&r.purchase_cost!=null&&<p className="hint">本次需购食材消耗估算 ¥{estimate(r.purchase_cost)}，待购数量以当前库存为准。</p>}
+  <details><summary>关于电费估算</summary><p className="hint">按设备功率、加热时长与制作时电价计算。未知功率不计入；实际耗电受加热周期影响。{!single&&'菜单合计汇总各菜品的用电。'}</p></details>
+ </div>;
+}
+export function DishInsights({dish,shared=false}:{dish:any;shared?:boolean}){
+ return <section className="dish-insights" aria-label={(dish.name||'本菜')+'的点评与电费'}>
+  <div className="card analysis-copy"><div className="analysis-card-title"><span className="analysis-icon"><Sparkles size={19}/></span><div><small>A NOTE FOR THIS DISH</small><h3>菜品点评</h3></div></div><FullText text={dish.ai_commentary||dish.description||''}/></div>
+  <EnergyEstimate recipe={dish} shared={shared} single/>
+ </section>;
+}
 export function NutritionRibbon({recipe:r}:{recipe:any}){
- return <div className="nutrition-ribbon" aria-label="整份营养估算">{[
-  {key:'calories',label:'热量',unit:'kcal',Icon:Flame},
-  {key:'carbs',label:'碳水',unit:'g',Icon:Wheat},
-  {key:'protein',label:'蛋白质',unit:'g',Icon:Fish},
-  {key:'fat',label:'脂肪',unit:'g',Icon:Droplets},
- ].map(({key,label,unit,Icon})=><div className={'nutrition-tile nutrition-'+key} key={key}><span className="nutrition-icon"><Icon size={20} strokeWidth={1.6}/></span><div><small>{label}</small><strong>{r.nutrition?.[key]==null||!Number.isFinite(Number(r.nutrition[key]))?'—':Math.round(Number(r.nutrition[key]))}<em>{unit}</em></strong></div></div>)}</div>;
+ return <ColorStatCards className="nutrition-ribbon" label="整份营养估算" items={[
+  {id:'calories',label:'热量',unit:'kcal',icon:Flame,tone:'lime' as const},
+  {id:'carbs',label:'碳水',unit:'g',icon:Wheat,tone:'butter' as const},
+  {id:'protein',label:'蛋白质',unit:'g',icon:Fish,tone:'orange' as const},
+  {id:'fat',label:'脂肪',unit:'g',icon:Droplets,tone:'stone' as const},
+ ].map(item=>({...item,value:r.nutrition?.[item.id]==null||!Number.isFinite(Number(r.nutrition[item.id]))?'—':Math.round(Number(r.nutrition[item.id]))}))}/>;
 }
 export function Analysis({recipe:r,shared=false}:{recipe:any;shared?:boolean}){
- const equipment=useQuery({queryKey:['docs','equipment'],queryFn:()=>api('/documents/equipment'),enabled:!shared});
+ const menu=Array.isArray(r.dishes);
  const dishes=r.dishes||[r];
  const safety=dishes.flatMap((d:any)=>(d.steps||[]).filter((s:any)=>s.safety_note).map((s:any)=>d.name+' · '+s.safety_note));
  return <section id="analysis" className="analysis-section">
-  <div className="detail-section-heading"><div><span className="detail-kicker">A LITTLE BALANCE</span><h2>每一口，都心里有数</h2></div><span className="detail-subtitle">整份营养 · 参考估算</span></div>
+  <div className="detail-section-heading"><div><span className="detail-kicker">A LITTLE BALANCE</span><h2>{menu?'整桌搭配，心里有数':'这一道菜，心里有数'}</h2></div><span className="detail-subtitle">{menu?'整桌营养':'本菜营养'} · 参考估算</span></div>
   <NutritionRibbon recipe={r}/>
+  <p className="nutrition-estimate-note hint">按整份用量估算，非每人份。个人数据优先，其次内置参考值与 AI 估算，未知项不计入。</p>
   <div className="analysis-grid">
-   <div className="card analysis-copy"><div className="analysis-card-title"><span className="analysis-icon"><Sparkles size={20}/></span><div><small>YOUR AI COMPANION</small><h3>我想和你说</h3></div></div><FullText text={r.ai_commentary||''}/>{r.tips?.length>0&&<details><summary>我的烹饪小贴士 · {r.tips.length} 条</summary>{r.tips.map((t:string,i:number)=><StepText key={i} text={t}/>)}</details>}</div>
-   <div className="card nutrition-facts"><h3><Leaf size={18}/>营养明细</h3>{[['calories','热量','kcal'],['protein','蛋白质','g'],['fat','脂肪','g'],['carbs','碳水化合物','g']].map(([k,l,u])=><div className="metric" key={k}><span>{l}</span><strong>{r.nutrition?.[k]==null?'—':Number(r.nutrition[k]).toFixed(1)} <small>{u}</small></strong></div>)}<p className="hint">按整份用量估算，非每人份。个人数据优先，其次内置参考值与 AI 估算，未知项不计入。</p></div>
-   <div className="card energy-analysis"><h3><Zap size={18}/>厨房里的小账本</h3>{r.energy_usage?.length?r.energy_usage.map((u:any,i:number)=><div className="energy-row" key={i}><span>{equipment.data?.find((e:any)=>e.id===u.equipment_id)?.name||'设备 #'+u.equipment_id}<small>计划加热 {u.heating_minutes} 分钟</small></span><strong>{u.theoretical_kwh==null?'—':u.theoretical_kwh.toFixed(3)}<small>kWh · 理论{u.estimated_kwh!=null?' / 估算 '+u.estimated_kwh.toFixed(3):''}</small></strong></div>):<p className="muted">暂无设备耗电数据。</p>}<div className="metric"><span>满功率理论电费</span><strong>{r.theoretical_energy_cost==null?'—':'¥'+Number(r.theoretical_energy_cost).toFixed(2)}</strong></div>{r.purchase_cost!=null&&<p className="hint">本次需购食材消耗估算 ¥{Number(r.purchase_cost).toFixed(2)}，待购数量以当前库存为准。</p>}<details><summary>关于这些估算</summary><p className="hint">未知功率不计入；实际耗电受加热周期影响。采购估算按用量计算，并非整包商品结账价。</p></details></div>
+   <div className="card analysis-copy"><div className="analysis-card-title"><span className="analysis-icon"><Sparkles size={20}/></span><div><small>YOUR AI COMPANION</small><h3>{menu?'整桌菜单点评':'菜品点评'}</h3></div></div><FullText text={r.ai_commentary||(!menu?r.description:'')||''}/>{r.tips?.length>0&&<details><summary>我的烹饪小贴士 · {r.tips.length} 条</summary>{r.tips.map((t:string,i:number)=><StepText key={i} text={t}/>)}</details>}</div>
+   <EnergyEstimate recipe={r} shared={shared} single={!menu}/>
    <div className="card safety-analysis"><h3><ShieldCheck size={18}/>我为你留意的细节</h3>{safety.length?<><StepText text={safety[0]}/>{safety.length>1&&<details><summary>还有 {safety.length-1} 个小提醒</summary>{safety.slice(1).map((t:string,i:number)=><StepText key={i} text={t}/>)}</details>}</>:<p className="muted">请留意步骤中的火候与操作提醒。</p>}</div>
    {r.substitutions?.length>0&&<div className="card substitutions"><h3><ArrowLeftRight size={18}/>换一种食材，也很好</h3>{r.substitutions.map((t:string,i:number)=><FullText key={i} text={t}/>)}</div>}
   </div>

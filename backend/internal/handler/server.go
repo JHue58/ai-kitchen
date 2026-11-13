@@ -5,6 +5,7 @@ import (
 	"ai-kitchen/internal/calculator"
 	"ai-kitchen/internal/config"
 	"ai-kitchen/internal/model"
+	"ai-kitchen/internal/repository"
 	"ai-kitchen/internal/service"
 	"context"
 	"crypto/rand"
@@ -368,6 +369,9 @@ func validateDoc(kind string, b []byte) error {
 		if p.Theme != "light" && p.Theme != "dark" && p.Theme != "system" {
 			return fmt.Errorf("主题无效")
 		}
+		if p.Appearance != "" && p.Appearance != "qinghe" {
+			return fmt.Errorf("外观主题无效")
+		}
 		if len([]rune(p.GlobalPrompt)) > service.MaxGlobalPromptLength {
 			return fmt.Errorf("全局提示词最多 10000 字")
 		}
@@ -504,17 +508,40 @@ func (s *Server) write(c *gin.Context, update bool) {
 		if !ok {
 			return
 		}
-		d.Data = string(b)
-		if s.DB.Save(&d).Error != nil {
-			bad(c, 500, "保存失败")
-			return
+	}
+	err := s.DB.Transaction(func(tx *gorm.DB) error {
+		if kind == "recipes" {
+			var menu model.Recipe
+			if err := json.Unmarshal(b, &menu); err != nil {
+				return err
+			}
+			if err := repository.CollectMenuDishes(tx, uid(c), &menu); err != nil {
+				return err
+			}
+			b, _ = json.Marshal(menu)
 		}
-	} else {
+		if update {
+			d.Data = string(b)
+			if kind == "dishes" {
+				return repository.UpdateDishSnapshot(tx, &d)
+			}
+			return tx.Save(&d).Error
+		}
+		if kind == "dishes" {
+			var record model.DishRecord
+			if err := json.Unmarshal(b, &record); err != nil {
+				return err
+			}
+			var err error
+			d, _, err = repository.SaveDishSnapshot(tx, uid(c), record)
+			return err
+		}
 		d = model.Document{UserID: uid(c), Kind: kind, Data: string(b)}
-		if s.DB.Create(&d).Error != nil {
-			bad(c, 500, "保存失败")
-			return
-		}
+		return tx.Create(&d).Error
+	})
+	if err != nil {
+		bad(c, 500, "保存失败")
+		return
 	}
 	json.Unmarshal([]byte(d.Data), &data)
 	data["id"] = d.ID

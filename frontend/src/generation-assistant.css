@@ -1,0 +1,46 @@
+/* The same preparation surface settles into a quiet, retrievable corner. */
+.generation-assistant-slot{min-width:0;margin-bottom:26px;overflow-anchor:none}
+.generation-assistant-inline>.chef-progress{margin-bottom:0}
+.generation-assistant-slot.is-vacated{height:0;margin-bottom:0;pointer-events:none}
+.generation-assistant-float{--assistant-bottom:max(22px,env(safe-area-inset-bottom));position:fixed;right:max(22px,env(safe-area-inset-right));bottom:var(--assistant-bottom);width:132px;height:46px;z-index:48;isolation:isolate;transform-origin:top left;border-radius:25px;background:var(--card);border:1px solid color-mix(in srgb,var(--line) 78%,transparent);box-shadow:0 6px 24px #26382413,inset 0 1px 0 #ffffff65;transition:box-shadow .45s cubic-bezier(.22,1,.36,1);overflow:hidden}
+.generation-assistant-float[data-mode="expanded"]{width:min(540px,calc(100vw - 44px));max-width:calc(100% - 44px);height:auto;border-radius:29px;box-shadow:0 18px 75px #172c2426,inset 0 1px 0 #ffffff65}
+.generation-assistant-float.is-morphing{will-change:transform;pointer-events:none}
+.generation-assistant-detail{position:relative;width:100%;visibility:visible;opacity:1}
+[data-mode="docked"]>.generation-assistant-detail{position:absolute;inset:0;width:min(540px,calc(100vw - 44px));opacity:0;visibility:hidden;pointer-events:none}
+.generation-assistant-float.is-morphing>.generation-assistant-detail{visibility:visible}
+.generation-assistant-float.is-from-inline .generation-assistant-tools{display:none}
+.generation-assistant-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:9px 13px 9px 21px;background:var(--card);border-bottom:1px solid var(--line);color:var(--muted);font-size:11px}
+.generation-assistant-tools>span{display:flex;align-items:center;gap:7px}
+.generation-assistant-tools>button{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:36px;padding:0 10px;border-radius:13px;color:var(--green);font-size:11px}
+.generation-assistant-tools>button:hover{background:var(--mint)}
+.generation-assistant-scroll{max-height:calc(100dvh - var(--assistant-bottom) - 100px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.generation-assistant-scroll>.chef-progress{margin:0;border:0;border-radius:0;background:var(--card);box-shadow:none}
+.generation-assistant-scroll>.chef-progress::before{display:none}
+.generation-assistant-scroll .chef-progress-body{padding:22px 23px 18px}
+.generation-assistant-scroll .ai-elapsed{display:none}
+.generation-assistant-scroll .cooking-orb{width:84px;height:84px}
+.generation-assistant-scroll .chef-progress-heading{gap:14px}
+.generation-assistant-scroll .chef-progress-copy h3{font-size:21px}
+.generation-assistant-capsule{position:absolute;inset:0;display:flex;width:100%;height:46px;align-items:center;justify-content:center;gap:9px;padding:5px 13px 5px 8px;color:var(--sage-ink);font-size:11px;letter-spacing:.02em;white-space:nowrap;border-radius:inherit;background:color-mix(in srgb,var(--card) 90%,var(--mint));opacity:1}
+.generation-assistant-capsule:hover{background:var(--mint)}
+.generation-assistant-capsule:focus-visible{outline-offset:-4px}
+[data-mode="expanded"]>.generation-assistant-capsule{opacity:0;visibility:hidden;pointer-events:none}
+.generation-assistant-float.is-morphing>.generation-assistant-capsule{visibility:visible}
+.assistant-mini-orb{display:grid;place-items:center;position:relative;flex-shrink:0;width:30px;height:30px;border-radius:12px;background:linear-gradient(135deg,var(--mint),var(--sage-surface) 60%,var(--lavender));color:var(--sage-ink);box-shadow:inset 0 1px 0 #ffffff80}
+.assistant-mini-orb>i{position:absolute;right:-2px;bottom:-1px;display:grid;place-items:center;width:12px;height:12px;border-radius:50%;background:var(--green);color:var(--card);border:2px solid var(--card)}
+[data-theme="dark"] .generation-assistant-float{box-shadow:0 8px 30px #00000029,inset 0 1px 0 #ffffff08}
+[data-theme="dark"] .generation-assistant-float[data-mode="expanded"]{box-shadow:0 20px 80px #00000055}
+[data-theme="dark"] .assistant-mini-orb{box-shadow:inset 0 1px 0 #ffffff15}
+@media(max-width:700px){
+ .generation-assistant-float{--assistant-bottom:calc(88px + env(safe-area-inset-bottom));right:max(16px,env(safe-area-inset-right));width:126px;height:44px}
+ .generation-assistant-float[data-mode="expanded"]{width:calc(100vw - 32px);max-width:calc(100% - 32px);border-radius:25px}
+ [data-mode="docked"]>.generation-assistant-detail{width:calc(100vw - 32px)}
+ .generation-assistant-capsule{height:44px;font-size:10px;gap:7px}
+ .generation-assistant-tools{padding-left:17px;font-size:10px}
+ .generation-assistant-scroll .chef-progress-body{padding:18px 17px 15px}
+ .generation-assistant-scroll .chef-progress-copy h3{font-size:18px}
+ .generation-assistant-scroll .cooking-orb{width:72px;height:78px}
+ .generation-assistant-slot{margin-bottom:20px}
+ .generation-assistant-slot.is-vacated{margin-bottom:0}
+}
+@media(prefers-reduced-motion:reduce){.generation-assistant-float,.generation-assistant-float *{transition:none!important;animation:none!important;will-change:auto!important}}

@@ -71,8 +71,12 @@ func Parse(b []byte) (model.Recipe, error) {
 			}
 		}
 	}
-	for _, u := range r.Usage {
-		if !valid(u.HeatingMinutes) || u.DutyCycle != nil && (*u.DutyCycle < 0 || *u.DutyCycle > 1) {
+	usage := append([]model.Usage{}, r.Usage...)
+	for _, d := range r.Dishes {
+		usage = append(usage, d.Usage...)
+	}
+	for _, u := range usage {
+		if !valid(u.HeatingMinutes) || u.DutyCycle != nil && (!valid(*u.DutyCycle) || *u.DutyCycle > 1) {
 			return r, fmt.Errorf("设备加热时间无效")
 		}
 	}
@@ -165,23 +169,7 @@ func Calculate(r *model.Recipe, prices []model.Price, pantry []model.Pantry, equ
 			r.Elapsed = math.Max(r.Elapsed, s.Start+s.Duration)
 		}
 	}
-	for ui := range r.Usage {
-		u := &r.Usage[ui]
-		u.KWh = nil
-		u.EstimatedKWh = nil
-		for _, e := range equipment {
-			if e.ID == u.EquipmentID && e.Electric && e.Watts != nil {
-				v := *e.Watts * u.HeatingMinutes / 60000
-				u.KWh = &v
-				r.KWh += v
-				if u.DutyCycle != nil {
-					a := v * *u.DutyCycle
-					u.EstimatedKWh = &a
-				}
-			}
-		}
-	}
-	r.EnergyCost = r.KWh * p.ElectricityPrice
+	CalculateEnergy(r, equipment, p.ElectricityPrice)
 }
 func Validate(r model.Recipe, q model.Request, p model.Preferences, eq []model.Equipment, pantry []model.Pantry) []string {
 	w := []string{}

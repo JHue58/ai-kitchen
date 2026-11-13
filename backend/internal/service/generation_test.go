@@ -115,6 +115,16 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 		if job.Status != "completed" || job.RecipeID == 0 {
 			t.Fatalf("job failed %+v", job)
 		}
+		if i == 0 {
+			autoDishes := Read[model.DishRecord](db, user.ID, "dishes")
+			var menuDoc model.Document
+			db.First(&menuDoc, job.RecipeID)
+			var menu model.Recipe
+			json.Unmarshal([]byte(menuDoc.Data), &menu)
+			if len(autoDishes) != 1 || len(menu.Dishes) != 1 || menu.Dishes[0].CollectionID == 0 {
+				t.Fatal("generated menu dishes were not automatically collected")
+			}
+		}
 	}
 	if calls["/v1/tools/search"] != 1 || calls["/v1/tools/fetch"] != 1 || calls["/chat/completions"] != 8 {
 		t.Fatalf("cache not used: %v", calls)
@@ -122,6 +132,9 @@ func TestGenerationWithSearchAndFetch(t *testing.T) {
 	dishes := Read[model.DishRecord](db, user.ID, "dishes")
 	if len(dishes) != 1 || dishes[0].Name != "鸡蛋" || dishes[0].Servings != 2 {
 		t.Fatalf("single dish was not independently persisted: %+v", dishes)
+	}
+	if dishes[0].Commentary != "蛋香浓郁，注意充分加热" || dishes[0].Usage == nil || dishes[0].Ingredients[0].Category != "main" {
+		t.Fatalf("single dish lost commentary, energy or ingredient role: %+v", dishes[0])
 	}
 	recipes := Read[model.Recipe](db, user.ID, "recipes")
 	if len(recipes) != 1 || recipes[0].Cost != 2 || recipes[0].Nutrition.Calories != 143 {

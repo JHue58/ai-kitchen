@@ -5,6 +5,7 @@ import (
 	"ai-kitchen/internal/calculator"
 	"ai-kitchen/internal/config"
 	"ai-kitchen/internal/model"
+	"ai-kitchen/internal/repository"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -69,6 +70,18 @@ func Prefs(db *gorm.DB, uid uint) model.Preferences {
 	return model.Preferences{Theme: "light", ElectricityPrice: .9}
 }
 func Save(db *gorm.DB, uid uint, kind string, data any) (model.Document, error) {
+	if kind == "dishes" {
+		b, err := json.Marshal(data)
+		if err != nil {
+			return model.Document{}, err
+		}
+		var record model.DishRecord
+		if err := json.Unmarshal(b, &record); err != nil {
+			return model.Document{}, err
+		}
+		doc, _, err := repository.SaveDishSnapshot(db, uid, record)
+		return doc, err
+	}
 	b, e := json.Marshal(data)
 	if e != nil {
 		return model.Document{}, e
@@ -86,8 +99,9 @@ const Prompt = `你是中文智能厨房助手。你处于中国大陆，请不�
 3. title、菜名、食材名、单位、步骤标题与操作描述不得为空。servings 为 request.servings（1 至 10）。dishes、每道菜 ingredients 和 steps 均非空。step 从 1 连续编号。quantity 必须大于 0，时间和营养非负；duty_cycle 为 0 至 1 或 null。equipment 只能引用上下文设备 id；不用设备填 []，准备步骤 equipment_id 可为 0。
 4. 当前为菜谱生成阶段，所有 image 必须填 null。成品图在菜单保存交付后由独立配图任务搜索和核验；无图不影响菜谱有效性，不在 tips 中说明无图原因。来源由系统独立展示，不在点评中写来源。
 5. tags 描述整餐特点；每道菜的 tags 独立从 available_tags 选择全部适用标签，可多选，均不适用填 ["未知"]，不能把整餐标签套给所有菜。
+每项食材必须依据它在当前菜品中的实际用途填写 category：main 为主要食材（可有多个），supporting 为配料或装饰，seasoning 为调味料。葱姜蒜等应结合用量与菜品角色判断，不能机械按食材名称归类。每道菜都必须有独立 ai_commentary，点评该菜的口味、营养与制作要点；根 ai_commentary 总评整桌搭配。每道菜必须有 energy_usage，仅记录该菜电器实际加热时间，不使用电器填 []；同一设备服务多道菜时把加热时间分摊到对应菜品，一次加热不能重复计费，根 energy_usage 汇总各菜能耗。电量与电费由系统按设备功率、电价计算，不由模型填写。
 6. 以下数值仅演示类型，不是要求使用示例食材、设备或固定数值；image 在本阶段必须为 null。不要输出系统计算或保存的 cost、totals、nutrition（汇总）、sources、warnings、request、id、收藏状态等字段。
-{"title":"菜单名","tags":["家常菜"],"summary":"简介","servings":2,"dishes":[{"image":null,"tags":["家常菜"],"name":"菜名","description":"描述","ingredients":[{"name":"鸡蛋","quantity":2,"unit":"个","estimated_edible_weight_g":100,"estimated_price_per_kg":12,"nutrition_per_100g":{"calories":143,"protein":12.6,"fat":9.5,"carbs":0.7}}],"equipment":[1],"prep_minutes":5,"cook_minutes":10,"steps":[{"step":1,"title":"准备","description":"具体操作","duration_minutes":5,"start_minute":0,"equipment_id":0,"temperature_c":null,"power_level":"","safety_note":""}]}],"energy_usage":[{"equipment_id":1,"heating_minutes":10,"duty_cycle":null}],"ai_commentary":"点评","tips":[],"substitutions":[]}
+{"title":"菜单名","tags":["家常菜"],"summary":"简介","servings":2,"dishes":[{"image":null,"tags":["家常菜"],"name":"菜名","description":"描述","ingredients":[{"name":"鸡蛋","category":"main","quantity":2,"unit":"个","estimated_edible_weight_g":100,"estimated_price_per_kg":12,"nutrition_per_100g":{"calories":143,"protein":12.6,"fat":9.5,"carbs":0.7}}],"equipment":[1],"prep_minutes":5,"cook_minutes":10,"steps":[{"step":1,"title":"准备","description":"具体操作","duration_minutes":5,"start_minute":0,"equipment_id":0,"temperature_c":null,"power_level":"","safety_note":""}],"energy_usage":[{"equipment_id":1,"heating_minutes":10,"duty_cycle":null}],"ai_commentary":"该菜口感与制作要点"}],"energy_usage":[{"equipment_id":1,"heating_minutes":10,"duty_cycle":null}],"ai_commentary":"整桌搭配点评","tips":[],"substitutions":[]}
 所有用量为整顿饭总量，包括配料与调味料。质量单位使用 g/kg，体积单位使用 ml/L，其他可用个等明确单位。非质量单位提供 estimated_edible_weight_g（可食用克重），尽量合理估算每项食材的人民币每公斤价格；确实无法估算才填 null。nutrition_per_100g 是每 100 克营养，calories 单位 kcal，其余为克，未知填 null。start_minute 是整顿菜单开始后的分钟，提供可执行的并行时间线，同一设备不能重叠；heating_minutes 只计实际加热，不含待机。
 提交前必须调用 check_menu，修正 violations，再输出符合本契约的完整菜单。若收到 repair_error、repair_constraints 或 previous_output，按具体问题修复，保留仍有效的菜谱信息，image 仍填 null，重新输出完整 JSON。
 如果在某一个步骤失败太多，则不要反复重试，结合已有知识和结果输出
@@ -288,6 +302,11 @@ func run(parent context.Context, db *gorm.DB, c config.Config, j model.Job) {
 		if q.Target == "dish" {
 			kind = "dishes"
 			result = model.DishRecord{Dish: recipe.Dishes[0], Servings: recipe.Servings, Warnings: recipe.Warnings, Sources: recipe.Sources, Request: q, TokenUsage: recipe.TokenUsage, ImageStatus: recipe.ImageStatus}
+		} else {
+			if err := repository.CollectMenuDishes(tx, j.UserID, &recipe); err != nil {
+				return err
+			}
+			result = recipe
 		}
 		d, e := Save(tx, j.UserID, kind, result)
 		if e != nil {

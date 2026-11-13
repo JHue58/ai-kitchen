@@ -96,11 +96,25 @@ func TestAuthenticationIsolationAndPersistence(t *testing.T) {
 		t.Fatal(w.Body)
 	}
 	menuID := uint(created["id"].(float64))
+	var autoDishes []model.Document
+	db.Where("user_id = ? AND kind = ?", d.UserID, "dishes").Find(&autoDishes)
+	if len(autoDishes) != 1 {
+		t.Fatal("menu creation did not automatically collect its dish")
+	}
 	w, saved := request("POST", fmt.Sprintf("/api/v1/recipes/%d/dishes/0", menuID), nil, a, at)
 	if w.Code != 200 {
 		t.Fatal(w.Body)
 	}
 	dishID := uint(saved["id"].(float64))
+	if dishID != autoDishes[0].ID || saved["saved"] != true {
+		t.Fatal("manual save duplicated auto-collected dish or omitted feedback")
+	}
+	for i := 0; i < 3; i++ {
+		w, again := request("POST", fmt.Sprintf("/api/v1/recipes/%d/dishes/0", menuID), nil, a, at)
+		if w.Code != 200 || again["id"] != saved["id"] || again["already_saved"] != true {
+			t.Fatalf("save is not idempotent: %s", w.Body)
+		}
+	}
 	w, _ = request("POST", fmt.Sprintf("/api/v1/recipes/%d/dishes/0", menuID), nil, b, bt)
 	if w.Code != 404 {
 		t.Fatal("cross-owner extraction allowed")

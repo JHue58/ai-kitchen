@@ -47,6 +47,9 @@ func Agent(ctx context.Context, c config.Config, system, input string, available
 	if !c.LLM.Enabled || c.LLM.APIKey == "" || c.LLM.Model == "" {
 		return nil, fmt.Errorf("尚未配置 AI 服务")
 	}
+	// JSON mode providers reject requests without an explicit JSON instruction,
+	// including tool-only tasks such as background image enrichment.
+	system += "\n最终回答必须为一个完整合法的 JSON 对象；调用工具时使用工具协议。"
 	messages := []message{{Role: "system", Content: system}, {Role: "user", Content: input}}
 	available = append(append([]Tool{}, available...), Tool{
 		Name: "report_progress", Description: "向用户展示简短的行动摘要：当前要做什么、已知结果及下一步。不要输出内部推理、敏感信息或原始响应。",
