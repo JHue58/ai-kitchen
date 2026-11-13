@@ -11,7 +11,7 @@ const categories: [string, RegExp][] = [
   ['soups-stews', /汤|羹|煲|火锅/],
   ['noodles-staples', /面|饭|饺|馄饨|馒头|包子|粥|饼|主食/],
   ['meat-braises', /肉|排骨|牛|猪|鸡|鸭|羊|鱼|虾|荤菜/],
-  ['vegetables-eggs-tofu', /蔬菜|素菜|蛋|豆腐|青菜|白菜|西兰花|茄子|土豆|菌|菇/],
+  ['vegetables-eggs-tofu', /蔬菜|素菜|蛋|豆腐|青菜|白菜|上海青|油菜|黄瓜|西兰花|茄子|土豆|菌|菇/],
 ];
 export function defaultDishPhoto(dish: Dish = {}) {
   const name = dish.name || '';
@@ -19,11 +19,18 @@ export function defaultDishPhoto(dish: Dish = {}) {
   const category = /(?:番茄|西红柿).*蛋|蛋.*(?:番茄|西红柿)/.test(name) ? 'eggs'
     : categories.find(([,pattern])=>pattern.test(name))?.[0]
       || categories.find(([,pattern])=>pattern.test(context))?.[0];
-  const pool = category ? gallery.images.filter(image=>image.category===category) : gallery.images.filter(image=>image.category!=='eggs');
+  const candidates = category ? gallery.images.filter(image=>image.category===category) : gallery.images.filter(image=>image.category!=='eggs');
+  // Prefer an identifiable dish before hashing so fish, shrimp and chicken do not
+  // share a generic meat photograph. Keep the repetitive original sets as archive.
+  const matched = candidates.flatMap(image=>(image.keywords || [])
+    .filter(word=>name.includes(word)).map(word=>({image,length:word.length})))
+    .sort((a,b)=>b.length-a.length)[0]?.image;
+  const diverse = candidates.filter(image=>'defaultPool' in image && image.defaultPool);
+  const pool = diverse.length ? diverse : candidates;
   // Stable across renders and across the collection/detail pages.
   const seed = name || String(dish.id || context);
   const hash = Array.from(seed).reduce((value,char)=>(Math.imul(value,31)+char.charCodeAt(0))>>>0,0);
-  const image = pool[hash % pool.length];
+  const image = matched || pool[hash % pool.length];
   return {src:photos['../resources/gallery/'+image.src] || tablePhoto, description:image.description};
 }
 

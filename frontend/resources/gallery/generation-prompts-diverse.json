@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-14",
+  "tool": "built-in image_gen",
+  "images": [
+    {
+      "id": "ginger-scallion-fish",
+      "category": "meat-braises",
+      "name": "清蒸鲈鱼",
+      "prompt": "Use case: photorealistic-natural. Asset type: default dish photograph for Chinese home cooking app. Generate ONE independent landscape 3:2 food photograph, not a collage. Appetizing realistic edible textures, editorial food photography. Main dish entirely visible with safe central framing for mobile square and wide card crops, dish occupies 70% of frame. No text, watermark, people or hands. No beige linen, no honey wooden table, no background rice bowls or side dishes. A whole Chinese steamed sea bass with silvery skin, ginger slivers, scallion ribbons in light soy sauce on an elongated white porcelain platter. Camera directly overhead, platter runs diagonally across cool pale blue stone tabletop. Airy clean daylight, silver white and jade green palette."
+    },
+    {
+      "id": "kung-pao-chicken",
+      "category": "meat-braises",
+      "name": "宫保鸡丁",
+      "prompt": "Use case: photorealistic-natural. Asset type: default dish photograph for Chinese home cooking app. Generate ONE independent landscape 3:2 food photograph, not a collage. Appetizing realistic edible textures, editorial food photography. Main dish entirely visible with safe central framing for mobile square and wide card crops, dish occupies 70% of frame. No text, watermark, people or hands. No beige linen, no honey wooden table, no background rice bowls or side dishes. Chinese kung pao chicken: glossy diced chicken, roasted peanuts, dried red chilies and scallion pieces, in a round matte charcoal ceramic shallow bowl. Low three-quarter close shot on dark slate, dramatic directional side light, deep burgundy and amber palette, crisp wok-fried texture."
+    },
+    {
+      "id": "garlic-shrimp",
+      "category": "meat-braises",
+      "name": "蒜蓉虾",
+      "prompt": "Use case: photorealistic-natural. Asset type: default dish photograph for Chinese home cooking app. Generate ONE independent landscape 3:2 food photograph, not a collage. Appetizing realistic edible textures, editorial food photography. Main dish entirely visible with safe central framing for mobile square and wide card crops, dish occupies 70% of frame. No text, watermark, people or hands. No beige linen, no honey wooden table, no background rice bowls or side dishes. Chinese garlic steamed butterflied prawns arranged in a radial fan, orange coral shells and abundant minced garlic with fine green scallions, on a celadon round plate. True top-down on dusty rose terrazzo, soft diffuse daylight, coral and mint palette, minimal styled setting."
+    },
+    {
+      "id": "smashed-cucumber",
+      "category": "vegetables-eggs-tofu",
+      "name": "凉拌黄瓜",
+      "prompt": "Use case: photorealistic-natural. Asset type: default dish photograph for Chinese home cooking app. Generate ONE independent landscape 3:2 food photograph, not a collage. Appetizing realistic edible textures, editorial food photography. Main dish entirely visible with safe central framing for mobile square and wide card crops, dish occupies 70% of frame. No text, watermark, people or hands. No beige linen, no honey wooden table, no background rice bowls or side dishes. Chinese smashed cucumber salad: irregular crunchy green cucumber chunks, garlic, tiny red chili slices, sesame, clear light dressing, on a glossy cobalt blue oval plate. Oblique close-up on white tile tabletop with visible fine pale grey grout. Fresh cool midday light, striking bright green and cobalt blue palette."
+    },
+    {
+      "id": "mapo-tofu",
+      "category": "vegetables-eggs-tofu",
+      "name": "麻婆豆腐",
+      "prompt": "Use case: photorealistic-natural. Asset type: default dish photograph for Chinese home cooking app. Generate ONE independent landscape 3:2 food photograph, not a collage. Appetizing realistic edible textures, editorial food photography. Main dish entirely visible with safe central framing for mobile square and wide card crops, dish occupies 70% of frame. No text, watermark, people or hands. No beige linen, no honey wooden table, no background rice bowls or side dishes. Authentic mapo tofu: soft ivory tofu cubes in vivid red chili oil sauce with minced pork and Sichuan pepper, finely chopped scallion. Served in a small black cast iron skillet with handle visible, directly overhead on matte grey concrete. Bold vermilion and charcoal palette, intimate directional light, single dish."
+    },
+    {
+      "id": "garlic-bok-choy",
+      "category": "vegetables-eggs-tofu",
+      "name": "蒜蓉上海青",
+      "prompt": "Use case: photorealistic-natural. Asset type: default dish photograph for Chinese home cooking app. Generate ONE independent landscape 3:2 food photograph, not a collage. Appetizing realistic edible textures, editorial food photography. Main dish entirely visible with safe central framing for mobile square and wide card crops, dish occupies 70% of frame. No text, watermark, people or hands. No beige linen, no honey wooden table, no background rice bowls or side dishes. Stir fried baby bok choy arranged loosely with bright jade leaves, pale stems and golden garlic chips on a broad shallow pale yellow ceramic plate. Camera at 40 degrees, light sage green matte tabletop, fresh side daylight, airy green and lemon palette. One plate only, no other dishes."
+    },
+    {
+      "id": "golden-potstickers",
+      "category": "noodles-staples",
+      "name": "冰花煎饺",
+      "prompt": "Use case: photorealistic-natural. Asset type: default dish photograph for Chinese home cooking app. Generate ONE independent landscape 3:2 food photograph, not a collage. Appetizing realistic edible textures, editorial food photography. Main dish entirely visible with safe central framing for mobile square and wide card crops, dish occupies 70% of frame. No text, watermark, people or hands. No beige linen, no honey wooden table, no background rice bowls or side dishes. Chinese potstickers connected by a spectacular thin lacy golden crisp skirt, arranged in a circular rosette on a flat indigo blue stoneware plate. True top-down on warm ivory stone, clear afternoon light emphasizing the brittle lace texture. Golden yellow and deep indigo palette, no side dishes."
+    },
+    {
+      "id": "yangzhou-fried-rice",
+      "category": "noodles-staples",
+      "name": "扬州炒饭",
+      "prompt": "Use case: photorealistic-natural. Asset type: default dish photograph for Chinese home cooking app. Generate ONE independent landscape 3:2 food photograph, not a collage. Appetizing realistic edible textures, editorial food photography. Main dish entirely visible with safe central framing for mobile square and wide card crops, dish occupies 70% of frame. No text, watermark, people or hands. No beige linen, no honey wooden table, no background rice bowls or side dishes. Chinese Yangzhou fried rice with distinct white and golden grains, diced carrot, green peas, small shrimp and scrambled egg. A modest rounded mound on a terracotta red shallow plate. Close three-quarter angle on pale lavender grey surface, bright diffused daylight. Multicolored grains against earthy rust red, no other bowls."
+    },
+    {
+      "id": "corn-pork-soup",
+      "category": "soups-stews",
+      "name": "玉米排骨汤",
+      "prompt": "Use case: photorealistic-natural. Asset type: default dish photograph for Chinese home cooking app. Generate ONE independent landscape 3:2 food photograph, not a collage. Appetizing realistic edible textures, editorial food photography. Main dish entirely visible with safe central framing for mobile square and wide card crops, dish occupies 70% of frame. No text, watermark, people or hands. No beige linen, no honey wooden table, no background rice bowls or side dishes. Clear Chinese pork rib soup with yellow corn rounds, pale daikon chunks and a few carrot pieces, in a deep forest-green glazed ceramic bowl with no handles. Camera 50 degrees above, pale neutral marble tabletop, soft backlight illuminating translucent broth. Golden yellow and forest green palette. No side dishes, no beige table setting."
+    },
+    {
+      "id": "silver-ear-pear-soup",
+      "category": "soups-stews",
+      "name": "银耳雪梨羹",
+      "prompt": "Use case: photorealistic-natural. Asset type: default dish photograph for Chinese home cooking app. Generate ONE independent landscape 3:2 food photograph, not a collage. Appetizing realistic edible textures, editorial food photography. Main dish entirely visible with safe central framing for mobile square and wide card crops, dish occupies 70% of frame. No text, watermark, people or hands. No beige linen, no honey wooden table, no background rice bowls or side dishes. Chinese snow fungus and pear sweet soup, translucent ruffled silver ear mushrooms, pale pear wedges, red goji berries, a few amber jujubes in clear syrup, served in one transparent ribbed glass bowl. Intimate low side angle on muted deep teal tabletop, luminous cool backlight making glass and ingredients glow, pearl white and teal with ruby accents."
+    }
+  ]
+}

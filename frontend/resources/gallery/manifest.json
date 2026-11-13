@@ -2,8 +2,8 @@
   "name": "AI Kitchen Food Gallery",
   "version": 1,
   "imageFormat": "webp",
-  "imageCount": 21,
-  "style": "warm natural-light Chinese home-cooking food photography; wood table, beige linen, cream ceramic tableware",
+  "imageCount": 31,
+  "style": "Chinese home-cooking food photography with diverse dishes, tableware, backgrounds, camera angles and lighting",
   "tagNote": "suggestedTags are provisional suggestions, not verified built-in tags from the repository; map them to the actual tag dictionary before using as exact filters.",
   "categories": [
     {
@@ -18,7 +18,7 @@
         "下饭菜"
       ],
       "description": "以红烧排骨、牛肉炒菜、土豆炖肉等为主的家常荤菜餐桌场景。",
-      "count": 5
+      "count": 8
     },
     {
       "id": "vegetables-eggs-tofu",
@@ -32,7 +32,7 @@
         "快手菜"
       ],
       "description": "以番茄炒蛋、豆腐、蒜蓉青菜等为主的清爽家常菜组合。",
-      "count": 5
+      "count": 8
     },
     {
       "id": "noodles-staples",
@@ -46,7 +46,7 @@
         "家常菜"
       ],
       "description": "以牛肉面、饺子、米饭和小菜等为主的主食场景。",
-      "count": 5
+      "count": 7
     },
     {
       "id": "soups-stews",
@@ -60,7 +60,7 @@
         "一锅出"
       ],
       "description": "以番茄炖菜、萝卜排骨汤、玉米排骨汤等为主的汤羹炖煮场景。",
-      "count": 5
+      "count": 7
     },
     {
       "id": "eggs",
@@ -344,7 +344,12 @@
         "炖煮",
         "下饭菜"
       ],
-      "sourceSet": "generated-2026-11-12"
+      "sourceSet": "generated-2026-11-12",
+      "keywords": [
+        "香菇烧鸡",
+        "香菇炖鸡"
+      ],
+      "defaultPool": true
     },
     {
       "id": "homestyle-tofu",
@@ -359,7 +364,11 @@
         "快手菜",
         "下饭菜"
       ],
-      "sourceSet": "generated-2026-11-12"
+      "sourceSet": "generated-2026-11-12",
+      "keywords": [
+        "家常豆腐"
+      ],
+      "defaultPool": true
     },
     {
       "id": "scallion-oil-noodles",
@@ -374,7 +383,15 @@
         "面条",
         "快手菜"
       ],
-      "sourceSet": "generated-2026-11-12"
+      "sourceSet": "generated-2026-11-12",
+      "keywords": [
+        "葱油拌面",
+        "葱油面",
+        "拌面",
+        "面条",
+        "面"
+      ],
+      "defaultPool": true
     },
     {
       "id": "winter-melon-meatball-soup",
@@ -389,7 +406,188 @@
         "炖煮",
         "一锅出"
       ],
-      "sourceSet": "generated-2026-11-12"
+      "sourceSet": "generated-2026-11-12",
+      "keywords": [
+        "冬瓜肉丸汤",
+        "冬瓜汤",
+        "肉丸汤"
+      ],
+      "defaultPool": true
+    },
+    {
+      "id": "ginger-scallion-fish",
+      "src": "images/meat-braises/ginger-scallion-fish.webp",
+      "category": "meat-braises",
+      "categoryLabel": "家常荤菜 / 红烧炖菜",
+      "description": "清蒸鲈鱼：白色长盘、浅蓝石面、斜向俯拍。",
+      "suggestedTags": [
+        "清蒸鲈鱼"
+      ],
+      "keywords": [
+        "清蒸鲈鱼",
+        "清蒸鱼",
+        "鲈鱼",
+        "鱼"
+      ],
+      "defaultPool": true,
+      "sourceSet": "generated-2026-11-14"
+    },
+    {
+      "id": "kung-pao-chicken",
+      "src": "images/meat-braises/kung-pao-chicken.webp",
+      "category": "meat-braises",
+      "categoryLabel": "家常荤菜 / 红烧炖菜",
+      "description": "宫保鸡丁：炭黑陶碗、深色石板、低角度侧光。",
+      "suggestedTags": [
+        "宫保鸡丁"
+      ],
+      "keywords": [
+        "宫保鸡丁",
+        "宫爆鸡丁",
+        "鸡丁"
+      ],
+      "defaultPool": true,
+      "sourceSet": "generated-2026-11-14"
+    },
+    {
+      "id": "garlic-shrimp",
+      "src": "images/meat-braises/garlic-shrimp.webp",
+      "category": "meat-braises",
+      "categoryLabel": "家常荤菜 / 红烧炖菜",
+      "description": "蒜蓉虾：青瓷圆盘、粉色水磨石、放射状俯拍。",
+      "suggestedTags": [
+        "蒜蓉虾"
+      ],
+      "keywords": [
+        "蒜蓉虾",
+        "蒜香虾",
+        "开背虾",
+        "虾"
+      ],
+      "defaultPool": true,
+      "sourceSet": "generated-2026-11-14"
+    },
+    {
+      "id": "smashed-cucumber",
+      "src": "images/vegetables-eggs-tofu/smashed-cucumber.webp",
+      "category": "vegetables-eggs-tofu",
+      "categoryLabel": "蔬菜 / 蛋类 / 豆制品",
+      "description": "凉拌黄瓜：钴蓝椭圆盘、白色瓷砖、清爽近景。",
+      "suggestedTags": [
+        "凉拌黄瓜"
+      ],
+      "keywords": [
+        "凉拌黄瓜",
+        "拍黄瓜",
+        "黄瓜"
+      ],
+      "defaultPool": true,
+      "sourceSet": "generated-2026-11-14"
+    },
+    {
+      "id": "mapo-tofu",
+      "src": "images/vegetables-eggs-tofu/mapo-tofu.webp",
+      "category": "vegetables-eggs-tofu",
+      "categoryLabel": "蔬菜 / 蛋类 / 豆制品",
+      "description": "麻婆豆腐：黑色铸铁锅、灰色水泥面、红油俯拍。",
+      "suggestedTags": [
+        "麻婆豆腐"
+      ],
+      "keywords": [
+        "麻婆豆腐",
+        "麻婆"
+      ],
+      "defaultPool": true,
+      "sourceSet": "generated-2026-11-14"
+    },
+    {
+      "id": "garlic-bok-choy",
+      "src": "images/vegetables-eggs-tofu/garlic-bok-choy.webp",
+      "category": "vegetables-eggs-tofu",
+      "categoryLabel": "蔬菜 / 蛋类 / 豆制品",
+      "description": "蒜蓉上海青：浅黄陶盘、鼠尾草绿背景、斜角近景。",
+      "suggestedTags": [
+        "蒜蓉上海青"
+      ],
+      "keywords": [
+        "蒜蓉上海青",
+        "上海青",
+        "小白菜",
+        "油菜",
+        "青菜"
+      ],
+      "defaultPool": true,
+      "sourceSet": "generated-2026-11-14"
+    },
+    {
+      "id": "golden-potstickers",
+      "src": "images/noodles-staples/golden-potstickers.webp",
+      "category": "noodles-staples",
+      "categoryLabel": "面食 / 主食",
+      "description": "冰花煎饺：靛蓝圆盘、浅色石面、金黄冰花俯拍。",
+      "suggestedTags": [
+        "冰花煎饺"
+      ],
+      "keywords": [
+        "冰花煎饺",
+        "煎饺",
+        "锅贴",
+        "饺"
+      ],
+      "defaultPool": true,
+      "sourceSet": "generated-2026-11-14"
+    },
+    {
+      "id": "yangzhou-fried-rice",
+      "src": "images/noodles-staples/yangzhou-fried-rice.webp",
+      "category": "noodles-staples",
+      "categoryLabel": "面食 / 主食",
+      "description": "扬州炒饭：赤陶盘、淡紫灰背景、彩色米粒近景。",
+      "suggestedTags": [
+        "扬州炒饭"
+      ],
+      "keywords": [
+        "扬州炒饭",
+        "蛋炒饭",
+        "炒饭"
+      ],
+      "defaultPool": true,
+      "sourceSet": "generated-2026-11-14"
+    },
+    {
+      "id": "corn-pork-soup",
+      "src": "images/soups-stews/corn-pork-soup.webp",
+      "category": "soups-stews",
+      "categoryLabel": "汤羹 / 炖菜",
+      "description": "玉米排骨汤：墨绿深碗、浅色大理石、清汤近景。",
+      "suggestedTags": [
+        "玉米排骨汤"
+      ],
+      "keywords": [
+        "玉米排骨汤",
+        "玉米汤",
+        "排骨汤"
+      ],
+      "defaultPool": true,
+      "sourceSet": "generated-2026-11-14"
+    },
+    {
+      "id": "silver-ear-pear-soup",
+      "src": "images/soups-stews/silver-ear-pear-soup.webp",
+      "category": "soups-stews",
+      "categoryLabel": "汤羹 / 炖菜",
+      "description": "银耳雪梨羹：透明玻璃碗、深青背景、通透逆光。",
+      "suggestedTags": [
+        "银耳雪梨羹"
+      ],
+      "keywords": [
+        "银耳雪梨羹",
+        "银耳雪梨",
+        "银耳",
+        "雪梨"
+      ],
+      "defaultPool": true,
+      "sourceSet": "generated-2026-11-14"
     }
   ]
 }
