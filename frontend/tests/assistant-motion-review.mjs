@@ -59,8 +59,21 @@ try{
    await page.evaluate(time=>window.flightAnimations.forEach(a=>a.currentTime=time),time);await bounds();
    await page.screenshot({path:`${out}/${theme}-${width}-flight-${time}.png`});
   }
+  // Real toolbar-height changes must preserve the flight anchor, rather than
+  // cancelling to the capsule. Keep the source readable through takeoff.
+  await page.evaluate(()=>window.flightAnimations.forEach(a=>a.currentTime=180));
+  assert.ok(await page.locator('.generation-assistant-snapshot').evaluate(el=>Number(getComputedStyle(el).opacity))>.95);
+  const flightBefore=await page.locator('.generation-assistant-float').boundingBox();
+  await page.setViewportSize({width,height:820});
+  await page.evaluate(()=>{scrollTo({top:80,behavior:'instant'});window.visualViewport?.dispatchEvent(new Event('resize'));window.visualViewport?.dispatchEvent(new Event('scroll'))});
+  const flightAfter=await page.locator('.generation-assistant-float').boundingBox();
+  assert.ok(Math.abs(flightBefore.x-flightAfter.x)<1&&Math.abs(flightBefore.y-flightAfter.y)<1&&Math.abs(flightBefore.width-flightAfter.width)<1,'viewport resize must preserve the active trajectory');
+  assert.ok(await page.locator('.generation-assistant-float.is-morphing').count());
   await page.evaluate(()=>window.flightAnimations.forEach(a=>a.play()));
   await page.locator('.generation-assistant-float:not(.is-morphing)').waitFor();
+  const landed=await page.locator('.generation-assistant-float').boundingBox();
+  assert.ok(landed.y+landed.height<=820-(width<=700?80:10),'capsule reanchors above navigation after viewport resize');
+  await page.setViewportSize({width,height:900});
   assert.equal(await page.locator('.generation-assistant-snapshot').count(),0);
   const samples=await page.evaluate(()=>{window.motionObserver.disconnect();return window.motionSamples});
   assert.ok(samples.some(s=>s.docked&&s.revealed<7));
@@ -75,6 +88,33 @@ try{
   await page.getByRole('button',{name:'制作记录',exact:true}).click();
   assert.ok(await page.locator('.generation-assistant-scroll .chef-progress').isVisible());
   await page.keyboard.press('Escape');await page.locator('.generation-assistant-float:not(.is-morphing)').waitFor();
+  // User gestures reverse the current presentation immediately, without a
+  // queue, a geometry jump, or resetting either side of the crossfade.
+  const panel=page.locator('.generation-assistant-float');
+  async function freeze(time){await panel.evaluate((element,time)=>element.getAnimations({subtree:true}).forEach(animation=>{animation.pause();animation.currentTime=time}),time)}
+  async function presented(){return panel.evaluate(element=>{const r=element.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,detail:Number(getComputedStyle(element.querySelector('.generation-assistant-detail')).opacity),capsule:Number(getComputedStyle(element.querySelector('.generation-assistant-capsule')).opacity)}})}
+  function continuous(before,after){for(const key of ['x','y','width','height'])assert.ok(Math.abs(before[key]-after[key])<1.5,`retarget preserves ${key}`);assert.ok(Math.abs(before.detail-after.detail)<.02,'retarget preserves detail opacity');assert.ok(Math.abs(before.capsule-after.capsule)<.02,'retarget preserves capsule opacity')}
+  await page.getByRole('button',{name:'展开 AI 菜谱助手'}).click();
+  await panel.locator(':scope[data-mode="expanded"].is-morphing').waitFor();
+  assert.ok(await panel.evaluate(element=>element.getAnimations().some(animation=>animation.id==='assistant-geometry'&&animation.effect.getComputedTiming().duration<=720)),'opening responds within 720ms');
+  assert.ok(await panel.evaluate(element=>{const animation=element.getAnimations().find(a=>a.id==='assistant-geometry');return animation.effect.getKeyframes().some(frame=>new DOMMatrix(frame.transform).a>1.005)}),'opening has a visible, viewport-safe spring rebound');
+  assert.equal(await panel.evaluate(element=>getComputedStyle(element).pointerEvents),'auto');
+  await freeze(320);const rebound=await panel.boundingBox();
+  assert.ok(rebound.x>=0&&rebound.y>=0&&rebound.x+rebound.width<=width+1&&rebound.y+rebound.height<=900-(width<=700?80:0),'rebound stays inside viewport and above navigation');
+  await page.screenshot({path:`${out}/${theme}-${width}-manual-rebound.png`});
+  await freeze(140);const opening=await presented();
+  await page.keyboard.press('Escape');await panel.locator(':scope[data-mode="docked"].is-morphing').waitFor();await freeze(0);
+  continuous(opening,await presented());
+  assert.ok(await panel.evaluate(element=>element.getAnimations().some(animation=>animation.id==='assistant-geometry'&&animation.effect.getComputedTiming().duration<=620)),'closing responds within 620ms');
+  await freeze(80);const closing=await presented();
+  await page.getByRole('button',{name:'展开 AI 菜谱助手'}).click();
+  await panel.locator(':scope[data-mode="expanded"].is-morphing').waitFor();await freeze(0);
+  continuous(closing,await presented());
+  await freeze(230);await page.screenshot({path:`${out}/${theme}-${width}-retarget.png`});
+  // The close button remains tappable while opening, too.
+  await page.getByRole('button',{name:'收起 AI 菜谱助手',exact:true}).click();
+  await panel.locator(':scope[data-mode="docked"].is-morphing').waitFor();
+  await page.locator('.generation-assistant-float[data-mode="docked"]:not(.is-morphing)').waitFor();
   await page.locator('[data-section="6"][data-state="completed"]').waitFor();
   // Completion must dock even when a clicked progress summary retains focus,
   // and must not wait for the result-document request.
@@ -85,11 +125,18 @@ try{
   assert.equal(await page.locator('.generation-assistant-capsule').evaluate(el=>el===document.activeElement),true,'carry focus to capsule');
   await page.evaluate(()=>{
    const panel=document.querySelector('.generation-assistant-float');
-   panel.getAnimations().forEach(animation=>{animation.pause();animation.currentTime=120});
+   panel.getAnimations({subtree:true}).forEach(animation=>{animation.pause();animation.currentTime=120});
    window.visualViewport?.dispatchEvent(new Event('scroll'));
    window.visualViewport?.dispatchEvent(new Event('resize'));
   });
   assert.ok(await page.locator('.generation-assistant-float.is-morphing').count(),'scroll clamp and unchanged viewport must not cancel flight');
+  // Enter on the focused capsule can also redirect the automatic flight.
+  const beforeTakeover=await presented();
+  const frozenSize=await page.locator('.generation-assistant-snapshot').evaluate(element=>({width:element.offsetWidth,height:element.offsetHeight}));
+  await page.keyboard.press('Enter');await panel.locator(':scope[data-mode="expanded"].is-morphing').waitFor();await freeze(0);
+  continuous(beforeTakeover,await presented());
+  const retainedSize=await page.locator('.generation-assistant-snapshot').evaluate(element=>({width:element.offsetWidth,height:element.offsetHeight}));
+  assert.deepEqual(retainedSize,frozenSize,'retarget preserves the existing preparation snapshot canvas');
   // Interrupting the flight settles cleanly and releases the snapshot.
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.locator('.generation-assistant-float:not(.is-morphing)').waitFor();
@@ -100,5 +147,5 @@ try{
   await bounds();await page.close();
  }
  assert.deepEqual(errors,[]);
- console.log('PASS: mobile/tablet/desktop × light/dark; immediate docking before slow result fetch, focus handoff, viewport-scroll continuity, compositor motion, snapshot cleanup, record controls, reduced motion, no overflow or runtime errors.');
+ console.log('PASS: mobile/tablet/desktop × light/dark; immediate docking before slow result fetch, focus handoff, real viewport-resize/scroll continuity, visible takeoff, fast gesture retargeting with continuous geometry/opacity, compositor motion, snapshot cleanup, record controls, reduced motion, no overflow or runtime errors.');
 }finally{await browser.close()}

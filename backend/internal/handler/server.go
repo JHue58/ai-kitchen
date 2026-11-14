@@ -152,6 +152,7 @@ func (s *Server) Router() *gin.Engine {
 	a.POST("/recipes/:id/dishes/:index", s.saveDish)
 	a.GET("/tags", s.tags)
 	a.GET("/admin/users", s.adminUsers)
+	a.GET("/admin/users/:id/generations", s.adminUserGenerations)
 	a.DELETE("/admin/users/:id", s.adminDelete)
 	a.PUT("/admin/registration", s.adminRegistration)
 	a.GET("/admin/global-prompt", s.adminGlobalPrompt)

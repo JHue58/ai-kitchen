@@ -21,6 +21,8 @@ import { Welcome, DailyHeading } from './components/welcome';
 import { useRecipeShare } from './components/recipe-share';
 import { SaveDish } from './components/save-dish';
 import { ColorStatCards } from './components/color-stat-cards';
+import { gatherGeneration } from './components/generation-handoff';
+import { AdminGenerations } from './components/admin-generations';
 const client = new QueryClient({ defaultOptions: { queries: { retry: false, refetchOnWindowFocus: false } } });
 function useDocs(kind: string) { return useQuery<Doc[]>({ queryKey: ['docs', kind], queryFn: () => api('/documents/' + kind), refetchInterval: q => q.state.data?.some(d => d.image_status === 'pending') ? 2000 : false }); }
 function Field({ label, children }: React.PropsWithChildren<{
@@ -61,7 +63,7 @@ function AppearanceSwitch() {
 }
 function App() {
     const route = useLocation();
-    const routeGroup = route.pathname === '/' || route.pathname === '/inspire-dish' ? 'inspiration' : /^\/(recipes|dishes)$/.test(route.pathname) ? 'collection' : route.pathname;
+    const routeGroup = route.pathname === '/' || route.pathname === '/inspire-dish' ? 'inspiration' : /^\/(recipes|dishes)$/.test(route.pathname) ? 'collection' : route.pathname.startsWith('/generating/') ? 'generation:' + (route.state?.generationSession || route.pathname.split('/')[2]) : route.pathname;
     const [welcome, setWelcome] = useState(() => !/^\/(generating|share|cook|cook-dish)(\/|$)/.test(location.pathname));
     useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [routeGroup]);
     const me = useQuery({ queryKey: ['me'], queryFn: () => api('/me') });
@@ -85,7 +87,7 @@ function App() {
  <button className="sidebar-note" onClick={() => setWelcome(true)}><div className="sidebar-note-art"><img src={defaultDishPhoto({ name: '清炒时蔬' }).src} alt=""/><span><Sparkles size={19}/></span></div><small>A LITTLE TASTE OF HOME</small><p>每一餐，<br />都值得用心。</p><span className="sidebar-note-link">看看今天的开场 <ArrowUpRight size={15}/></span></button>
  <div className="account"><span className="avatar">{me.data.user.username.slice(0, 1)}</span><div><strong>{me.data.user.username}</strong><small>我的私人厨房</small></div><button aria-label="退出登录" onClick={async () => { await api('/logout', 'POST'); client.clear(); location.href = '/'; }}><LogOut size={17}/></button></div></aside>
  <main><header className="app-toolbar"><div className="toolbar-location"><KitchenLogo size={29}/><span>我的厨房 <ChevronRight size={13}/> <strong>{section}</strong></span></div><div className="toolbar-actions"><span className="toolbar-ai"><i />我的 AI 厨房伙伴</span><AppearanceSwitch /><Link className="avatar toolbar-avatar" to="/settings" aria-label="账号设置">{me.data.user.username.slice(0, 1)}</Link></div></header>
- <div className="route-view" key={routeGroup}><Routes><Route path="/" element={<Generate key="menu"/>}/><Route path="/inspire-dish" element={<Generate key="dish" single/>}/><Route path="/dishes" element={<Collection kind="dishes"/>}/><Route path="/generating/:id" element={<GenerationPage render={(r, single) => single ? <DishView d={r}/> : <RecipeView r={r}/>}/>}/><Route path="/dishes/:id" element={<DishPage />}/><Route path="/kitchen" element={<Kitchen />}/><Route path="/preferences" element={<Preferences />}/><Route path="/recipes" element={<Collection kind="recipes"/>}/><Route path="/recipes/:id" element={<RecipePage />}/><Route path="/cook/:id" element={<Cooking />}/><Route path="/cook-dish/:id" element={<Cooking single/>}/><Route path="/shopping" element={<Shopping />}/><Route path="/settings" element={<Preferences settings/>}/><Route path="/admin" element={<Admin />}/><Route path="*" element={<Empty text="页面不存在" to="/"/>}/></Routes></div>
+ <div className={"route-view" + (route.pathname.startsWith("/generating/") ? " is-generation-route" : "")} key={routeGroup}><Routes><Route path="/" element={<Generate key="menu"/>}/><Route path="/inspire-dish" element={<Generate key="dish" single/>}/><Route path="/dishes" element={<Collection kind="dishes"/>}/><Route path="/generating/:id" element={<GenerationPage render={(r, single) => single ? <DishView d={r}/> : <RecipeView r={r}/>}/>}/><Route path="/dishes/:id" element={<DishPage />}/><Route path="/kitchen" element={<Kitchen />}/><Route path="/preferences" element={<Preferences />}/><Route path="/recipes" element={<Collection kind="recipes"/>}/><Route path="/recipes/:id" element={<RecipePage />}/><Route path="/cook/:id" element={<Cooking />}/><Route path="/cook-dish/:id" element={<Cooking single/>}/><Route path="/shopping" element={<Shopping />}/><Route path="/settings" element={<Preferences settings/>}/><Route path="/admin" element={<Admin />}/><Route path="*" element={<Empty text="页面不存在" to="/"/>}/></Routes></div>
  <footer className="app-footer"><span>AI Kitchen <i>·</i> 把日子，煮成喜欢的样子。</span><span>MADE WITH A LITTLE LOVE <Heart size={11}/></span></footer></main></div></>;
 }
 function Auth() { const [register, setRegister] = useState(false), [error, setError] = useState(''), [busy, setBusy] = useState(false); const cap = useQuery({ queryKey: ['capabilities'], queryFn: () => api('/capabilities') }); return <div className="auth"><div className="auth-art"><KitchenLogo size={58}/><p className="eyebrow">YOUR PERSONAL KITCHEN COMPANION</p><h1>一日三餐，<br />有滋有味。</h1><p>从冰箱里的一点灵感，到餐桌上的一顿好饭。<br />你的私人 AI 厨房助手。</p><img className="auth-food" src={tablePhoto} alt="一桌热气腾腾的家常饭"/></div><form className="auth-form" onSubmit={async (e) => { e.preventDefault(); setBusy(true); setError(''); try {
@@ -112,7 +114,7 @@ function Generate({ single = false }: {
 catch {
     return {};
 } }); const equipment = useDocs('equipment'), recipes = useDocs('recipes'), custom = useDocs('tags'); const caps = useQuery({ queryKey: ['capabilities'], queryFn: () => api('/capabilities') }); const tags = useQuery({ queryKey: ['tags'], queryFn: () => api('/tags') }); const [ingredients, setIngredients] = useState<string[]>(draft.ingredients || []), [ingredient, setIngredient] = useState(''), [selected, setSelected] = useState<string[]>(draft.tags || []), [ids, setIds] = useState<number[]>(draft.equipment_ids || []), [mode, setMode] = useState(draft.mode || 'random'), [error, setError] = useState(''), [busy, setBusy] = useState(false), [job, setJob] = useState<number | null>(draft.job || null), [vision, setVision] = useState<any[]>([]), [reuseExisting, setReuseExisting] = useState(draft.reuse_existing ?? true), [search, setSearch] = useState(draft.search ?? false); useEffect(() => { if (caps.data && draft.search === undefined)
-    setSearch(!!caps.data.search); }, [caps.data]); const jobs = useQuery({ queryKey: ['jobs'], queryFn: () => api('/jobs') }); useEffect(() => { const active = jobs.data?.find((j: any) => !['completed', 'failed'].includes(j.status)); if (active)
+    setSearch(!!caps.data.search); }, [caps.data]); const jobs = useQuery({ queryKey: ['jobs'], queryFn: () => api('/jobs') }); useEffect(() => { const active = jobs.data?.find((j: any) => !['completed', 'failed'].includes(j.status)); if (active && !busy)
     nav('/generating/' + active.id); }, [jobs.data]); const progress = useQuery({ queryKey: ['job', job], queryFn: () => api('/jobs/' + job), enabled: !!job, refetchInterval: q => ['completed', 'failed'].includes((q.state.data as any)?.status) ? false : 1500 }); useEffect(() => { if (progress.data?.status === 'completed') {
     try {
         localStorage.setItem(storageKey, JSON.stringify({ ...JSON.parse(localStorage.getItem(storageKey) || '{}'), job: null }));
@@ -124,14 +126,14 @@ catch {
 } }, [progress.data, nav]); const stages: Record<string, string> = { pending: '正在排队', analyzing: '理解需求与厨房配置', searching: '搜索真实菜谱参考', planning: '我在安排下一步', search_web: '我在寻找好做法', view_image: '我在挑选清晰的参考图', fetch_page: '我在细读做法', check_menu: '我在核对搭配方案', validating: '校验条件与计算营养', repairing: '修正菜谱约束', saving: '保存菜单', completed: '已完成', failed: '这次没能做好' }; const active = job && !progress.isError && !['failed', 'completed'].includes(progress.data?.status); function add() { if (ingredient.trim()) {
     setIngredients([...new Set([...ingredients, ...split(ingredient)])]);
     setIngredient('');
-} } return <><section className="page-title inspiration-heading"><div className="hero-copy"><DailyHeading /></div><figure className="hero-photo"><img src={tablePhoto} alt="厨房餐桌上的新鲜家常美食"/><figcaption><Sparkles size={15}/><span>一点心意，一桌好饭<small>YOUR EVERYDAY AI CHEF</small></span></figcaption><span className="hero-photo-mark">FRESH IDEAS, EVERY DAY <ArrowUpRight size={17}/></span></figure></section><SectionSwitch kind="inspiration" single={single}/><div className="workspace"><form className="card generator" id="inspiration-form" onSubmit={async (e) => { e.preventDefault(); setError(''); setBusy(true); const f = new FormData(e.currentTarget); try {
+} } return <><section className="page-title inspiration-heading"><div className="hero-copy"><DailyHeading /></div><figure className="hero-photo"><img src={tablePhoto} alt="厨房餐桌上的新鲜家常美食"/><figcaption><Sparkles size={15}/><span>一点心意，一桌好饭<small>YOUR EVERYDAY AI CHEF</small></span></figcaption><span className="hero-photo-mark">FRESH IDEAS, EVERY DAY <ArrowUpRight size={17}/></span></figure></section><SectionSwitch kind="inspiration" single={single}/><div className="workspace"><form className="card generator" id="inspiration-form" onSubmit={async (e) => { e.preventDefault(); if (busy) return; const form = e.currentTarget; setError(''); setBusy(true); const f = new FormData(form); try {
     const request = { target: single ? 'dish' : 'menu', servings: Number(f.get('servings')), ingredients: mode === 'random' ? [] : [...new Set([...ingredients, ...split(ingredient)])], mode, equipment_ids: ids, minutes: f.get('minutes') ? Number(f.get('minutes')) : null, budget: f.get('budget') ? Number(f.get('budget')) : null, dish_count: single ? 1 : Number(f.get('dish_count')), description: f.get('description'), tags: selected, search, reuse_existing: reuseExisting };
     try {
         localStorage.setItem(storageKey, JSON.stringify(request));
     }
     catch { }
     const token = beginGeneration(request, storageKey);
-    nav('/generating/' + token);
+    await gatherGeneration(form, request, () => nav('/generating/' + token, { state: { single, generationSession: token } }));
     return;
 }
 catch (e) {
@@ -405,7 +407,7 @@ function Admin() { const users = useQuery({ queryKey: ['users'], queryFn: () => 
 }
 catch (e) {
     setMessage((e as Error).message);
-} }}><label className="check-row"><input name="enabled" type="checkbox" defaultChecked={caps.data?.registration}/>允许新用户注册</label><Field label="新增全局标签（逗号分隔；默认标签始终保留）"><textarea name="tags" defaultValue={tags.data?.global?.map((t: any) => t.name).join('，')}/></Field><Button>保存</Button></form><SystemGlobalPrompt /><div className="card mt"><h2>用户管理</h2>{users.data?.map((u: any) => <div className="shopping-item" key={u.id}><span>{u.username} {u.admin ? '· 管理员' : ''}</span>{!u.admin && <Button variant="ghost" onClick={async () => { if (confirm('删除用户及全部关联数据？此操作不可恢复。')) {
+} }}><label className="check-row"><input name="enabled" type="checkbox" defaultChecked={caps.data?.registration}/>允许新用户注册</label><Field label="新增全局标签（逗号分隔；默认标签始终保留）"><textarea name="tags" defaultValue={tags.data?.global?.map((t: any) => t.name).join('，')}/></Field><Button>保存</Button></form><SystemGlobalPrompt /><AdminGenerations users={users.data || []}/><div className="card mt"><h2>用户管理</h2>{users.data?.map((u: any) => <div className="shopping-item" key={u.id}><span>{u.username} {u.admin ? '· 管理员' : ''}</span>{!u.admin && <Button variant="ghost" onClick={async () => { if (confirm('删除用户及全部关联数据？此操作不可恢复。')) {
     try {
         await api('/admin/users/' + u.id, 'DELETE');
         client.invalidateQueries({ queryKey: ['users'] });

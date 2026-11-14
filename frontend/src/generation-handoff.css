@@ -1,0 +1,22 @@
+.generation-handoff{position:fixed;inset:0;z-index:60;overflow:clip;pointer-events:auto;cursor:progress;contain:layout style}
+.generation-handoff-seed{position:absolute;isolation:isolate;will-change:transform;transform-origin:center}
+.generation-handoff-button{overflow:hidden;position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;height:100%;padding:0 22px;border-radius:17px;background:var(--primary);color:var(--on-primary);box-shadow:0 12px 36px #526c2826,inset 0 1px 0 #ffffff30;font-size:14px;font-weight:550;transform-origin:center;will-change:transform,opacity}
+.generation-handoff-button-copy{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;height:100%;pointer-events:none}
+.generation-handoff-button::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,transparent 20%,#ffffff20 49%,transparent 75%);animation:handoff-glint 680ms cubic-bezier(.4,0,.2,1) both;pointer-events:none}
+.generation-handoff-aura{position:absolute;inset:-26px -12px;z-index:-1;border-radius:50%;background:radial-gradient(ellipse,#b8d77855 0%,#c8eac72b 44%,transparent 72%);opacity:0;pointer-events:none;will-change:transform,opacity}
+.generation-handoff-ripple{position:absolute;inset:-5px -3px;z-index:-1;border:1px solid color-mix(in srgb,var(--green) 35%,transparent);border-radius:22px;opacity:0;pointer-events:none;will-change:transform,opacity}
+.generation-handoff-idea{position:absolute;left:0;top:0;display:flex;align-items:center;gap:6px;width:max-content;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:8px 13px;border:1px solid var(--line);border-radius:20px;background:var(--card);color:var(--sage-ink);box-shadow:0 5px 18px #30432310,inset 0 1px 0 #ffffff30;font-size:11px;line-height:1.5;will-change:transform,opacity;pointer-events:none;opacity:0}
+.generation-handoff-idea>i{flex-shrink:0;width:5px;height:5px;border-radius:50%;background:var(--green)}
+.generation-handoff-idea[data-tone="1"]{background:var(--sage-surface)}
+.generation-handoff-idea[data-tone="2"]>i{background:var(--clay-ink)}
+.generation-handoff-surface{position:absolute;overflow:hidden;transform-origin:top left;border-radius:26px;background:var(--card);box-shadow:0 12px 40px -22px #314b2730;will-change:transform,opacity;contain:layout paint style}
+.generation-handoff-record.chef-progress{margin:0;height:100%;border-radius:inherit;box-shadow:none}
+.generation-handoff-record *,.generation-handoff-record::before,.generation-handoff-record::after{animation:none!important;transition:none!important}
+.route-view.is-generation-route,.generation-is-entering .route-view{animation:none!important}
+.generation-is-entering .generation-assistant-inline{visibility:hidden}
+.generation-is-entering .generation-assistant-inline *,.generation-is-entering .generation-assistant-inline *::before,.generation-is-entering .generation-assistant-inline *::after{animation-play-state:paused!important}
+.generation-is-entering .generation-heading,.generation-is-entering .generation-results{animation:generation-context-arrive 650ms cubic-bezier(.22,1,.36,1) both}
+@keyframes generation-context-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes handoff-glint{from{transform:translate3d(-100%,0,0);opacity:0}30%{opacity:1}to{transform:translate3d(100%,0,0);opacity:0}}
+@media(max-width:700px){.generation-handoff-button{font-size:13px;padding-inline:18px}.generation-handoff-idea{font-size:10px;max-width:120px;padding:7px 10px}.generation-handoff-surface{border-radius:24px}}
+@media(prefers-reduced-motion:reduce){.generation-is-entering .generation-heading,.generation-is-entering .generation-results,.generation-handoff-button::after{animation:none}.generation-handoff *{will-change:auto}}
