@@ -1,0 +1,225 @@
+{
+  "name": "AI Kitchen Abstract Covers",
+  "version": 1,
+  "imageCount": 31,
+  "style": "Warm tactile ceramic, linen, light and steam abstractions without identifiable food",
+  "images": [
+    {
+      "id": "porcelain-dawn",
+      "name": "瓷白晨光",
+      "family": "ceramic",
+      "src": "abstract/porcelain-dawn.webp",
+      "description": "瓷白晨光 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "sage-orbit",
+      "name": "青瓷回环",
+      "family": "ceramic",
+      "src": "abstract/sage-orbit.webp",
+      "description": "青瓷回环 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "apricot-fold",
+      "name": "杏色折光",
+      "family": "linen",
+      "src": "abstract/apricot-fold.webp",
+      "description": "杏色折光 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "steam-ribbon",
+      "name": "暖雾丝带",
+      "family": "steam",
+      "src": "abstract/steam-ribbon.webp",
+      "description": "暖雾丝带 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "clay-tide",
+      "name": "陶土潮汐",
+      "family": "ceramic",
+      "src": "abstract/clay-tide.webp",
+      "description": "陶土潮汐 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "linen-morning",
+      "name": "亚麻清晨",
+      "family": "linen",
+      "src": "abstract/linen-morning.webp",
+      "description": "亚麻清晨 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "quiet-halo",
+      "name": "静谧光晕",
+      "family": "light",
+      "src": "abstract/quiet-halo.webp",
+      "description": "静谧光晕 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "celadon-cove",
+      "name": "青瓷一隅",
+      "family": "ceramic",
+      "src": "abstract/celadon-cove.webp",
+      "description": "青瓷一隅 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "amber-mist",
+      "name": "琥珀轻雾",
+      "family": "steam",
+      "src": "abstract/amber-mist.webp",
+      "description": "琥珀轻雾 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "warm-weave",
+      "name": "暖意经纬",
+      "family": "linen",
+      "src": "abstract/warm-weave.webp",
+      "description": "暖意经纬 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "sage-shadow",
+      "name": "鼠尾草影",
+      "family": "light",
+      "src": "abstract/sage-shadow.webp",
+      "description": "鼠尾草影 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "porcelain-ripple",
+      "name": "瓷面微澜",
+      "family": "ceramic",
+      "src": "abstract/porcelain-ripple.webp",
+      "description": "瓷面微澜 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "peach-horizon",
+      "name": "柔杏地平线",
+      "family": "light",
+      "src": "abstract/peach-horizon.webp",
+      "description": "柔杏地平线 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "soft-current",
+      "name": "轻柔流线",
+      "family": "steam",
+      "src": "abstract/soft-current.webp",
+      "description": "轻柔流线 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "oat-and-clay",
+      "name": "燕麦与陶",
+      "family": "linen",
+      "src": "abstract/oat-and-clay.webp",
+      "description": "燕麦与陶 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "golden-hour",
+      "name": "日暮柔光",
+      "family": "light",
+      "src": "abstract/golden-hour.webp",
+      "description": "日暮柔光 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "mint-fold",
+      "name": "薄荷褶皱",
+      "family": "linen",
+      "src": "abstract/mint-fold.webp",
+      "description": "薄荷褶皱 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "rounded-embrace",
+      "name": "圆弧相拥",
+      "family": "ceramic",
+      "src": "abstract/rounded-embrace.webp",
+      "description": "圆弧相拥 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "quiet-afternoon",
+      "name": "安静午后",
+      "family": "light",
+      "src": "abstract/quiet-afternoon.webp",
+      "description": "安静午后 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "milk-mist",
+      "name": "乳白雾气",
+      "family": "steam",
+      "src": "abstract/milk-mist.webp",
+      "description": "乳白雾气 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "linen-petal",
+      "name": "布面花影",
+      "family": "linen",
+      "src": "abstract/linen-petal.webp",
+      "description": "布面花影 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "sage-sanctuary",
+      "name": "青绿小憩",
+      "family": "ceramic",
+      "src": "abstract/sage-sanctuary.webp",
+      "description": "青绿小憩 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "sunlit-curve",
+      "name": "日光弧线",
+      "family": "light",
+      "src": "abstract/sunlit-curve.webp",
+      "description": "日光弧线 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "slow-breath",
+      "name": "慢慢呼吸",
+      "family": "steam",
+      "src": "abstract/slow-breath.webp",
+      "description": "慢慢呼吸 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "hearth-glow",
+      "name": "炉边暖意",
+      "family": "light",
+      "src": "abstract/hearth-glow.webp",
+      "description": "炉边暖意 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "woven-sage",
+      "name": "织入青绿",
+      "family": "linen",
+      "src": "abstract/woven-sage.webp",
+      "description": "织入青绿 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "soft-terrace",
+      "name": "柔软层叠",
+      "family": "ceramic",
+      "src": "abstract/soft-terrace.webp",
+      "description": "柔软层叠 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "morning-haze",
+      "name": "晨间薄雾",
+      "family": "steam",
+      "src": "abstract/morning-haze.webp",
+      "description": "晨间薄雾 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "apricot-linen",
+      "name": "杏暖亚麻",
+      "family": "linen",
+      "src": "abstract/apricot-linen.webp",
+      "description": "杏暖亚麻 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "circle-of-warmth",
+      "name": "一圈暖意",
+      "family": "light",
+      "src": "abstract/circle-of-warmth.webp",
+      "description": "一圈暖意 · 抽象餐桌意象，不代表具体菜品"
+    },
+    {
+      "id": "evening-whisper",
+      "name": "晚间轻语",
+      "family": "steam",
+      "src": "abstract/evening-whisper.webp",
+      "description": "晚间轻语 · 抽象餐桌意象，不代表具体菜品"
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # AI Kitchen Food Gallery
 
+> 2026-11-14 更新：默认配图已改为 31 张抽象封面；本文件下面记录的真实菜品图全部保留并用于装饰轮播。当前接入方式、减少动态效果与加载策略见 [README-abstract.md](README-abstract.md)。
+
 ## 本项目接入
 
 原 `public/images/kitchen-table.jpg` 已迁入 `images/kitchen-table.jpg`，用于登录页、首页和最终兜底；它是装饰图，不计入下面的 31 张菜品图库。

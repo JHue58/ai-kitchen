@@ -4,7 +4,7 @@ import {BookOpen,ExternalLink,ShoppingBasket,Flame,Zap,ShieldCheck,ArrowLeftRigh
 import {api} from '../api';
 import {Button} from './ui/button';
 import {StepText} from './kitchen-experience';
-import {defaultDishPhoto,tablePhoto} from '../resources';
+import {defaultDishPhoto,neutralPhoto} from '../resources';
 import {ResourceIcon} from './kitchen-icon';
 import {ColorStatCards} from './color-stat-cards';
 import '../recipe-redesign.css';
@@ -16,8 +16,8 @@ function useDishImage(dish:any) {
  const [failedLocal,setFailedLocal]=useState<string>();
  const photo=safe(dish.image?.url)&&failedUrl!==dish.image.url?dish.image:null;
  const fallback=defaultDishPhoto(dish);
- const src=photo?.url||(failedLocal===fallback.src?tablePhoto:fallback.src);
- return {photo,fallback,props:{src,alt:photo?dish.name+' · 近似参考图':(dish.name||'菜品')+' · 默认示意图',referrerPolicy:'no-referrer' as const,
+ const src=photo?.url||(failedLocal===fallback.src?neutralPhoto:fallback.src);
+ return {photo,fallback,props:{src,alt:photo?dish.name+' · 近似参考图':'抽象餐桌意象 · 不代表具体菜品',referrerPolicy:'no-referrer' as const,
   onError:()=>{if(photo)setFailedUrl(photo.url);else setFailedLocal(fallback.src)},
   onLoad:(e:React.SyntheticEvent<HTMLImageElement>)=>{if(photo&&(e.currentTarget.naturalWidth<480||e.currentTarget.naturalHeight<320))setFailedUrl(photo.url)}}};
 }
@@ -27,7 +27,7 @@ export function ImageProgress({status}:{status?:string}){
 }
 export function DishPhoto({dish}:{dish:any}){
  const {photo,props}=useDishImage(dish);
- return <figure className="dish-photo"><img {...props}/><figcaption>{photo?<a href={safe(photo.source_url)?photo.source_url:undefined} target="_blank" rel="noreferrer">{dish.name} · 参考图 <ArrowUpRight size={12}/><small>{photo.credit} {photo.license}</small></a>:<span>餐桌灵感 <i/>默认示意图</span>}</figcaption></figure>;
+ return <figure className="dish-photo"><img {...props}/><figcaption>{photo?<a href={safe(photo.source_url)?photo.source_url:undefined} target="_blank" rel="noreferrer">{dish.name} · 参考图 <ArrowUpRight size={12}/><small>{photo.credit} {photo.license}</small></a>:<span>餐桌意象 <i/>非菜品实拍</span>}</figcaption></figure>;
 }
 export function MenuPhoto({dishes:input}:{dishes?:any[]}){
  const dishes=input||[];

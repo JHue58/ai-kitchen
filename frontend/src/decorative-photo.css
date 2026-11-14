@@ -1,0 +1,17 @@
+.decorative-photo{display:block;position:relative;width:100%;height:100%;min-width:0;overflow:hidden;isolation:isolate;background:var(--mint);border-radius:inherit}
+.decorative-photo .decorative-photo-layer{display:block;position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 52%;border-radius:inherit}
+.decorative-photo-layer.is-arriving{animation:photo-arrive 1.2s cubic-bezier(.22,1,.36,1) both}
+.decorative-photo .decorative-photo-toggle{position:absolute;top:12px;left:12px;z-index:2;width:30px;height:30px;min-height:30px;padding:0;display:grid;place-items:center;border-radius:50%;background:#fffef0d9;color:#344735;border:1px solid #ffffff80;box-shadow:0 2px 10px #25351a0a;transition:transform .5s var(--spring),background .3s var(--ease)}
+.decorative-photo .decorative-photo-toggle:hover{background:#fffef0;transform:scale(1.08)}
+.hero-photo>.decorative-photo{border-radius:inherit}
+.sidebar-note-art>.decorative-photo{border-radius:0}
+.sidebar-note-art .decorative-photo img{opacity:.9}
+.entry-image-wrap>.decorative-photo{border-radius:inherit}
+.entry-photo .decorative-photo-toggle{top:24px;left:auto;right:94px}
+/* The label and shade stay visually above the picture without intercepting pause. */
+.entry-photo-shade,.entry-photo-label,.entry-image-count,.hero-photo-mark{pointer-events:none}
+.entry-image-wrap>.decorative-photo{isolation:auto}
+.auth-art>.auth-food{height:290px}
+@keyframes photo-arrive{from{opacity:0}to{opacity:1}}
+@media(max-width:700px){.auth-art>.auth-food{height:160px}.decorative-photo .decorative-photo-toggle{width:32px;height:32px;min-height:32px;top:10px;left:10px}.entry-photo .decorative-photo-toggle{top:13px;left:auto;right:65px}}
+@media(prefers-reduced-motion:reduce){.decorative-photo-layer.is-arriving{animation:none}.decorative-photo .decorative-photo-toggle{transition:none}}
