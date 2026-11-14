@@ -13,23 +13,14 @@ const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 // A damped spring keeps position and scale on the same continuous trajectory.
 // Sampling the physical curve also works in browsers without CSS linear().
 const flightDuration=1100;
-const panelOpenDuration=720,panelCloseDuration=620;
-type Presentation={rect:DOMRect;visible:boolean;contentTop?:number;snapshot?:HTMLElement;snapshotOpacity?:number;snapshotWidth?:number;snapshotHeight?:number;mode:Mode;focus:boolean;interrupted:boolean;detailOpacity:number;capsuleOpacity:number;detailWidth:number;detailHeight:number;capsuleWidth:number;capsuleHeight:number};
-function springFrames(from:DOMRect,to:DOMRect,counterScale=false,manual=false):Keyframe[]{
+const panelOpenDuration=600,panelCloseDuration=480;
+type Presentation={rect:DOMRect;radius:number;visible:boolean;contentTop?:number;snapshot?:HTMLElement;snapshotOpacity?:number;snapshotWidth?:number;snapshotHeight?:number;mode:Mode;focus:boolean;interrupted:boolean;detailOpacity:number;capsuleOpacity:number;detailWidth:number;detailHeight:number;capsuleWidth:number;capsuleHeight:number;capsuleRect?:DOMRect};
+function springFrames(from:DOMRect,to:DOMRect,counterScale=false):Keyframe[]{
  const dx=from.left-to.left,dy=from.top-to.top;
  const sx=from.width/to.width,sy=from.height/to.height;
- // Give the hand-operated surface a visible settling breath. Bound that
- // breath to the available viewport and the small capsule's final dimensions.
- let rebound=.055;
- if(manual){
-  for(const [start,end] of [[from.width,to.width],[from.height,to.height]])if(start>end)rebound=Math.min(rebound,end*.1/(start-end));
-  if(dx>0)rebound=Math.min(rebound,Math.max(0,to.left-8)/dx);
-  if(dy>0)rebound=Math.min(rebound,Math.max(0,to.top-8)/dy);
- }
  return Array.from({length:61},(_,index)=>{
-  const t=index/60*(manual ? .72 : 1.1);
-  let progress=index===60?1:manual?1-Math.exp(-7.8*t)*(Math.cos(10*t)+.78*Math.sin(10*t)):1-Math.exp(-5.4*t)*(Math.cos(4.6*t)+5.4/4.6*Math.sin(4.6*t));
-  if(manual&&progress>1)progress=1+(rebound>0?rebound*Math.tanh((progress-1)/rebound):0);
+  const t=index/60*1.1;
+  const progress=index===60?1:1-Math.exp(-5.4*t)*(Math.cos(4.6*t)+5.4/4.6*Math.sin(4.6*t));
   const arc=Math.sin(Math.PI*Math.min(1,Math.max(0,progress)))*Math.min(28,Math.hypot(dx,dy)*.04);
   // Very tall, expanded records must not invert when the spring overshoots.
   const scaleX=Math.max(Math.min(.8,sx),sx+(1-sx)*progress),scaleY=Math.max(Math.min(.8,sy),sy+(1-sy)*progress);
@@ -40,7 +31,7 @@ function springFrames(from:DOMRect,to:DOMRect,counterScale=false,manual=false):K
 export function GenerationAssistant({completed,contentRef,recipe,kind='recipes',initialDocked=false,onRecipeChange,...progress}:Props){
  const recordId=useId();
  const [mode,setMode]=useState<Mode>(initialDocked?'docked':'inline');
- const [motion,setMotion]=useState<'inline'|'panel'|null>(null);
+ const [motion,setMotion]=useState<'inline'|'panel'|'toggle'|null>(null);
  const [view,setView]=useState<'chat'|'record'>('chat'),[chatBusy,setChatBusy]=useState(false);
  const slot=useRef<HTMLDivElement>(null),inline=useRef<HTMLDivElement>(null),floating=useRef<HTMLDivElement>(null);
  const capsule=useRef<HTMLButtonElement>(null),close=useRef<HTMLButtonElement>(null);
@@ -82,7 +73,7 @@ export function GenerationAssistant({completed,contentRef,recipe,kind='recipes',
  }
  function finishMotion(updateState=true){
   animations.current.forEach(animation=>animation.cancel());animations.current=[];
-  floating.current?.classList.remove('is-morphing','is-from-inline');
+  floating.current?.classList.remove('is-morphing','is-from-inline','is-panel-morphing');
   snapshot.current?.remove();snapshot.current=null;
   unlockPanel();
   for(const content of [detail.current,capsuleCopy.current])if(content){content.style.width='';content.style.height='';content.style.transformOrigin=''}
@@ -114,7 +105,7 @@ export function GenerationAssistant({completed,contentRef,recipe,kind='recipes',
    const visible=rect.bottom>top&&rect.top<bottom&&rect.right>0&&rect.left<innerWidth;
    const interrupted=animations.current.length>0;
    const retained=visible&&!reducedMotion()?(currentMode.current==='inline'?source:snapshot.current):null;
-   previous.current={rect,visible,contentTop:contentRef.current?.getBoundingClientRect().top,snapshot:retained?retained.cloneNode(true) as HTMLElement:undefined,snapshotOpacity:retained?Number(getComputedStyle(retained).opacity):undefined,snapshotWidth:retained?.offsetWidth,snapshotHeight:retained?.offsetHeight,mode:currentMode.current,focus,interrupted,detailOpacity:detail.current?Number(getComputedStyle(detail.current).opacity):0,capsuleOpacity:capsuleCopy.current?Number(getComputedStyle(capsuleCopy.current).opacity):0,detailWidth:detail.current?.offsetWidth||0,detailHeight:detail.current?.offsetHeight||0,capsuleWidth:capsuleCopy.current?.offsetWidth||0,capsuleHeight:capsuleCopy.current?.offsetHeight||0};
+   previous.current={rect,radius:parseFloat(getComputedStyle(source).borderTopLeftRadius),visible,contentTop:contentRef.current?.getBoundingClientRect().top,snapshot:retained?retained.cloneNode(true) as HTMLElement:undefined,snapshotOpacity:retained?Number(getComputedStyle(retained).opacity):undefined,snapshotWidth:retained?.offsetWidth,snapshotHeight:retained?.offsetHeight,mode:currentMode.current,focus,interrupted,detailOpacity:detail.current?Number(getComputedStyle(detail.current).opacity):0,capsuleOpacity:capsuleCopy.current?Number(getComputedStyle(capsuleCopy.current).opacity):0,detailWidth:detail.current?.offsetWidth||0,detailHeight:detail.current?.offsetHeight||0,capsuleWidth:capsuleCopy.current?.offsetWidth||0,capsuleHeight:capsuleCopy.current?.offsetHeight||0,capsuleRect:capsuleCopy.current?.getBoundingClientRect()};
   }
   finishMotion();currentMode.current=next;setMode(next);
   if(next==='expanded')setView('chat');
@@ -142,6 +133,51 @@ export function GenerationAssistant({completed,contentRef,recipe,kind='recipes',
   if(reducedMotion())return;
   lockPanel(target);setMotion(source.mode==='inline'&&source.visible?'inline':'panel');
   panel.classList.add('is-morphing');
+  if(source.mode!=='inline'){
+   // Morph the shell around a fixed-size content canvas. Non-uniform FLIP
+   // scaling distorts the rounded shell and makes reciprocal text scales judder.
+   setMotion('toggle');panel.classList.add('is-panel-morphing');
+   const opening=mode==='expanded',baseDuration=opening?panelOpenDuration:panelCloseDuration;
+   const distance=Math.max(Math.abs(source.rect.width-target.width)/Math.max(source.rect.width,target.width),Math.abs(source.rect.height-target.height)/Math.max(source.rect.height,target.height));
+   const duration=source.interrupted?Math.max(240,baseDuration*Math.sqrt(distance)):baseDuration;
+   const radius=parseFloat(getComputedStyle(panel).borderTopLeftRadius);
+   // Reuse the first version's restrained spring for opening. A more damped
+   // close prevents a tall panel from squashing the small capsule on landing.
+   const damping=opening?12:16,frequency=opening?9.8:8,seconds=opening ? .86 : .68;
+   const frames=Array.from({length:121},(_,index)=>{
+    const t=index/120*seconds;
+    const progress=index===120?1:1-Math.exp(-damping*t)*(Math.cos(frequency*t)+damping/frequency*Math.sin(frequency*t));
+    const mix=(from:number,to:number)=>from+(to-from)*progress;
+    return {offset:index/120,transform:`translate3d(${(source.rect.left-target.left)*(1-progress)}px,${(source.rect.top-target.top)*(1-progress)}px,0)`,width:mix(source.rect.width,target.width)+'px',height:mix(source.rect.height,target.height)+'px',borderRadius:mix(source.radius,radius)+'px'};
+   });
+   const geometry=panel.animate(frames,{duration,fill:'both'});geometry.id='assistant-geometry';animations.current.push(geometry);
+   if(detail.current){
+    detail.current.style.width=(opening?target.width-2:source.detailWidth||source.rect.width-2)+'px';
+    detail.current.style.height=(opening?target.height-2:source.detailHeight||source.rect.height-2)+'px';
+    const reveal=opening&&!source.interrupted ? .12 : 0;
+    animations.current.push(detail.current.animate([{opacity:source.detailOpacity},{opacity:source.detailOpacity,offset:reveal,easing:'cubic-bezier(.22,1,.36,1)'},{opacity:opening?1:0,offset:opening ? .64 : .38},{opacity:opening?1:0}],{duration,fill:'both'}));
+   }
+   if(capsuleCopy.current){
+    const width=opening?source.capsuleWidth||source.rect.width:target.width-2,height=opening?source.capsuleHeight||source.rect.height:target.height;
+    capsuleCopy.current.style.width=width+'px';capsuleCopy.current.style.height=height+'px';
+    // A gesture can also take over the automatic flight, whose capsule is
+    // still at the top-left of the source surface rather than bottom-right.
+    if(source.capsuleRect&&source.capsuleOpacity>.001){
+     const dx=source.capsuleRect.left-(source.rect.right-width-1),dy=source.capsuleRect.top-(source.rect.bottom-height+1);
+     animations.current.push(capsuleCopy.current.animate([{transform:`translate3d(${dx}px,${dy}px,0)`},{transform:'none'}],{duration:180,easing:'cubic-bezier(.22,1,.36,1)',fill:'both'}));
+    }
+    const reveal=!opening&&!source.interrupted ? .32 : 0;
+    animations.current.push(capsuleCopy.current.animate([{opacity:source.capsuleOpacity},{opacity:source.capsuleOpacity,offset:reveal,easing:'cubic-bezier(.22,1,.36,1)'},{opacity:opening?0:1,offset:opening ? .22 : .8},{opacity:opening?0:1}],{duration,fill:'both'}));
+   }
+   if(source.snapshot){
+    const copy=source.snapshot;snapshot.current=copy;
+    const width=source.snapshotWidth||source.rect.width,height=source.snapshotHeight||source.rect.height;
+    Object.assign(copy.style,{width:width+'px',height:height+'px',transform:`scale(${source.rect.width/width},${source.rect.height/height})`});
+    panel.append(copy);animations.current.push(copy.animate([{opacity:source.snapshotOpacity??1},{opacity:0}],{duration:180,easing:'cubic-bezier(.22,1,.36,1)',fill:'both'}));
+   }
+   void geometry.finished.then(()=>{if(animations.current.includes(geometry))completeMotion()},()=>{});
+   return;
+  }
   if(source.mode==='inline'&&!source.visible){
    // An unseen source should not spend most of its flight outside the screen.
    // Introduce its retrievable capsule locally with the same soft rebound.
@@ -155,10 +191,8 @@ export function GenerationAssistant({completed,contentRef,recipe,kind='recipes',
    return;
   }
   if(source.mode==='inline')panel.classList.add('is-from-inline');
-  const baseDuration=mode==='expanded'?panelOpenDuration:panelCloseDuration;
-  const distance=Math.max(Math.abs(source.rect.width-target.width)/Math.max(source.rect.width,target.width),Math.abs(source.rect.height-target.height)/Math.max(source.rect.height,target.height));
-  const duration=source.mode==='inline'?flightDuration:source.interrupted?Math.max(340,baseDuration*(.6+.4*Math.sqrt(Math.min(1,distance)))):baseDuration;
-  const geometry=panel.animate(springFrames(source.rect,target,false,source.mode!=='inline'),{duration,fill:'both'});geometry.id='assistant-geometry';
+  const duration=flightDuration;
+  const geometry=panel.animate(springFrames(source.rect,target),{duration,fill:'both'});geometry.id='assistant-geometry';
   animations.current.push(geometry);
   if(source.mode==='inline'&&contentRef.current&&source.contentTop!==undefined){
    // Collapse layout once, then move the recipe on the compositor while it reveals.
@@ -176,21 +210,12 @@ export function GenerationAssistant({completed,contentRef,recipe,kind='recipes',
    const opacity=source.snapshotOpacity??1;
    animations.current.push(copy.animate(source.mode==='inline'?[{opacity},{opacity,offset:.22,easing:'cubic-bezier(.4,0,.2,1)'},{opacity:0,offset:.72},{opacity:0}]:[{opacity},{opacity:0,easing:'cubic-bezier(.22,1,.36,1)'}],{duration,fill:'both'}));
   }
-  if(detail.current&&source.mode!=='inline'){
-   // Keep a full-size content canvas as the clipping surface changes. Carry its
-   // current dimensions across reversals, avoiding a text reflow or scale jump.
-   detail.current.style.width=(mode==='expanded'?target.width:source.detailWidth||source.rect.width)+'px';
-   detail.current.style.height=(mode==='expanded'?target.height:source.detailHeight||source.rect.height)+'px';
-   detail.current.style.transformOrigin='top left';
-   animations.current.push(detail.current.animate(springFrames(source.rect,target,true,true),{duration,fill:'both'}));
-   animations.current.push(detail.current.animate([{opacity:source.detailOpacity},{opacity:mode==='expanded'?1:0}],{duration:Math.min(280,duration*.65),easing:'cubic-bezier(.22,1,.36,1)',fill:'both'}));
-  }
   if(capsuleCopy.current){
-   capsuleCopy.current.style.width=(source.mode==='inline'?target.width:source.capsuleOpacity>.001?source.capsuleWidth:mode==='docked'?target.width:source.rect.width)+'px';
-   capsuleCopy.current.style.height=(source.mode==='inline'?target.height:source.capsuleOpacity>.001?source.capsuleHeight:mode==='docked'?target.height:source.rect.height)+'px';
+   capsuleCopy.current.style.width=target.width+'px';
+   capsuleCopy.current.style.height=target.height+'px';
    capsuleCopy.current.style.transformOrigin='top left';
-   animations.current.push(capsuleCopy.current.animate(springFrames(source.rect,target,true,source.mode!=='inline'),{duration,fill:'both'}));
-   animations.current.push(capsuleCopy.current.animate(source.mode==='inline'?[{opacity:0},{opacity:0,offset:.34,easing:'cubic-bezier(.4,0,.2,1)'},{opacity:1,offset:.82},{opacity:1}]:[{opacity:source.capsuleOpacity},{opacity:mode==='docked'?1:0}],{duration:source.mode==='inline'?duration:Math.min(280,duration*.65),easing:source.mode==='inline'?'linear':'cubic-bezier(.22,1,.36,1)',fill:'both'}));
+   animations.current.push(capsuleCopy.current.animate(springFrames(source.rect,target,true),{duration,fill:'both'}));
+   animations.current.push(capsuleCopy.current.animate([{opacity:0},{opacity:0,offset:.34,easing:'cubic-bezier(.4,0,.2,1)'},{opacity:1,offset:.82},{opacity:1}],{duration,easing:'linear',fill:'both'}));
   }
   void geometry.finished.then(()=>{if(animations.current.includes(geometry))completeMotion()},()=>{});
  },[mode]);
@@ -226,7 +251,7 @@ export function GenerationAssistant({completed,contentRef,recipe,kind='recipes',
   <div ref={slot} className={'generation-assistant-slot'+(mode==='inline'?'':' is-vacated')}>
    {mode==='inline'&&<div ref={inline} className="generation-assistant-inline">{record}</div>}
   </div>
-  {mode!=='inline'&&createPortal(<div ref={floating} className={'generation-assistant-float'+(chatBusy?' is-chat-busy':'')+(motion?' is-morphing':'')+(motion==='inline'?' is-from-inline':'')} data-mode={mode} data-chat={!!recipe?.id} onClick={()=>{if(currentMode.current==='docked'&&animations.current.length)move('expanded')}}>
+  {mode!=='inline'&&createPortal(<div ref={floating} className={'generation-assistant-float'+(chatBusy?' is-chat-busy':'')+(motion?' is-morphing':'')+(motion==='inline'?' is-from-inline':'')+(motion==='toggle'?' is-panel-morphing':'')} data-mode={mode} data-chat={!!recipe?.id} onClick={()=>{if(currentMode.current==='docked'&&animations.current.length)move('expanded')}}>
    <div id={recordId} ref={detail} className="generation-assistant-detail" role={mode==='expanded'?'dialog':undefined} aria-label={recipe?.id?'AI 菜谱助手':'AI 制作记录'} aria-hidden={mode!=='expanded'} inert={mode!=='expanded'}>
     <div className="generation-assistant-tools"><span><Sparkles size={14}/>{recipe?.id?'你的私人厨房伙伴':'这一餐的制作记录'}</span><button ref={close} type="button" aria-label={recipe?.id?'收起 AI 菜谱助手':'收起 AI 制作记录'} onClick={()=>move('docked')}><ChevronDown size={17}/><span>收起</span></button></div>
     {!!recipe?.id&&!!progress.job&&<div className="generation-assistant-tabs" aria-label="助手内容"><button type="button" aria-pressed={view==='chat'} onClick={()=>setView('chat')}>{kind==='dishes'?'聊聊这道菜':'聊聊这一餐'}</button><button type="button" aria-pressed={view==='record'} onClick={()=>setView('record')}>制作记录</button></div>}

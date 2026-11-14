@@ -92,12 +92,21 @@ try{
   // queue, a geometry jump, or resetting either side of the crossfade.
   const panel=page.locator('.generation-assistant-float');
   async function freeze(time){await panel.evaluate((element,time)=>element.getAnimations({subtree:true}).forEach(animation=>{animation.pause();animation.currentTime=time}),time)}
-  async function presented(){return panel.evaluate(element=>{const r=element.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,detail:Number(getComputedStyle(element.querySelector('.generation-assistant-detail')).opacity),capsule:Number(getComputedStyle(element.querySelector('.generation-assistant-capsule')).opacity)}})}
-  function continuous(before,after){for(const key of ['x','y','width','height'])assert.ok(Math.abs(before[key]-after[key])<1.5,`retarget preserves ${key}`);assert.ok(Math.abs(before.detail-after.detail)<.02,'retarget preserves detail opacity');assert.ok(Math.abs(before.capsule-after.capsule)<.02,'retarget preserves capsule opacity')}
+  async function presented(){return panel.evaluate(element=>{const r=element.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,radius:parseFloat(getComputedStyle(element).borderTopLeftRadius),detail:Number(getComputedStyle(element.querySelector('.generation-assistant-detail')).opacity),capsule:Number(getComputedStyle(element.querySelector('.generation-assistant-capsule')).opacity)}})}
+  function continuous(before,after){for(const key of ['x','y','width','height','radius'])assert.ok(Math.abs(before[key]-after[key])<1.5,`retarget preserves ${key}`);assert.ok(Math.abs(before.detail-after.detail)<.02,'retarget preserves detail opacity');assert.ok(Math.abs(before.capsule-after.capsule)<.02,'retarget preserves capsule opacity')}
+  async function undistorted(){
+   const shape=await panel.evaluate(element=>{
+    const transform=new DOMMatrix(getComputedStyle(element).transform),radius=parseFloat(getComputedStyle(element).borderTopLeftRadius);
+    return {radii:[radius*transform.a,radius*transform.d],scales:[...element.querySelectorAll('.generation-assistant-detail,.generation-assistant-capsule')].map(content=>{const r=content.getBoundingClientRect();return [r.width/content.offsetWidth,r.height/content.offsetHeight]})};
+   });
+   assert.ok(shape.radii.every(radius=>radius>=22&&radius<=31),'shell keeps round corners instead of stretching into an ellipse');
+   assert.ok(shape.scales.flat().every(scale=>Math.abs(scale-1)<.002),'text and icons keep their natural proportions');
+  }
   await page.getByRole('button',{name:'展开 AI 菜谱助手'}).click();
   await panel.locator(':scope[data-mode="expanded"].is-morphing').waitFor();
   assert.ok(await panel.evaluate(element=>element.getAnimations().some(animation=>animation.id==='assistant-geometry'&&animation.effect.getComputedTiming().duration<=720)),'opening responds within 720ms');
-  assert.ok(await panel.evaluate(element=>{const animation=element.getAnimations().find(a=>a.id==='assistant-geometry');return animation.effect.getKeyframes().some(frame=>new DOMMatrix(frame.transform).a>1.005)}),'opening has a visible, viewport-safe spring rebound');
+  assert.ok(await panel.evaluate(element=>{const frames=element.getAnimations().find(a=>a.id==='assistant-geometry').effect.getKeyframes();const finalWidth=parseFloat(frames.at(-1).width);return frames.some(frame=>parseFloat(frame.width)>finalWidth*1.005)}),'opening has a restrained spring rebound');
+  for(const time of [0,16,64,120,240]){await freeze(time);await undistorted();await bounds()}
   assert.equal(await panel.evaluate(element=>getComputedStyle(element).pointerEvents),'auto');
   await freeze(320);const rebound=await panel.boundingBox();
   assert.ok(rebound.x>=0&&rebound.y>=0&&rebound.x+rebound.width<=width+1&&rebound.y+rebound.height<=900-(width<=700?80:0),'rebound stays inside viewport and above navigation');
@@ -106,6 +115,7 @@ try{
   await page.keyboard.press('Escape');await panel.locator(':scope[data-mode="docked"].is-morphing').waitFor();await freeze(0);
   continuous(opening,await presented());
   assert.ok(await panel.evaluate(element=>element.getAnimations().some(animation=>animation.id==='assistant-geometry'&&animation.effect.getComputedTiming().duration<=620)),'closing responds within 620ms');
+  for(const time of [16,64,120]){await freeze(time);await undistorted();await bounds()}
   await freeze(80);const closing=await presented();
   await page.getByRole('button',{name:'展开 AI 菜谱助手'}).click();
   await panel.locator(':scope[data-mode="expanded"].is-morphing').waitFor();await freeze(0);
@@ -143,9 +153,13 @@ try{
   assert.equal(await page.locator('.generation-assistant-snapshot').count(),0);
   await page.reload();await page.locator('.generation-assistant-float').waitFor();
   assert.equal(await page.locator('.generation-assistant-float').evaluate(el=>el.getAnimations().length),0);
+  await page.getByRole('button',{name:'展开 AI 菜谱助手'}).click();
+  assert.equal(await panel.evaluate(el=>el.getAnimations({subtree:true}).length),0,'reduced motion opens directly');
+  await page.keyboard.press('Escape');
+  assert.equal(await panel.evaluate(el=>el.getAnimations({subtree:true}).length),0,'reduced motion closes directly');
   await page.locator('[data-section="6"][data-state="completed"]').waitFor();
   await bounds();await page.close();
  }
  assert.deepEqual(errors,[]);
- console.log('PASS: mobile/tablet/desktop × light/dark; immediate docking before slow result fetch, focus handoff, real viewport-resize/scroll continuity, visible takeoff, fast gesture retargeting with continuous geometry/opacity, compositor motion, snapshot cleanup, record controls, reduced motion, no overflow or runtime errors.');
+ console.log('PASS: mobile/tablet/desktop × light/dark; unchanged automatic flight, focus handoff, viewport-resize/scroll continuity, round shell and unscaled text/icons, restrained spring, gesture reversals with continuous geometry/radius/opacity, snapshot cleanup, record controls, reduced-motion toggles, no overflow or runtime errors.');
 }finally{await browser.close()}

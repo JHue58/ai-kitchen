@@ -23,6 +23,10 @@
 .generation-assistant-float.is-morphing .generation-assistant-tools,.generation-assistant-float.is-morphing .generation-assistant-tabs{flex-shrink:0}
 .generation-assistant-float.is-morphing .generation-assistant-view,.generation-assistant-float.is-morphing .generation-assistant-scroll{flex:1;min-height:0}
 .generation-assistant-float.is-morphing .generation-assistant-view>.recipe-chat{height:100%}
+/* Only the shell changes size; the chat canvas never reflows during a toggle. */
+.generation-assistant-float.is-panel-morphing{contain:layout}
+.generation-assistant-float.is-panel-morphing>.generation-assistant-detail{position:absolute;inset:0 auto auto 0}
+.generation-assistant-float.is-panel-morphing>.generation-assistant-capsule{inset:auto 0 -2px auto}
 .generation-assistant-float.is-from-inline .generation-assistant-tools{display:none}
 .generation-assistant-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:9px 13px 9px 21px;background:var(--card);border-bottom:1px solid var(--line);color:var(--muted);font-size:11px}
 .generation-assistant-tools>span{display:flex;align-items:center;gap:7px}
